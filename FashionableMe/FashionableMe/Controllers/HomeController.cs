@@ -15,6 +15,12 @@ namespace FashionableMe.Controllers
             return View();
         }
 
+        public ActionResult OfferOfDay()
+        {
+            ViewBag.Message = "Offer of the Day!!!";
+
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";

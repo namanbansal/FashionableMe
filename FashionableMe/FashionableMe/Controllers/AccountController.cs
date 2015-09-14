@@ -73,10 +73,12 @@ namespace FashionableMe.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(Customer model)
+        public ActionResult Register(Customer model, string CaptchaText)
         {
             if (ModelState.IsValid)
             {
+                if (CaptchaText == HttpContext.Session["captchastring"].ToString())
+                    ViewBag.Message = "CAPTCHA verification successful!";
                 // Attempt to register the user
             //    try
             //    {
@@ -91,7 +93,7 @@ namespace FashionableMe.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.Message = "User added successfully!!!";
+            //ViewBag.Message = "User added successfully!!!"+CaptchaText;
             return View(model);
         }
 

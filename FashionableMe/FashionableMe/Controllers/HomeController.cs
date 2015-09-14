@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FashionableMe.Utils;
 
 namespace FashionableMe.Controllers
 {
@@ -33,6 +34,11 @@ namespace FashionableMe.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public CaptchaImageResult ShowCaptchaImage()
+        {
+            return new CaptchaImageResult();
         }
     }
 }

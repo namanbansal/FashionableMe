@@ -74,6 +74,13 @@
             @Html.EditorFor(model => model.ConfirmPassword)
             @Html.ValidationMessageFor(model => model.ConfirmPassword)
             </li>
+            <li>
+                @Html.Label("Verification Code")
+                <img src="/Home/ShowCaptchaImage" />
+                @Html.Label("Security Code")
+                @Html.TextBox("CaptchaText")
+                
+            </li>
         </ol>
         <p>
             <input type="submit" value="Create" />

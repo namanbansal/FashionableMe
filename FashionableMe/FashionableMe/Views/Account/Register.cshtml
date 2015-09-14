@@ -1,36 +1,89 @@
-﻿@model FashionableMe.Models.RegisterModel
+﻿@model FashionableMe.Models.Customer
+
 @{
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+<h2>Register</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
+    @Html.ValidationSummary(true)
+    <span id="IsRegistered">@ViewBag.Message</span>
     <fieldset>
-        <legend>Registration Form</legend>
+        <legend>Customer</legend>
         <ol>
             <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
+             @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
             </li>
             <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
+            @Html.LabelFor(model => model.Address)
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
             </li>
             <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
+            @Html.LabelFor(model => model.City)
+            @Html.EditorFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.City)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.State)
+            @Html.EditorFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.State)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.Pincode)
+            @Html.EditorFor(model => model.Pincode)
+            @Html.ValidationMessageFor(model => model.Pincode)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.MobileNumber)
+            @Html.EditorFor(model => model.MobileNumber)
+            @Html.ValidationMessageFor(model => model.MobileNumber)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.DateOfBirth)
+            @Html.EditorFor(model => model.DateOfBirth)
+            @Html.ValidationMessageFor(model => model.DateOfBirth)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.IsMale)
+            @Html.RadioButtonFor(model => model.IsMale, "true")Male
+            @Html.RadioButtonFor(model => model.IsMale, "false") Female
+            @Html.ValidationMessageFor(model => model.IsMale)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.Email)
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.UserID)
+            @Html.EditorFor(model => model.UserID)
+            @Html.ValidationMessageFor(model => model.UserID)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.Password)
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+            </li>
+            <li>
+            @Html.LabelFor(model => model.ConfirmPassword)
+            @Html.EditorFor(model => model.ConfirmPassword)
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Register" />
+        <p>
+            <input type="submit" value="Create" />
+        </p>
     </fieldset>
 }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</li>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

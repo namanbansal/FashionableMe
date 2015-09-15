@@ -6,6 +6,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
 <script type="text/javascript">
     $(document).ready(function () {
         
@@ -19,7 +20,7 @@
                 url: searchUrl,
                 data: { val: rsltval },
                 type: "POST",
-                dataType: "html",
+                
                 success: function (data) {
                     $("#dynm").html(data);
                     alert("pup"+data);

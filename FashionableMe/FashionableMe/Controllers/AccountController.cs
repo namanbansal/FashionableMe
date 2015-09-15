@@ -14,8 +14,8 @@ using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
-    //[Authorize]
-    [InitializeSimpleMembership]
+    [Authorize]
+    
     public class AccountController : Controller
     {
         //

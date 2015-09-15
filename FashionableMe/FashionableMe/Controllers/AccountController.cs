@@ -10,10 +10,11 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using FashionableMe.Filters;
 using FashionableMe.Models;
+using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
@@ -35,9 +36,14 @@ namespace FashionableMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserID, model.Password))
+            if (ModelState.IsValid)
             {
-                return RedirectToLocal(returnUrl);
+                AccountBLL accBLL = new AccountBLL();
+                if (accBLL.checkLoginDetails(model))
+                {
+                    Session["userID"] = model.UserID;
+                    return RedirectToLocal(returnUrl);
+                }
             }
             
             // If we got this far, something failed, redisplay form
@@ -78,66 +84,33 @@ namespace FashionableMe.Controllers
             if (ModelState.IsValid)
             {
                 if (CaptchaText == HttpContext.Session["captchastring"].ToString())
-                    ViewBag.Message = "CAPTCHA verification successful!";
-                // Attempt to register the user
-            //    try
-            //    {
-            //        WebSecurity.CreateUserAndAccount(model.Name, model.Password);
-            //        WebSecurity.Login(model.Name, model.Password);
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    catch (MembershipCreateUserException e)
-            //    {
-            //        ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-            //    }
+                {
+                    //ViewBag.Message = "CAPTCHA verification successful!";
+                    AccountBLL accBLL = new AccountBLL();
+                    if (accBLL.sendRegisterDetails(model))
+                    {
+                        ViewBag.Message = "User added successfully!!!";
+                            return View(model);
+                    }
+                }
+             
             }
 
             // If we got this far, something failed, redisplay form
-            //ViewBag.Message = "User added successfully!!!"+CaptchaText;
+            ViewBag.Message = "Unable to Register!!!";
             return View(model);
         }
 
-        //
-        // POST: /Account/Disassociate
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
-        {
-            string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-            ManageMessageId? message = null;
-
-            // Only disassociate the account if the currently logged in user is the owner
-            if (ownerAccount == User.Identity.Name)
-            {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-                {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-                    {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
-                    }
-                }
-            }
-
-            return RedirectToAction("Manage", new { Message = message });
-        }
+        
 
         //
         // GET: /Account/Manage
 
-        public ActionResult Manage(ManageMessageId? message)
+        public ActionResult Details()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            AccountBLL accBLL = new AccountBLL();
+            //accBLL.getCustomerDetails(HttpContext.Session["userID"].ToString());
+            
             return View();
         }
 

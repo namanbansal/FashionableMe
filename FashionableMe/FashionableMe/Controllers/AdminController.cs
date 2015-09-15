@@ -36,13 +36,15 @@ namespace FashionableMe.Controllers
         }
 
        [HttpPost]
-        public string searchByCategory(string val)
+        public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
             List<Apparel> listApparel =  obj.fetchProductByCategory(Convert.ToInt16(val));
             //ViewBag.Message = listApparel[0].ApparelName;
-            string msg = listApparel[0].ApparelName;
-            return val + msg ;
+            string msg="0";
+           if(listApparel.Count>0)
+            msg = listApparel[0].ApparelName;
+            return PartialView("_apparelDetails", listApparel) ;
         }
         
 

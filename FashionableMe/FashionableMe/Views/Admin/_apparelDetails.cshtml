@@ -1,0 +1,20 @@
+﻿@model List<FashionableMe.Models.Apparel>
+ 
+
+@{
+    var grid = new WebGrid(Model, defaultSort: "Name", rowsPerPage: 10);
+}
+ 
+@grid.GetHtml(tableStyle: "table",mode: WebGridPagerModes.All,
+    columns:
+    grid.Columns(
+        grid.Column("ApparelID", "Apparel ID"),
+        grid.Column("ApparelName", "Apparel Name"),
+        grid.Column("ApparelSize", "Apparel Size" ),
+        grid.Column("BrandName", "Brand Name"),
+        grid.Column("Description","Description"),
+        grid.Column("ApparelCost", "Apparel Cost"),
+        grid.Column("ApparelDiscount", "Apparel Discount")
+        
+        )
+       )

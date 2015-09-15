@@ -322,6 +322,8 @@
     <Content Include="Views\Home\OfferOfDay.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Admin\Offer.cshtml" />
+    <Content Include="Views\Admin\searchByCategory.cshtml" />
+    <Content Include="Views\Admin\addApparel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

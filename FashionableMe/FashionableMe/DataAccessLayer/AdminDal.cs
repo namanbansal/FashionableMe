@@ -51,7 +51,7 @@ namespace FashionableMe.DataAccessLayer
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             conn.Open();
-            SqlCommand cmd = new SqlCommand("Select * from Apparel ap INNER JOIN Quantity qt ON ap.ApparelID = qt.ApparelID where ApparelCategory=@category ",conn);
+            SqlCommand cmd = new SqlCommand("Select * from Apparel ap INNER JOIN Quantity qt ON ap.ApparelID = qt.ApparelID where ApparelCategory='@category' ",conn);
             cmd.Parameters.AddWithValue("category",category);
             var reader = cmd.ExecuteReader();
             if (reader.HasRows)

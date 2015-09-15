@@ -35,20 +35,27 @@ namespace FashionableMe.Controllers
             return View();
         }
 
-        [HttpPost]
-        public string searchByCategory(string val)
+       
+        public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
-            List<Apparel> listApparel =  obj.fetchProductByCategory(val);
-            return val ;
+            List<Apparel> listApparel =  obj.fetchProductByCategory(Convert.ToInt16(val));
+            //ViewBag.Message = listApparel[0].ApparelName;
+            ViewBag.Message = listApparel.Count;
+            return View() ;
         }
         
 
-        //
-        // GET: /Admin/Edit/5
+        
 
-        public ActionResult Edit(int id)
+        public ActionResult addApparel()
         {
+            List<SelectListItem> categoryTypes = new List<SelectListItem>();
+            categoryTypes.Add(new SelectListItem { Text = "--Select--", Value = "0", Selected = true });
+            categoryTypes.Add(new SelectListItem { Text = "Male", Value = "1" });
+            categoryTypes.Add(new SelectListItem { Text = "Female", Value = "2" });
+            categoryTypes.Add(new SelectListItem { Text = "Kids", Value = "3" });
+            ViewBag.categoryData = categoryTypes;
             return View();
         }
 

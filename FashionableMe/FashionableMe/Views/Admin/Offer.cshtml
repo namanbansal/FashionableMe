@@ -41,7 +41,12 @@
            
         }
         
-    });
+        });
+        
+        $("#apparelSelection").change((function (e) {
+            e.preventDefault();
+            $("#ApparelID").val("1234");
+        }));
 
     });
 </script>
@@ -54,7 +59,7 @@
 
     <fieldset>
         <legend>Offer</legend>
-        
+        <h3>@ViewBag.Message</h3>
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferName)
         </div>
@@ -90,10 +95,10 @@
             @Html.ValidationMessageFor(model => model.OfferDate)
         </div>
 
-        <div class="editor-label">
+        <div class="editor-label" >
             @Html.LabelFor(model => model.ApparelID)
         </div>
-        <div class="editor-field">
+        <div class="editor-field" id="apparelIDToChange">
             @Html.EditorFor(model => model.ApparelID)
             @Html.ValidationMessageFor(model => model.ApparelID)
         </div>

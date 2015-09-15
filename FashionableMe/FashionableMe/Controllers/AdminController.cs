@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FashionableMe.BLL;
 using FashionableMe.Models;
+using FashionableMe.Utils;
 
 
 namespace FashionableMe.Controllers
@@ -13,7 +14,7 @@ namespace FashionableMe.Controllers
     {
         //
         // GET: /Admin/
-
+        UtilityFunctions util = new UtilityFunctions();
         public ActionResult Index()
         {
            
@@ -26,13 +27,20 @@ namespace FashionableMe.Controllers
 
         public ActionResult Offer()
         {
-            List<SelectListItem> categoryTypes = new List<SelectListItem>();
-            categoryTypes.Add(new SelectListItem { Text = "--Select--", Value = "0", Selected = true });
-            categoryTypes.Add(new SelectListItem { Text = "Male", Value = "1" });
-            categoryTypes.Add(new SelectListItem { Text = "Female", Value = "2" });
-            categoryTypes.Add(new SelectListItem { Text = "Kids", Value = "3" });
-            ViewBag.categoryData = categoryTypes;
+            ViewBag.categoryData = util.getCategoryDropDown();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Offer(Offer model)
+        {
+            AdminBLL obj = new AdminBLL();
+            ViewBag.categoryData = util.getCategoryDropDown();
+            if (obj.addOffer(model))
+                ViewBag.Message = "Offer Added Successfully";
+            else
+                ViewBag.Message = "Unable to add Offer";
+            return View(model); ;
         }
 
        [HttpPost]
@@ -43,7 +51,7 @@ namespace FashionableMe.Controllers
             //ViewBag.Message = listApparel[0].ApparelName;
             string msg="0";
            if(listApparel.Count>0)
-            msg = listApparel[0].ApparelName;
+                msg = listApparel[0].ApparelName;
             return PartialView("_apparelDetails", listApparel) ;
         }
         
@@ -52,12 +60,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult addApparel()
         {
-            List<SelectListItem> categoryTypes = new List<SelectListItem>();
-            categoryTypes.Add(new SelectListItem { Text = "--Select--", Value = "0", Selected = true });
-            categoryTypes.Add(new SelectListItem { Text = "Male", Value = "1" });
-            categoryTypes.Add(new SelectListItem { Text = "Female", Value = "2" });
-            categoryTypes.Add(new SelectListItem { Text = "Kids", Value = "3" });
-            ViewBag.categoryData = categoryTypes;
+            ViewBag.categoryData = util.getCategoryDropDown();
             return View();
         }
 

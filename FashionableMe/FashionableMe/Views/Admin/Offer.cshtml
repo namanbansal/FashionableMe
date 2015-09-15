@@ -8,9 +8,35 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#categoryData").css("background-color", "red");
-    });
+        
     
+    
+        $("#categoryData").change(function (e) {
+            e.preventDefault();
+        var searchUrl = '@Url.Action("searchByCategory", "Admin")';
+        if ($(this).val() == "1") {
+            $.ajax({
+                url: searchUrl,
+                data:"1",
+                type: "POST",
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("pup");
+                    $("#dynm").html(data);
+                    
+                }
+            });
+            $("#categoryData").css("background-color", "red");
+        }
+        else if ($("#categoryData").val() == "2") {
+            $("#categoryData").css("background-color", "green");
+        }
+        else if ($("#categoryData").val() == "3") {
+            $("#categoryData").css("background-color", "cyan");
+        }
+    });
+
+    });
 </script>
 
 <h2>Add Offer</h2>
@@ -21,7 +47,7 @@
 
     <fieldset>
         <legend>Offer</legend>
-
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferName)
         </div>
@@ -76,7 +102,7 @@
         </p>
     </fieldset>
 }
-
+<div id="dynm"></div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

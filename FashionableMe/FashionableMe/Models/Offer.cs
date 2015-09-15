@@ -13,6 +13,9 @@ namespace FashionableMe.Models
         [DataType(DataType.MultilineText)]
         public string OfferDescription { get; set; }
         public string Category { get; set; }
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.Date)]
         public DateTime OfferDate { get; set; }
         public int ApparelID { get; set; }
         public double Discount { get; set; }

@@ -33,6 +33,12 @@ namespace FashionableMe.Controllers
             return View();
         }
 
+        [HttpPost]
+        public string searchByCategory(string val)
+        {
+            ViewBag.Msg = val;
+            return val;
+        }
         
 
         //

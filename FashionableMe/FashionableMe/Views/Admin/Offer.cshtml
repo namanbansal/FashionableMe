@@ -10,30 +10,26 @@
     $(document).ready(function () {
         
     
-    
         $("#categoryData").change(function (e) {
             e.preventDefault();
-        var searchUrl = '@Url.Action("searchByCategory", "Admin")';
-        if ($(this).val() == "1") {
+            var searchUrl = '@Url.Action("searchByCategory", "Admin")';
+            var rsltval = $(this).val();
+            if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
             $.ajax({
                 url: searchUrl,
-                data:"1",
+                data: { val: rsltval },
                 type: "POST",
-                contentType: 'application/json',
+                dataType: "html",
                 success: function (data) {
-                    alert("pup");
                     $("#dynm").html(data);
+                    alert("pup"+data);
+                    
                     
                 }
             });
-            $("#categoryData").css("background-color", "red");
+           
         }
-        else if ($("#categoryData").val() == "2") {
-            $("#categoryData").css("background-color", "green");
-        }
-        else if ($("#categoryData").val() == "3") {
-            $("#categoryData").css("background-color", "cyan");
-        }
+        
     });
 
     });

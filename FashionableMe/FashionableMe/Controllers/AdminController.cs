@@ -44,6 +44,12 @@ namespace FashionableMe.Controllers
         //
         // GET: /Admin/Edit/5
 
+        public ActionResult AddProduct()
+        {
+
+            return View();
+        }
+
         public ActionResult Edit(int id)
         {
             return View();
@@ -92,5 +98,7 @@ namespace FashionableMe.Controllers
                 return View();
             }
         }
+
+
     }
 }

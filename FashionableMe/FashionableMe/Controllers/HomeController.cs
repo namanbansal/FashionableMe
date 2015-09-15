@@ -41,5 +41,21 @@ namespace FashionableMe.Controllers
         {
             return new CaptchaImageResult();
         }
+
+        public ActionResult HisPage()
+        {
+            return View();
+        }
+
+        public ActionResult HerPage()
+        {
+            return View();
+        }
+
+        public ActionResult KidPage()
+        {
+            return View();
+        }
+
     }
 }

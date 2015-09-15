@@ -1,0 +1,116 @@
+﻿@model FashionableMe.Models.Apparel
+
+@{
+    ViewBag.Title = "AddProduct";
+}
+
+<h2>AddProduct</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Apparel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelName)
+            @Html.ValidationMessageFor(model => model.ApparelName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BrandName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BrandName)
+            @Html.ValidationMessageFor(model => model.BrandName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelCost)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelCost)
+            @Html.ValidationMessageFor(model => model.ApparelCost)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelImage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelImage)
+            @Html.ValidationMessageFor(model => model.ApparelImage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelCategory)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelCategory)
+            @Html.ValidationMessageFor(model => model.ApparelCategory)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelAddTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelAddTime)
+            @Html.ValidationMessageFor(model => model.ApparelAddTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelRating)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelRating)
+            @Html.ValidationMessageFor(model => model.ApparelRating)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelSize)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelSize)
+            @Html.ValidationMessageFor(model => model.ApparelSize)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QuantityPerSize)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QuantityPerSize)
+            @Html.ValidationMessageFor(model => model.QuantityPerSize)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelDiscount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelDiscount)
+            @Html.ValidationMessageFor(model => model.ApparelDiscount)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

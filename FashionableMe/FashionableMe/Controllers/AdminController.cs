@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FashionableMe.BLL;
+using FashionableMe.Models;
 
 
 namespace FashionableMe.Controllers
@@ -36,8 +38,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string searchByCategory(string val)
         {
-            ViewBag.Msg = val;
-            return val;
+            AdminBLL obj = new AdminBLL();
+            List<Apparel> listApparel =  obj.fetchProductByCategory(val);
+            return val ;
         }
         
 

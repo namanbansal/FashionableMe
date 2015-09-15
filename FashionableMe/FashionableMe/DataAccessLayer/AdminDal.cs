@@ -45,7 +45,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public List<Apparel> getProductDetails(string category)
+        public List<Apparel> getProductByCategory(string category)
         {
             List<Apparel> dataRows = new List<Apparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;

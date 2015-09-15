@@ -59,7 +59,7 @@ namespace FashionableMe.DataAccessLayer
                 while (reader.Read())
                 {
                     Apparel prodObj = new Apparel();
-                    //prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                    prodObj.ApparelID = reader.GetInt64(reader.GetOrdinal("ApparelID"));
                     prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
                     prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
                     prodObj.ApparelCost = reader.GetDecimal(reader.GetOrdinal("ApparelCost"));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FashionableMe.Utils;
+using FashionableMe.DataAccessLayer;
 
 namespace FashionableMe.Controllers
 {
@@ -11,7 +12,7 @@ namespace FashionableMe.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Message = new AddProductData().addProduct(); //"Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
+using System.Configuration;
 
 namespace FashionableMe.DataAccessLayer
 {
@@ -13,12 +14,10 @@ namespace FashionableMe.DataAccessLayer
         {
             try
             {
-                SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder(@"Data Source=(LocalDB)\v11.0;
-AttachDbFilename=|DataDirectory|\FashionableMeDB.mdf;Integrated Security=True;Database=FashionableMeDB");
-                SqlConnection conn = new SqlConnection(scsb.ConnectionString);
+                string conStr = ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString;
+                SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(@"insert into Apparel(ApparelID,ApparelName,BrandName,ApparelCost,Description
-ApparelImage,ApparelCategory,ApparelAddTime,ApparelDiscount,Rating,Comments) values ", conn);
+                SqlCommand cmd = new SqlCommand("select ApparelName from Apparel", conn);
                 string str = "Result:";
                 using (var reader = cmd.ExecuteReader())
                 {

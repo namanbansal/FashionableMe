@@ -11,7 +11,7 @@ namespace FashionableMe.DataAccessLayer
 {
     public class AdminDal
     {
-        public bool addProduct()
+        public bool addProduct(Apparel product)
         {
             bool status = false;
 
@@ -20,9 +20,22 @@ namespace FashionableMe.DataAccessLayer
                 string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("insert into Apparel values (@userid,@email,@pass,@name,@address,@city,@state,@pin,@mobile,@dob,@gender)",conn);
-                
-                int res = cmd.ExecuteNonQuery();
+                SqlCommand cmd = new SqlCommand("insert into Apparel values (@appid,@name,@bname,@cost,@desc,@imagepath,@category, GETDATE(),0)",conn);
+                cmd.Parameters.AddWithValue("appid",product.ApparelID);
+                cmd.Parameters.AddWithValue("name",product.ApparelName);
+                cmd.Parameters.AddWithValue("bname",product.BrandName);
+                cmd.Parameters.AddWithValue("cost",product.ApparelCost);
+                cmd.Parameters.AddWithValue("desc",product.Description);
+                cmd.Parameters.AddWithValue("imagepath",product.ApparelImage);
+                cmd.Parameters.AddWithValue("category",product.ApparelCategory);
+                int i = cmd.ExecuteNonQuery();
+
+                SqlCommand cmd2 = new SqlCommand("insert into Quantity values (@appid,@size,@quantity,@discount",conn);
+                cmd2.Parameters.AddWithValue("appid",product.ApparelID);
+                cmd2.Parameters.AddWithValue("appid",product.ApparelID);
+                cmd2.Parameters.AddWithValue("appid",product.ApparelID);
+                cmd2.Parameters.AddWithValue("appid",product.ApparelID);
+                int res = cmd2.ExecuteNonQuery();
                 status = true;               
             }
             catch (Exception)
@@ -31,6 +44,37 @@ namespace FashionableMe.DataAccessLayer
             }
             return status;
         }
+
+        public List<Apparel> getProductDetails(string category)
+        {
+            List<Apparel> dataRows = new List<Apparel>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Select * from Apparel ap INNER JOIN Quantity qt ON ap.ApparelID = qt.ApparelID where ApparelCategory=@category ",conn);
+            cmd.Parameters.AddWithValue("category",category);
+            var reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Apparel prodObj = new Apparel();
+                    prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                    prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
+                    prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
+                    prodObj.ApparelCost = reader.GetDouble(reader.GetOrdinal("ApparelCost"));
+                    prodObj.Description = reader.GetString(reader.GetOrdinal("Description"));
+                    prodObj.ApparelImage = reader.GetString(reader.GetOrdinal("ApparelImage"));
+                    prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
+                    prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
+                    prodObj.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize"));
+                    prodObj.QuantityPerSize = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
+                    prodObj.ApparelDiscount = reader.GetDouble(reader.GetOrdinal("ApparelDiscount"));
+                    dataRows.Add(prodObj);
+                }
+            }
+            return dataRows;
+
         }
     }
 }

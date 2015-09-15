@@ -1,0 +1,86 @@
+﻿@model FashionableMe.Models.Offer
+
+@{
+    ViewBag.Title = "Offer";
+}
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#categoryData").css("background-color", "red");
+    });
+    
+</script>
+
+<h2>Add Offer</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Offer</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferName)
+            @Html.ValidationMessageFor(model => model.OfferName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferDescription)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferDescription)
+            @Html.ValidationMessageFor(model => model.OfferDescription)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category)
+            
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("categoryData")
+            @Html.ValidationMessageFor(model => model.Category)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferDate)
+            @Html.ValidationMessageFor(model => model.OfferDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelID)
+            @Html.ValidationMessageFor(model => model.ApparelID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Discount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Discount)
+            @Html.ValidationMessageFor(model => model.Discount)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

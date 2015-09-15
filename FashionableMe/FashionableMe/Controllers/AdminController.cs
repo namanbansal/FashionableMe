@@ -35,14 +35,14 @@ namespace FashionableMe.Controllers
             return View();
         }
 
-       
-        public ActionResult searchByCategory(string val)
+       [HttpPost]
+        public string searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
             List<Apparel> listApparel =  obj.fetchProductByCategory(Convert.ToInt16(val));
             //ViewBag.Message = listApparel[0].ApparelName;
-            ViewBag.Message = listApparel.Count;
-            return View() ;
+            string msg = listApparel[0].ApparelName;
+            return val + msg ;
         }
         
 

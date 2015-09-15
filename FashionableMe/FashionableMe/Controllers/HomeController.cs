@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FashionableMe.Utils;
 using FashionableMe.DataAccessLayer;
+using FashionableMe.Models;
 
 namespace FashionableMe.Controllers
 {
@@ -12,7 +13,9 @@ namespace FashionableMe.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = new AddProductData().addProduct(); //"Modify this template to jump-start your ASP.NET MVC application.";
+            AdminDal obj = new AdminDal();
+            List<Apparel> lst = obj.getProductByCategory("Male");
+            ViewBag.Message = lst.Count; //"Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
         }
@@ -41,5 +44,21 @@ namespace FashionableMe.Controllers
         {
             return new CaptchaImageResult();
         }
+
+        public ActionResult HisPage()
+        {
+            return View();
+        }
+
+        public ActionResult HerPage()
+        {
+            return View();
+        }
+
+        public ActionResult KidPage()
+        {
+            return View();
+        }
+
     }
 }

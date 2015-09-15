@@ -42,7 +42,10 @@ namespace FashionableMe.BLL
         public bool checkLoginDetails(LoginModel loginDetails)
         {
             loginDetails.Password = hashPassword(loginDetails.Password);
-            return true;
+            CustomerDal dalobj = new CustomerDal();
+            if(dalobj.LoginCheck(loginDetails))
+                return true;
+            return false;
         }
 
         public DetailsViewModel getCustomerDetails(string userID)

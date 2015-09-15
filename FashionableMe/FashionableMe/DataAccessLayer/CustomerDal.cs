@@ -42,16 +42,16 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public string LoginCheck(LoginModel login)
+        public bool LoginCheck(LoginModel login)
         {
-            string ret = string.Empty;
+            bool status = false;
             HttpContext.Current.Session["userRole"] = "visitor";
             try
             {
                 string conStr = ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select count(UserID) from Customer where UserID=@userid and password=@pass",conn);
+                SqlCommand cmd = new SqlCommand("select count(UserID) from Customer where UserID='@userid' and password='@pass' ",conn);
                 cmd.Parameters.AddWithValue("userid",login.UserID);
                 cmd.Parameters.AddWithValue("pass",login.Password);
                 int count = (Int32)cmd.ExecuteScalar();
@@ -62,14 +62,14 @@ namespace FashionableMe.DataAccessLayer
                         HttpContext.Current.Session["userRole"] = "admin";
                     else
                     HttpContext.Current.Session["userRole"] = "customer";
-                    ret = "success";
+                    status = true;
                 }
             }
             catch (Exception)
             {
-                ret = "ERROR";
+                status = false;
             }
-            return ret;
+            return status;
         }
 
     }

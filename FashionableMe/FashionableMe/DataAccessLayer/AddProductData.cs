@@ -13,7 +13,7 @@ namespace FashionableMe.DataAccessLayer
         public string addProduct()
         {
             try
-            {
+            {   
                 string conStr = ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();

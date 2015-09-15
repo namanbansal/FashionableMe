@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FashionableMe.DataAccessLayer;
+using FashionableMe.Utils;
 
 namespace FashionableMe.Controllers
 {
@@ -11,13 +11,17 @@ namespace FashionableMe.Controllers
     {
         public ActionResult Index()
         {
-            AddProductData obj = new AddProductData();
-            var msg = obj.addProduct();
-            ViewBag.Message = msg; // "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
         }
 
+        public ActionResult OfferOfDay()
+        {
+            ViewBag.Message = "Offer of the Day!!!";
+
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -30,6 +34,11 @@ namespace FashionableMe.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public CaptchaImageResult ShowCaptchaImage()
+        {
+            return new CaptchaImageResult();
         }
     }
 }

@@ -50,7 +50,7 @@
             </li>
             <li>
             @Html.LabelFor(model => model.IsMale)
-            @Html.RadioButtonFor(model => model.IsMale, "true")Male
+            @Html.RadioButtonFor(model => model.IsMale, "true", new { Checked = "checked" })Male
             @Html.RadioButtonFor(model => model.IsMale, "false") Female
             @Html.ValidationMessageFor(model => model.IsMale)
             </li>

@@ -3,13 +3,17 @@
 @{
     ViewBag.Title = "Details";
 }
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#h2").css("background-color", "red");
+    });
+</script>
 
 <h2>Details</h2>
-<script>
-    $(document).ready(function(){
-  $(".h2").attr('color', 'cyan');
-});
-</script>
+
 
 @using (Html.BeginForm()) {
     @*@Html.AntiForgeryToken()*@
@@ -70,7 +74,7 @@
             @Html.LabelFor(model => model.IsMale)
         </div>
         <div class="editor-field">
-            @Html.LabelFor(model => model.IsMale)
+            
             @Html.RadioButtonFor(model => model.IsMale, "true")Male
             @Html.RadioButtonFor(model => model.IsMale, "false") Female
             @Html.ValidationMessageFor(model => model.IsMale)

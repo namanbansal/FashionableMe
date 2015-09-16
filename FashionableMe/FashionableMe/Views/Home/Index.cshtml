@@ -1,32 +1,46 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                
+                <h1>@ViewBag.Title.</h1>               
             </hgroup>
 
         </div>
     </section>
 }
-<h3>We suggest the following:</h3>
-<h2>@ViewBag.Message</h2>
-<ol class="round">
-    <li class="one">
-        <h4>Apparel For Him</h4>
-        <a href="/Home/HisPage"><h1>His Page</h1></a>
-    </li>
 
-    <li class="two">
-        <h4>Apparel For Her</h4>
-        <a href="/Home/HerPage"><h1>Her Page</h1></a>
-    </li>
+<h2>Result : <br /> @ViewBag.Message</h2>
+<div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit">
+    <h1>Todays Offers</h1>
+</div>
+<br />
+<br />
+<div id="new_div">
+    
+    <div id="left" class="inbox">
+        <h3><a href="/home/HisPage">Men's Apparel</a></h3>
+    </div>
+    
+    <div id="middle" class="inbox">
+        <h3><a href="/home/HerPage">Women's Apparel</a></h3>
+    </div>
+    
+    <div id="right" class="inbox">
+        <h3><a href="/home/KidPage">Kid's Apparel</a></h3>
+    </div>
+    
+</div>
 
-    <li class="three">
-        <h4>Apparel For Kids</h4>
-        <a href="/Home/KidPage"><h1>Kids Page</h1></a>
-    </li>
-</ol>
+<style>
+    .inbox {
+        float:left;width:32% ; height:300px ; text-align:center; 
+        border : 5px double seagreen ; 
+    }
+
+</style>

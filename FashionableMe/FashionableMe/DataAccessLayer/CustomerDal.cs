@@ -48,17 +48,18 @@ namespace FashionableMe.DataAccessLayer
             HttpContext.Current.Session["userRole"] = "visitor";
             try
             {
-                string conStr = ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString;
+                string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select count(UserID) from Customer where UserID='@userid' and password='@pass' ",conn);
+                SqlCommand cmd = new SqlCommand("select count(UserID) from Customer where UserID=@userid and PassWord=@pass ", conn);
                 cmd.Parameters.AddWithValue("userid",login.UserID);
                 cmd.Parameters.AddWithValue("pass",login.Password);
                 int count = (Int32)cmd.ExecuteScalar();
+                //return count.ToString();
                 if (count==1)
                 {   
                     HttpContext.Current.Session["SessionUser"] = login.UserID.Trim();
-                    if(login.UserID.ToLower() == "admin")
+                    if(login.UserID.ToLower() == "adminfme")
                         HttpContext.Current.Session["userRole"] = "admin";
                     else
                     HttpContext.Current.Session["userRole"] = "customer";

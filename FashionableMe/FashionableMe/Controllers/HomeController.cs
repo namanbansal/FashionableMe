@@ -13,10 +13,11 @@ namespace FashionableMe.Controllers
     {
         public ActionResult Index()
         {
-            AdminDal obj = new AdminDal();
-            List<Apparel> lst = obj.getProductByCategory("Male");
-            ViewBag.Message = lst.Count; //"Modify this template to jump-start your ASP.NET MVC application.";
-
+            //Apparel ap = new Apparel() { ApparelID = 101, ApparelName = "trouser", BrandName="van hussein",ApparelCost= 50M, Description= "very good",ApparelImage= "path", ApparelCategory="Female",ApparelAddTime= DateTime.Now,ApparelRating= 0,ApparelSize= "XL",QuantityPerSize = 10,ApparelDiscount= 5 };
+            //new AdminDal().addProduct(ap);
+            //ViewBag.Message = Session["ErrorMessage"]; //"Modify this template to jump-start your ASP.NET MVC application.";
+            var lst = new AdminDal().getProductByCategory("Female");
+            ViewBag.Message = lst.Count.ToString();
             return View();
         }
 

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<FashionableMe.Models.Apparel>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelCost)
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelDiscount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <input type="button" value="Select" onclick="testfun('@(item.ApparelID)')" />
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelDiscount)
+        </td>
+        
+    </tr>
+}
+
+</table>

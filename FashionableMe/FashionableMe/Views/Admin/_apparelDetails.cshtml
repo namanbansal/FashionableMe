@@ -1,17 +1,19 @@
-﻿@model List<FashionableMe.Models.Apparel>
- 
+﻿@model List<FashionableMe.Models.Apparel> 
+
 
 @{
-    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10,
+    WebGrid grid = new WebGrid(Model, canPage: true, rowsPerPage: 10,
     selectionFieldName: "selectedRow", ajaxUpdateContainerId: "gridContent");
     FashionableMe.Models.Apparel apparel = new FashionableMe.Models.Apparel();
 }
  <div id="gridContent">
+            
+     
 @grid.GetHtml(tableStyle: "table",mode: WebGridPagerModes.All,
     columns:
     grid.Columns(
         
-        grid.Column(format: (item) => item.GetSelectLink("Select")),
+    grid.Column("",header:null, format:  @<input type="button" value="Select" onclick="testfun(grid.selectedRow)"/>),
         grid.Column("ApparelID", "Apparel ID"),
         grid.Column("ApparelName", "Apparel Name"),
         grid.Column("ApparelSize", "Apparel Size" ),
@@ -22,15 +24,6 @@
         
         )
        )
+     
  </div>
-@if (grid.HasSelection)
-{
-    apparel = (FashionableMe.Models.Apparel)grid.Rows[grid.SelectedIndex].Value;
-    <script type="text/javascript">
-        $(document).ready(function () {
-            alert("popip");
-                        $('#apparelIDToChange').val(apparel.ApparelID);
-                    });
-                </script>
 
-}

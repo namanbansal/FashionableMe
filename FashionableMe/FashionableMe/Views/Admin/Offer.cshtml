@@ -21,12 +21,12 @@
     $(document).ready(function () {
         
         
-        $("#categoryData").change(function (e) {
+        $("#Category").change(function (e) {
             e.preventDefault();
             var searchUrl = '@Url.Action("searchByCategory", "Admin")';
             var rsltval = $(this).val();
             if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
-                ModelState["temp"] = rsltval;
+                
             $.ajax({
                 url: searchUrl,
                 data: { val: rsltval },
@@ -77,7 +77,7 @@
 
     <fieldset>
         <legend>Offer</legend>
-        <h3>@ViewBag.Message</h3>
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferName)
         </div>
@@ -99,7 +99,7 @@
             
         </div>
         <div class="editor-field">
-            @Html.DropDownList("categoryData")
+            @Html.DropDownListFor(model => model.Category, new SelectList(ViewBag.categoryData, "Value", "Text"))
            
             @Html.ValidationMessageFor(model => model.Category)
         </div>

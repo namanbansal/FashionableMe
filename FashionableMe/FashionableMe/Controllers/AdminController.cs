@@ -36,17 +36,16 @@ namespace FashionableMe.Controllers
         {
             AdminBLL obj = new AdminBLL();
            List<SelectListItem> defaultList = new List<SelectListItem>();
-            defaultList = util.getCategoryDropDown();
-            defaultList[0].Selected= false;
+           defaultList = util.getCategoryDropDown();
+           // defaultList[0].Selected= false;
             
-            defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
+           // defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
             ViewBag.categoryData = defaultList;
             
             if (obj.addOffer(model))
                 ViewBag.Message = "Offer Added Successfully";
             else
                 ViewBag.Message = "Unable to add Offer";
-            ViewBag.Message = Convert.ToInt32(ModelState["temp"]);
             return View(model); ;
         }
 

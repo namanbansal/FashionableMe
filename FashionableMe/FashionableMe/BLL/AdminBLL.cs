@@ -23,5 +23,13 @@ namespace FashionableMe.BLL
             result = obj.getProductByCategory(cat);
             return result;
         }
+
+        public bool addOffer(Offer model)
+        {
+            AdminDal obj = new AdminDal();
+
+            return false;
+
+        }
     }
 }

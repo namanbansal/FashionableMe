@@ -4,6 +4,73 @@
     ViewBag.Title = "Register";
 }
 
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    
+        $("#captchaRefresh").click(function (e) {
+            e.preventDefault();
+                       
+            var searchUrl = '@Url.Action("ShowCaptchaImage", "Home")';
+                       
+            $.ajax({
+                url: searchUrl,
+                type: "GET",
+                
+                success: function (data) {
+                    
+                    $("#captchaImage").attr("src", "/Home/ShowCaptchaImage");
+                } 
+            });
+        });
+            
+        $("#reset").click(function() {
+            $('input[type=text]').val('');
+            $('input[type=tel]').val('');
+            $('input[type=date]').val('');
+            $('input[type=email]').val('');
+            $('input[type=password]').val('');
+            $('textarea').val('');
+            $("input:checked").removeAttr("checked");
+           
+        });
+
+        
+
+        $.validator.addMethod("check_date_of_birth", function(value, element) {
+            alert($('input[type=date]').val());
+            var day = $("#dob_day").val();
+            var month = $("#dob_month").val();
+            var year = $("#dob_year").val();
+            var age =  18;
+
+            var mydate = new Date();
+            mydate.setFullYear(year, month-1, day);
+
+            var currdate = new Date();
+            currdate.setFullYear(currdate.getFullYear() - age);
+
+            return currdate > mydate;
+
+        }, "You must be at least 18 years of age.");
+
+        $("form").validate({
+            rules: {
+                dob_year: { check_date_of_birth: true }
+            }
+        });
+
+
+    });
+
+</script>
+
+
+
 <h2>Register</h2>
 
 @using (Html.BeginForm()) {
@@ -50,7 +117,7 @@
             </li>
             <li>
             @Html.LabelFor(model => model.IsMale)
-            @Html.RadioButtonFor(model => model.IsMale, "true", new { Checked = "checked" })Male
+            @Html.RadioButtonFor(model => model.IsMale, "true")Male
             @Html.RadioButtonFor(model => model.IsMale, "false") Female
             @Html.ValidationMessageFor(model => model.IsMale)
             </li>
@@ -76,20 +143,21 @@
             </li>
             <li>
                 @Html.Label("Verification Code")
-                <img src="/Home/ShowCaptchaImage" />
+                <div id="captcha">
+                <img src="/Home/ShowCaptchaImage" id="captchaImage"/></div> <input type="button" value="Refresh" id="captchaRefresh" />
                 @Html.Label("Security Code")
                 @Html.TextBox("CaptchaText")
                 
             </li>
         </ol>
         <p>
-            <input type="submit" value="Create" />
+            <input type="button" value="Reset" id="reset" />&nbsp&nbsp&nbsp<input type="submit" value="Sign Up" />&nbsp&nbsp&nbsp<input type="button" value="Cancel" onclick="location.href= '@Url.Action("Index", "Home")'" />
         </p>
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
+    
 </li>
 
 @section Scripts {

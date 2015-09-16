@@ -9,6 +9,7 @@ namespace FashionableMe.Models
 {
     public class Offer
     {
+        
         public string OfferName { get; set; }
         [DataType(DataType.MultilineText)]
         public string OfferDescription { get; set; }
@@ -18,9 +19,8 @@ namespace FashionableMe.Models
         [DataType(DataType.Date)]
         public DateTime OfferDate { get; set; }
         public int ApparelID { get; set; }
-        public double Discount { get; set; }
+        public decimal Discount { get; set; }
 
-        
     }
 
    

@@ -50,31 +50,97 @@ namespace FashionableMe.DataAccessLayer
             List<Apparel> dataRows = new List<Apparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("Select * from Apparel ap INNER JOIN Quantity qt ON ap.ApparelID=qt.ApparelID where ApparelCategory=@category ",conn);
-            cmd.Parameters.AddWithValue("category",category);
-            var reader = cmd.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Select * from Apparel ap INNER JOIN Quantity qt ON ap.ApparelID=qt.ApparelID where ApparelCategory=@category ", conn);
+                cmd.Parameters.AddWithValue("category", category);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    Apparel prodObj = new Apparel();
-                    prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
-                    prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
-                    prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
-                    prodObj.ApparelCost = reader.GetDecimal(reader.GetOrdinal("ApparelCost"));
-                    prodObj.Description = reader.GetString(reader.GetOrdinal("Description"));
-                    prodObj.ApparelImage = reader.GetString(reader.GetOrdinal("ApparelImage"));
-                    prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
-                    prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
-                    prodObj.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize"));
-                    prodObj.QuantityPerSize = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
-                    prodObj.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
-                    dataRows.Add(prodObj); 
+                    while (reader.Read())
+                    {
+                        Apparel prodObj = new Apparel();
+                        prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
+                        prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
+                        prodObj.ApparelCost = reader.GetDecimal(reader.GetOrdinal("ApparelCost"));
+                        prodObj.Description = reader.GetString(reader.GetOrdinal("Description"));
+                        prodObj.ApparelImage = reader.GetString(reader.GetOrdinal("ApparelImage"));
+                        prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
+                        prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
+                        prodObj.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize"));
+                        prodObj.QuantityPerSize = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
+                        prodObj.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
+                        dataRows.Add(prodObj);
+                    }
                 }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
             return dataRows;
 
         }
+
+        public bool AddOffer(Offer OfferObj)
+        {
+            bool status = false;
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("INSERT INTO Offer VALUES (@name, @desc, @date, @appid, @discount) ", conn);
+                cmd.Parameters.AddWithValue("name", OfferObj.OfferName);
+                cmd.Parameters.AddWithValue("desc", OfferObj.OfferDescription);
+                cmd.Parameters.AddWithValue("date", OfferObj.OfferDate);
+                cmd.Parameters.AddWithValue("appid", OfferObj.ApparelID);
+                cmd.Parameters.AddWithValue("discount", OfferObj.Discount);
+                int i = (Int32)cmd.ExecuteNonQuery();
+                if (i > 0)
+                    status = true;
+
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            return status;
+        }
+
+        public List<Offer> getOfferDetails(DateTime date)
+        {
+            List<Offer> objList = new List<Offer>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferDate=@offdate", conn);
+                cmd.Parameters.AddWithValue("offdate",date);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Offer obj = new Offer();
+                        obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
+                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("Description"));
+                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("Discount"));
+                        obj.OfferDate = reader.GetDateTime(reader.GetOrdinal("OfferDate")).Date;
+                        objList.Add(obj);
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            return objList;
+        }
+
     }
 }

@@ -191,7 +191,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DataAccessLayer\AddProductData.cs" />
     <Compile Include="DataAccessLayer\AdminDal.cs" />
     <Compile Include="DataAccessLayer\CustomerDal.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />

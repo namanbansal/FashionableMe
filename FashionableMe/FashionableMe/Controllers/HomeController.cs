@@ -18,12 +18,14 @@ namespace FashionableMe.Controllers
             //new AdminDal().addProduct(ap);
             //ViewBag.Message = Session["ErrorMessage"]; //"Modify this template to jump-start your ASP.NET MVC application.";
             //var lst = new AdminDal().getProductByCategory("Female");
-            //Offer obj = new Offer() {OfferName = "Diwali Dhamaka", OfferDescription="Bumper offer", ApparelID=101,OfferDate=DateTime.Now.Date, Discount=20.5M };
+            //Offer obj = new Offer() {OfferName = "Diwali Dhamaka", OfferDescription="Bumper offer", ApparelID=101,OfferDate=DateTime.Now.Date, Discount = 20.45M };
+            //ViewBag.Message = new AdminDal().AddOffer(obj).ToString();
             var v = new AdminDal().getOfferDetails(DateTime.Now);
             ViewBag.Message = v.Count;
+            ViewBag.error = Session["ErrorMessage"];
             return View();
         }
-
+        
         public ActionResult OfferOfDay()
         {
             ViewBag.Message = "Offer of the Day!!!";

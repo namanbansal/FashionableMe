@@ -20,7 +20,7 @@ namespace FashionableMe.Models
         public DateTime OfferDate { get; set; }
         public int ApparelID { get; set; }
         public decimal Discount { get; set; }
-
+        
     }
 
    

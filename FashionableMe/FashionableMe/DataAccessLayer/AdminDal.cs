@@ -118,8 +118,8 @@ namespace FashionableMe.DataAccessLayer
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferDate=@offdate", conn);
-                cmd.Parameters.AddWithValue("offdate",date);
+                SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferDate=@offerdate ", conn);
+                cmd.Parameters.AddWithValue("offerdate",date.Date.ToString("yyyyMMdd"));
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -127,9 +127,9 @@ namespace FashionableMe.DataAccessLayer
                     {
                         Offer obj = new Offer();
                         obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
-                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
-                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("Description"));
-                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("Discount"));
+                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("OfferApparelID"));
+                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("OfferDescription"));
+                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
                         obj.OfferDate = reader.GetDateTime(reader.GetOrdinal("OfferDate")).Date;
                         objList.Add(obj);
                     }
@@ -140,6 +140,13 @@ namespace FashionableMe.DataAccessLayer
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
             return objList;
+        }
+
+        public bool UpdateOfferDetails(Offer offerObj)
+        {
+            bool status = true;
+
+            return status;
         }
 
     }

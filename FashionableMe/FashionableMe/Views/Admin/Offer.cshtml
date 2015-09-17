@@ -20,12 +20,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
-    
-        $("#categoryData").change(function (e) {
+        
+        $("#Category").change(function (e) {
             e.preventDefault();
             var searchUrl = '@Url.Action("searchByCategory", "Admin")';
             var rsltval = $(this).val();
             if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
+                
             $.ajax({
                 url: searchUrl,
                 data: { val: rsltval },
@@ -43,15 +44,32 @@
         
         });
         
-        $("#apparelSelection").change((function (e) {
-            e.preventDefault();
-            $("#ApparelID").val("1234");
-        }));
-
+        
     });
+    function testfun(e) {
+        var today = new Date();
+        console.log(today);
+        $("#ApparelID").val(e);
+    }
+    function checkDate() {
+        var EnteredDate = $('input[type=date]').val(); // For JQuery
+        
+        var date = EnteredDate.substring(8, 10);
+        var month = EnteredDate.substring(5, 7);
+        var year = EnteredDate.substring(0, 4);
+        
+        var myDate = new Date(year, month - 1, date);
+
+        var today = new Date();
+
+        if (myDate < today) {
+            alert("Entered date should be greater than today's date ");
+        }
+    }
 </script>
 
 <h2>Add Offer</h2>
+<div><h1>@ViewBag.Message</h1></div>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -59,7 +77,7 @@
 
     <fieldset>
         <legend>Offer</legend>
-        <h3>@ViewBag.Message</h3>
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferName)
         </div>
@@ -81,7 +99,8 @@
             
         </div>
         <div class="editor-field">
-            @Html.DropDownList("categoryData")
+            @Html.DropDownListFor(model => model.Category, new SelectList(ViewBag.categoryData, "Value", "Text"))
+           
             @Html.ValidationMessageFor(model => model.Category)
         </div>
 
@@ -112,7 +131,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create" onclick="checkDate();"/>
         </p>
     </fieldset>
 }

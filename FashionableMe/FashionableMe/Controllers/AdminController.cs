@@ -35,7 +35,13 @@ namespace FashionableMe.Controllers
         public ActionResult Offer(Offer model)
         {
             AdminBLL obj = new AdminBLL();
-            ViewBag.categoryData = util.getCategoryDropDown();
+           List<SelectListItem> defaultList = new List<SelectListItem>();
+           defaultList = util.getCategoryDropDown();
+           // defaultList[0].Selected= false;
+            
+           // defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
+            ViewBag.categoryData = defaultList;
+            
             if (obj.addOffer(model))
                 ViewBag.Message = "Offer Added Successfully";
             else
@@ -52,7 +58,7 @@ namespace FashionableMe.Controllers
             string msg="0";
            if(listApparel.Count>0)
                 msg = listApparel[0].ApparelName;
-            return PartialView("_apparelDetails", listApparel) ;
+            return PartialView("_apparelDetailsTable", listApparel) ;
         }
         
 

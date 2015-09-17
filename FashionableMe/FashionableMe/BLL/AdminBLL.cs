@@ -27,7 +27,8 @@ namespace FashionableMe.BLL
         public bool addOffer(Offer model)
         {
             AdminDal obj = new AdminDal();
-
+            if (obj.AddOffer(model))
+                return true;
             return false;
 
         }

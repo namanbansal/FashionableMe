@@ -18,37 +18,71 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
 <script type="text/javascript">
+    
     $(document).ready(function () {
-        
+        $("#updatePanel").hide();
         
         $("#Category").change(function (e) {
             e.preventDefault();
             var searchUrl = '@Url.Action("searchByCategory", "Admin")';
             var rsltval = $(this).val();
             if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
-                
             $.ajax({
                 url: searchUrl,
                 data: { val: rsltval },
                 type: "POST",
-                
                 success: function (data) {
                     $("#dynm").html(data);
-                   
-                    
-                    
                 }
             });
-           
         }
-        
+        });
+
+        $('#radio').click(function () {
+            if ($('#addRadioButton').is(':checked'))
+            {
+                $("#updatePanel").hide();
+                $("#addPanel").show();
+
+            }
+            if ($('#updateRadioButton').is(':checked'))
+            {
+                $("#addPanel").children().attr("disabled", "disabled");
+                $("#addPanel").hide();
+                $("#updatePanel").show();
+            }
         });
         
-        
+        $(function () {
+            $("#fetchDetails").click(function (e) {
+                
+                var dateToFetch = $("#updatePanel").find("input[type=date]").val();
+                console.log(dateToFetch);
+                
+                console.log($(".changeTable").val());
+                var searchUrl = '@Url.Action("fetchByDate", "Admin")';
+                
+                    $.ajax({
+                        url: searchUrl,
+                        data: { date: dateToFetch },
+                        type: "POST",
+                        success: function (data) {
+                            console.log(data);
+                            $("#updtePanel").html(data);
+                            $("#updatePanel :input").attr("disabled", true);
+                            $("#updatePanel :input[type=button]").attr("disabled", false);
+                            $("#updatePanel :input[type=date]").attr("disabled", false);
+                        }
+                    });
+            });
+        });
+        $("#updateButton").click(function () {
+            $("#updatePanel :input").attr("disabled", false);
+            $("#updatePanel input[id=ApparelID]").attr("disabled", true);
+        });
     });
     function testfun(e) {
-        var today = new Date();
-        console.log(today);
+        
         $("#ApparelID").val(e);
     }
     function checkDate() {
@@ -68,9 +102,13 @@
     }
 </script>
 
-<h2>Add Offer</h2>
+<h2>Add or Update Offer</h2>
+<div id="radio">
+    What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
+  <input type="radio" id="updateRadioButton" name="same" value="Update">Update
+</div>
 <div><h1>@ViewBag.Message</h1></div>
-
+<div id="addPanel">
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -135,10 +173,68 @@
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div id="updatePanel">
+
+    <h1>update</h1>
+    @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Offer</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferDate)
+            @Html.ValidationMessageFor(model => model.OfferDate)
+        </div>
+        <input type="button" value="Fetch Details" id="fetchDetails" />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferName)
+            @Html.ValidationMessageFor(model => model.OfferName)
+        </div>
+                <div class="editor-label">
+            @Html.LabelFor(model => model.ApparelID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApparelID)
+            @Html.ValidationMessageFor(model => model.ApparelID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OfferDescription)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OfferDescription)
+            @Html.ValidationMessageFor(model => model.OfferDescription)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Discount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Discount)
+            @Html.ValidationMessageFor(model => model.Discount)
+        </div>
+
+        
+            <table><tr>
+                <td><input type="button" value="Delete Offer" id="Delete" /></td>
+            
+                <td ><input type="button" value="Update Offer" id="updateButton" /></td>
+                   </tr></table>
+    </fieldset>
+}
+
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

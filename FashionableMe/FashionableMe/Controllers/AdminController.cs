@@ -49,16 +49,27 @@ namespace FashionableMe.Controllers
             return View(model); ;
         }
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
-            List<Apparel> listApparel =  obj.fetchProductByCategory(Convert.ToInt16(val));
+            List<Apparel> listApparel = obj.fetchProductByCategory(Convert.ToInt16(val));
             //ViewBag.Message = listApparel[0].ApparelName;
-            string msg="0";
-           if(listApparel.Count>0)
+            string msg = "0";
+            if (listApparel.Count > 0)
                 msg = listApparel[0].ApparelName;
-            return PartialView("_apparelDetailsTable", listApparel) ;
+            return PartialView("_apparelDetailsTable", listApparel);
+        }
+
+        [HttpPost]
+        public ActionResult fetchByDate(string date)
+        {
+            AdminBLL obj = new AdminBLL();
+            List<Offer> model = obj.fetchOfferByDate(date);
+
+            ViewBag.Message = "No Offer with the same date present!";
+            
+            return View(model[0]);
         }
         
 

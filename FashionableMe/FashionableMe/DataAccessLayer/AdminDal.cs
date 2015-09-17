@@ -110,9 +110,9 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public List<Offer> getOfferDetails(DateTime date)
+        public Offer getOfferDetails(string date)
         {
-            List<Offer> objList = new List<Offer>();
+            Offer obj = new Offer();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             try
@@ -125,13 +125,13 @@ namespace FashionableMe.DataAccessLayer
                 {
                     while (reader.Read())
                     {
-                        Offer obj = new Offer();
+                        //Offer obj = new Offer();
                         obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
                         obj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
                         obj.OfferDescription = reader.GetString(reader.GetOrdinal("Description"));
                         obj.Discount = reader.GetDecimal(reader.GetOrdinal("Discount"));
                         obj.OfferDate = reader.GetDateTime(reader.GetOrdinal("OfferDate")).Date;
-                        objList.Add(obj);
+                        //objlist.Add(obj);
                     }
                 }
             }
@@ -139,8 +139,10 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
-            return objList;
+            return obj;
         }
 
+
+        
     }
 }

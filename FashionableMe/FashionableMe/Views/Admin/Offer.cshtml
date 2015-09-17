@@ -42,44 +42,135 @@
             if ($('#addRadioButton').is(':checked'))
             {
                 $("#updatePanel").hide();
+                $("#addPanel :input[type=text-box]").val('');
                 $("#addPanel").show();
 
             }
             if ($('#updateRadioButton').is(':checked'))
             {
-                $("#addPanel").children().attr("disabled", "disabled");
+
                 $("#addPanel").hide();
                 $("#updatePanel").show();
+                $("#updateButton").show();
+                $("#saveButton").hide();
+                $("#cancelButton").hide();
+                $("#updatePanel :input").attr("disabled", true);
+                $("#updatePanel :input[type=button]").attr("disabled", false);
+                $("#updatePanel :input[type=date]").attr("disabled", false);
+
             }
         });
         
-        $(function () {
-            $("#fetchDetails").click(function (e) {
+        $("#fetchDetails").click(function (e) {
                 
                 var dateToFetch = $("#updatePanel").find("input[type=date]").val();
                 console.log(dateToFetch);
                 
-                console.log($(".changeTable").val());
                 var searchUrl = '@Url.Action("fetchByDate", "Admin")';
                 
                     $.ajax({
                         url: searchUrl,
                         data: { date: dateToFetch },
                         type: "POST",
+                        
                         success: function (data) {
                             console.log(data);
-                            $("#updtePanel").html(data);
-                            $("#updatePanel :input").attr("disabled", true);
-                            $("#updatePanel :input[type=button]").attr("disabled", false);
-                            $("#updatePanel :input[type=date]").attr("disabled", false);
+                            var rs = JSON.parse(data);
+                            console.log(rs["OfferName"]);
+                            if (rs["ApparelID"] == "0") {
+                                $("#resultPanel").html("<h2>No Offer with  the given date!!!</h2>");
+                            }
+                            else {
+                                $("#resultPanel").html("");
+                                
+                                $("#updatePanel input[id=OfferName]").val(rs["OfferName"]);
+                                $("#updatePanel input[id=ApparelID]").val(rs["ApparelID"]);
+                                $("#updatePanel textarea[id=OfferDescription]").val(rs["OfferDescription"]);
+                                $("#updatePanel input[id=Discount]").val(rs["Discount"]);
+
+                                $("#updtePanel").html(data);
+                                $("#updatePanel :input").attr("disabled", true);
+                                $("#updatePanel :input[type=button]").attr("disabled", false);
+                                $("#updatePanel :input[type=date]").attr("disabled", false);
+                            }
                         }
                     });
             });
-        });
+        
         $("#updateButton").click(function () {
             $("#updatePanel :input").attr("disabled", false);
             $("#updatePanel input[id=ApparelID]").attr("disabled", true);
+            $("#updateButton").hide();
+            $("#saveButton").show();
+            $("#cancelButton").show();
+
+
         });
+
+        $("#cancelButton").click(function () {
+            console.log("cancel");
+            $('#updatePanel :input[type=number]').val('');
+            $('#updatePanel :input[type=text]').val('');
+            $('#updatePanel #OfferDescription').val('');
+
+
+        });
+
+        $("#saveButton").click(function (e) {
+            var searchUrl = '@Url.Action("UpdateOffer", "Admin")';
+            var offerName = $("#updatePanel input[id=OfferName]").val();
+            var offerDescription = $("#updatePanel textarea[id=OfferDescription]").val();
+            var offerDiscount = $("#updatePanel input[id=Discount]").val();
+            var offerDate = $("#updatePanel input[id=OfferDate]").val();
+
+            $.ajax({
+                url: searchUrl,
+                data: { offerDate: offerDate, offerName: offerName, offerDescription: offerDescription, offerDiscount: offerDiscount },
+                type: "POST",
+
+                success: function (data) {
+                    console.log(data);
+                    if (data == "true") {
+                        $("#resultPanel").html("<h2>Offer Updated Successfully!!!</h2>");
+                        $("#updatePanel :input").attr("disabled", true);
+                        $("#updatePanel :input[type=date]").attr("disabled", false);
+                        $("#updatePanel :input[id=fetchDetails]").attr("disabled", false);
+
+                    }
+                    else {
+                        $("#resultPanel").html("<h2>Unable to update Offer!!!</h2>");
+
+                    }
+                }
+            });
+        });
+
+        $("#deleteButton").click(function (e) {
+            var searchUrl = '@Url.Action("DeleteOffer", "Admin")';
+            var offerDate = $("#updatePanel input[id=OfferDate]").val();
+
+            $.ajax({
+                url: searchUrl,
+                data: { offerDate:offerDate},
+                type: "POST",
+
+                success: function (data) {
+                    console.log(data);
+                    if (data=="true") {
+                        $("#resultPanel").html("<h2>Offer Deleted Successfully!!!</h2>");
+                        $("#updatePanel :input").attr("disabled", true);
+                        $("#updatePanel :input[type=date]").attr("disabled", false);
+                        $("#updatePanel :input[id=fetchDetails]").attr("disabled", false);
+
+                    }
+                    else {
+                        $("#resultPanel").html("<h2>Unable to delete Offer!!!</h2>");
+
+                    }
+                }
+            });
+        });    
+
     });
     function testfun(e) {
         
@@ -176,7 +267,7 @@
 </div>
 
 <div id="updatePanel">
-
+    <div id="resultPanel"></div>
     <h1>update</h1>
     @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -226,9 +317,9 @@
 
         
             <table><tr>
-                <td><input type="button" value="Delete Offer" id="Delete" /></td>
+                <td><input type="button" value="Delete Offer" id="deleteButton" /></td>
             
-                <td ><input type="button" value="Update Offer" id="updateButton" /></td>
+                <td ><input type="button" value="Update Offer" id="updateButton" /><input type="button" value="Save" id="saveButton" /><input type="button" value="Cancel" id="cancelButton" /></td>
                    </tr></table>
     </fieldset>
 }

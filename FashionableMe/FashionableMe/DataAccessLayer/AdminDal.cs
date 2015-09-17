@@ -127,9 +127,9 @@ namespace FashionableMe.DataAccessLayer
                     {
                         //Offer obj = new Offer();
                         obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
-                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
-                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("Description"));
-                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("Discount"));
+                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("OfferApparelID"));
+                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("OfferDescription"));
+                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
                         obj.OfferDate = reader.GetDateTime(reader.GetOrdinal("OfferDate")).Date;
                         //objlist.Add(obj);
                     }
@@ -143,6 +143,51 @@ namespace FashionableMe.DataAccessLayer
         }
 
 
-        
+
+
+        public bool updateOfferByDate(string offerDate, string offerName, string offerDescription, string offerDiscount)
+        {
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE Offer SET OfferName=@offerName, OfferDescription=@offerDescription, OfferDiscount=@offerDiscount where OfferDate=@offerDate", conn);
+                cmd.Parameters.AddWithValue("offerName", offerName);
+                cmd.Parameters.AddWithValue("offerDescription", offerDescription);
+                cmd.Parameters.AddWithValue("offerDiscount", offerDiscount);
+                cmd.Parameters.AddWithValue("offerDate", offerDate);
+
+                var reader = cmd.ExecuteReader();
+
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+                return false;
+            }
+            return true;
+        }
+
+        public bool deleteOfferByDate(string offerDate)
+        {
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("DELETE FROM Offer WHERE OfferDate=@offerDate", conn);
+                cmd.Parameters.AddWithValue("offerDate", offerDate);
+
+                var reader = cmd.ExecuteReader();
+
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+                return false;
+            }
+            return true;
+        }
     }
 }

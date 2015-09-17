@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using FashionableMe.BLL;
 using FashionableMe.Models;
 using FashionableMe.Utils;
-
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace FashionableMe.Controllers
 {
@@ -62,14 +63,13 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult fetchByDate(string date)
+        public string fetchByDate(string date)
         {
             AdminBLL obj = new AdminBLL();
-            List<Offer> model = obj.fetchOfferByDate(date);
-
-            ViewBag.Message = "No Offer with the same date present!";
+            Offer model = obj.fetchOfferByDate(date);
+            JavaScriptSerializer jsonobj = new JavaScriptSerializer();
             
-            return View(model[0]);
+            return (jsonobj.Serialize(model));
         }
         
 
@@ -85,18 +85,27 @@ namespace FashionableMe.Controllers
         // POST: /Admin/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public string UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
-            try
+            AdminBLL obj = new AdminBLL();
+            if (obj.UpdateOffer(offerDate, offerName, offerDescription, offerDiscount))
             {
-                // TODO: Add update logic here
+                return "true";
+            }
+            return "false";
 
-                return RedirectToAction("Index");
-            }
-            catch
+        }
+
+        [HttpPost]
+        public string DeleteOffer(string offerDate)
+        {
+            AdminBLL obj = new AdminBLL();
+            if (obj.DeleteOffer(offerDate))
             {
-                return View();
+                return "true";
             }
+            return "false";
+
         }
 
         //

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FashionableMe.Utils;
 using FashionableMe.DataAccessLayer;
+using FashionableMe.BLL;
 using FashionableMe.Models;
 
 namespace FashionableMe.Controllers
@@ -18,14 +19,21 @@ namespace FashionableMe.Controllers
             //new AdminDal().addProduct(ap);
             //ViewBag.Message = Session["ErrorMessage"]; //"Modify this template to jump-start your ASP.NET MVC application.";
             //var lst = new AdminDal().getProductByCategory("Female");
-            //Offer obj = new Offer() {OfferName = "Diwali Dhamaka", OfferDescription="Bumper offer", ApparelID=101,OfferDate=DateTime.Now.Date, Discount = 20.45M };
-            //ViewBag.Message = new AdminDal().AddOffer(obj).ToString();
-            var v = new AdminDal().getOfferDetails(DateTime.Now);
-            ViewBag.Message = v.Count;
-            ViewBag.error = Session["ErrorMessage"];
+            //Offer obj = new Offer() {OfferName = "Diwali Dhamaka", OfferDescription="Bumper offer", ApparelID=101,OfferDate=DateTime.Now.Date, Discount=20.5M };
+            AdminDal dalobj = new AdminDal();
+            AdminBLL bllobj = new AdminBLL();
+            string Date = "3333-03-31";
+            string date = Date.Substring(8, 2);
+            string month = Date.Substring(5, 2);
+            string year = Date.Substring(0, 4);
+            string dateFormatted = month + "/" + date + "/" + year;
+            //string offerName = dalobj.getOfferDetails(dateFormatted).OfferName;
+
+            string offerName = bllobj.fetchOfferByDate(Date).ApparelID.ToString();
+            ViewBag.Message = offerName;
             return View();
         }
-        
+
         public ActionResult OfferOfDay()
         {
             ViewBag.Message = "Offer of the Day!!!";

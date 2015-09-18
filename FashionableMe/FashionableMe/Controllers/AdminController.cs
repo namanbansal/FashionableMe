@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using FashionableMe.BLL;
 using FashionableMe.Models;
 using FashionableMe.Utils;
-
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace FashionableMe.Controllers
 {
@@ -49,16 +50,26 @@ namespace FashionableMe.Controllers
             return View(model); ;
         }
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
-            List<Apparel> listApparel =  obj.fetchProductByCategory(Convert.ToInt16(val));
+            List<Apparel> listApparel = obj.fetchProductByCategory(Convert.ToInt16(val));
             //ViewBag.Message = listApparel[0].ApparelName;
-            string msg="0";
-           if(listApparel.Count>0)
+            string msg = "0";
+            if (listApparel.Count > 0)
                 msg = listApparel[0].ApparelName;
-            return PartialView("_apparelDetailsTable", listApparel) ;
+            return PartialView("_apparelDetailsTable", listApparel);
+        }
+
+        [HttpPost]
+        public string fetchByDate(string date)
+        {
+            AdminBLL obj = new AdminBLL();
+            Offer model = obj.fetchOfferByDate(date);
+            JavaScriptSerializer jsonobj = new JavaScriptSerializer();
+            
+            return (jsonobj.Serialize(model));
         }
         
 
@@ -74,18 +85,27 @@ namespace FashionableMe.Controllers
         // POST: /Admin/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public string UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
-            try
+            AdminBLL obj = new AdminBLL();
+            if (obj.UpdateOffer(offerDate, offerName, offerDescription, offerDiscount))
             {
-                // TODO: Add update logic here
+                return "true";
+            }
+            return "false";
 
-                return RedirectToAction("Index");
-            }
-            catch
+        }
+
+        [HttpPost]
+        public string DeleteOffer(string offerDate)
+        {
+            AdminBLL obj = new AdminBLL();
+            if (obj.DeleteOffer(offerDate))
             {
-                return View();
+                return "true";
             }
+            return "false";
+
         }
 
         //

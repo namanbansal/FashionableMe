@@ -15,10 +15,10 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             HttpContext.Current.Session["status"] = "DefaultMessage";
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
             try
             {
-                string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
-                SqlConnection conn = new SqlConnection(conStr);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("insert into Apparel values (@name,@bname,@cost,@desc,@imagepath,@category, GETDATE(),0)",conn);
                 
@@ -42,6 +42,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = exc.Message;
             }
+            conn.Close();
             return status;
         }
 
@@ -80,6 +81,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return dataRows;
 
         }
@@ -107,6 +109,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return status;
         }
 
@@ -139,6 +142,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return obj;
         }
 
@@ -149,6 +153,7 @@ namespace FashionableMe.DataAccessLayer
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
+            bool status = false;
             try
             {
                 conn.Open();
@@ -159,20 +164,21 @@ namespace FashionableMe.DataAccessLayer
                 cmd.Parameters.AddWithValue("offerDate", offerDate);
 
                 var reader = cmd.ExecuteReader();
-
+                status = true;
             }
             catch (Exception ExcObj)
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
-                return false;
             }
-            return true;
+            conn.Close();
+            return status;
         }
 
         public bool deleteOfferByDate(string offerDate)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
+            bool status = false;
             try
             {
                 conn.Open();
@@ -180,14 +186,14 @@ namespace FashionableMe.DataAccessLayer
                 cmd.Parameters.AddWithValue("offerDate", offerDate);
 
                 var reader = cmd.ExecuteReader();
-
+                status = true;
             }
             catch (Exception ExcObj)
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
-                return false;
             }
-            return true;
+            conn.Close();
+            return status;
         }
     }
 }

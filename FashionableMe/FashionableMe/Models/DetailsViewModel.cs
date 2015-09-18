@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace FashionableMe.Models
 {
@@ -37,6 +38,27 @@ namespace FashionableMe.Models
         [Required]
         [Display(Name = "Gender")]
         public bool IsMale { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(15, MinimumLength = 8, ErrorMessage = "Minimum 8 and atmost 15 characters allowed.")]
+        [RegularExpression(@"([0-9]+[a-zA-Z]|[a-zA-Z]+[0-9])[A-Za-z0-9]*", ErrorMessage = "Atleast one alphabet and one digit required.")]
+        [Display(Name = "Old Password")]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(15, MinimumLength = 8, ErrorMessage = "Minimum 8 and atmost 15 characters allowed.")]
+        [RegularExpression(@"([0-9]+[a-zA-Z]|[a-zA-Z]+[0-9])[A-Za-z0-9]*", ErrorMessage = "Atleast one alphabet and one digit required.")]
+        [Display(Name = "New Password")]
+        public string Password { get; set; }
+
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirm Password")]
+        public string ConfirmPassword { get; set; }
 
     }
 }

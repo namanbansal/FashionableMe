@@ -50,8 +50,32 @@ namespace FashionableMe.BLL
 
         public DetailsViewModel getCustomerDetails(string userID)
         {
-            DetailsViewModel result = new DetailsViewModel();
-            return result;
+            CustomerDal CustObj = new CustomerDal();
+            if (userID == "000")
+            {
+                return null;
+            }
+            return CustObj.getCustomerDetails(userID.ToString());
+
+        }
+
+        public string CheckAndUpdateCustomer(DetailsViewModel model)
+        {
+            string status = "";
+            model.OldPassword = model.OldPassword ?? "" ;
+            if (model.OldPassword != "" )
+            {
+                model.OldPassword = hashPassword(model.OldPassword);
+                model.Password = hashPassword(model.Password);
+            }
+
+            CustomerDal dalObj = new CustomerDal();
+            if (dalObj.CheckAndUpdateCustomer(model))
+                status = "Updated Successfully";
+            else
+                status = HttpContext.Current.Session["ErrorMessage"].ToString();
+
+            return status;
         }
     }
 }

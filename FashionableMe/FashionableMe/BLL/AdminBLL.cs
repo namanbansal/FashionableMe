@@ -9,16 +9,11 @@ namespace FashionableMe.BLL
 {
     public class AdminBLL
     {
-        public List<Apparel> fetchProductByCategory(int category)
+        public List<Apparel> fetchProductByCategory(string category)
         {
-            string cat="";
+            string cat = parseInputCategoryToDBFormat(category);
             AdminDal obj = new AdminDal();
-            if (category == 1)
-                cat = "Male";
-            else if (category == 2)
-                cat = "Female";
-            else if (category == 3)
-                cat = "Kids";
+            
             List<Apparel> result = new List<Apparel>();
             result = obj.getProductByCategory(cat);
             return result;
@@ -62,6 +57,30 @@ namespace FashionableMe.BLL
             string dateFormatted = month + "/" + date + "/" + year;
 
             return dateFormatted;
+        }
+
+        public string parseInputCategoryToDBFormat(string val)
+        {
+            string cat = "";
+            int category = Convert.ToInt32(val.Trim());
+            if (category == 1)
+                cat = "Male";
+            else if (category == 2)
+                cat = "Female";
+            else if (category == 3)
+                cat = "Kids";
+
+            return cat;
+        }
+        public bool addApparel(AddApparel model)
+        {
+            AdminDal obj = new AdminDal();
+            model.apparel.ApparelCategory = parseInputCategoryToDBFormat(model.apparel.ApparelCategory);
+            if (model.apparel.ApparelImage == null)
+                model.apparel.ApparelImage = string.Empty;
+            if (obj.addProduct(model))
+                return true;
+            return false;
         }
         
     }

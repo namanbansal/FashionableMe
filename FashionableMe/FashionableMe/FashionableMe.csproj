@@ -198,6 +198,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AddApparel.cs" />
     <Compile Include="Models\Apparel.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\DetailsViewModel.cs" />
@@ -327,6 +328,7 @@
     <Content Include="Views\Account\Partial1.cshtml" />
     <Content Include="Views\Admin\_apparelDetailsTable.cshtml" />
     <Content Include="Views\Admin\_updateOffer.cshtml" />
+    <Content Include="Views\Admin\Apparel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

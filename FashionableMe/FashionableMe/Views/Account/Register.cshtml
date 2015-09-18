@@ -39,40 +39,60 @@
            
         });
 
-        
-
-        $.validator.addMethod("check_date_of_birth", function(value, element) {
-            alert($('input[type=date]').val());
-            var day = $("#dob_day").val();
-            var month = $("#dob_month").val();
-            var year = $("#dob_year").val();
-            var age =  18;
-
-            var mydate = new Date();
-            mydate.setFullYear(year, month-1, day);
-
-            var currdate = new Date();
-            currdate.setFullYear(currdate.getFullYear() - age);
-
-            return currdate > mydate;
-
-        }, "You must be at least 18 years of age.");
-
-        $("form").validate({
-            rules: {
-                dob_year: { check_date_of_birth: true }
-            }
-        });
 
 
     });
+    function checkAge() {
+       
+        var EnteredDate = $('input[type=date]').val(); // For JQuery
+        var errorMsg = "";
+        var date = EnteredDate.substring(8, 10);
+        var month = EnteredDate.substring(5, 7);
+        var year = EnteredDate.substring(0, 4);
+        var age = 18;
+        var myDate = new Date();
+        myDate.setFullYear(year, month - 1, date);
+        console.log(myDate);
+        
+        var currdate = new Date();
+        var setDate = new Date();
+        setDate.setFullYear(myDate.getFullYear() + age, month-1, date);
 
+        if ((currdate - setDate) > 0){
+            // you are above 18
+            $("#errorPanel").html("");
+            return true;
+        }else{
+            $("#errorPanel").html("<h3>You should be of atleast 18 years to register</h3>");
+            return false;
+        }
+       
+    }
+
+    function chkUserName() {
+        var userName = $("#UserID").val();
+        var password = $("#Password").val();
+   
+        if(userName == password){
+            $("#errorPanelU").html("<h3>UserId and Password cannot be same.</h3>");
+            return false;
+        }
+        $("#errorPanelU").html("");
+        return true;
+    }
+    function check() {
+        var cage = checkAge();
+        var cusr = chkUserName();
+        return (cage && cusr);
+    }
 </script>
 
 
 
 <h2>Register</h2>
 
+<div id="errorPanel" style="color:#f00"></div>
+<div id="errorPanelU" style="color:#f00"></div>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -151,14 +171,14 @@
             </li>
         </ol>
         <p>
-            <input type="button" value="Reset" id="reset" />&nbsp&nbsp&nbsp<input type="submit" value="Sign Up" />&nbsp&nbsp&nbsp<input type="button" value="Cancel" onclick="location.href= '@Url.Action("Index", "Home")'" />
+            <input type="button" value="Reset" id="reset" />&nbsp&nbsp&nbsp<input type="submit" value="Sign Up" onclick="return check()"/>&nbsp&nbsp&nbsp<input type="button" value="Cancel" onclick="location.href= '@Url.Action("Index", "Home")'" />
         </p>
     </fieldset>
 }
 
 
     
-</li>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

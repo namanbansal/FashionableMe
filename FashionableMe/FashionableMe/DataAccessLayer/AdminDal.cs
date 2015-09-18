@@ -11,7 +11,7 @@ namespace FashionableMe.DataAccessLayer
 {
     public class AdminDal
     {
-        public bool addProduct(Apparel product)
+        public bool addProduct(AddApparel product)
         {
             bool status = false;
             HttpContext.Current.Session["status"] = "DefaultMessage";
@@ -22,21 +22,39 @@ namespace FashionableMe.DataAccessLayer
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("insert into Apparel values (@name,@bname,@cost,@desc,@imagepath,@category, GETDATE(),0)",conn);
                 
-                cmd.Parameters.AddWithValue("name",product.ApparelName);
-                cmd.Parameters.AddWithValue("bname",product.BrandName);
-                cmd.Parameters.AddWithValue("cost",product.ApparelCost);
-                cmd.Parameters.AddWithValue("desc",product.Description);
-                cmd.Parameters.AddWithValue("imagepath",product.ApparelImage);
-                cmd.Parameters.AddWithValue("category",product.ApparelCategory);
+                cmd.Parameters.AddWithValue("name",product.apparel.ApparelName);
+                cmd.Parameters.AddWithValue("bname",product.apparel.BrandName);
+                cmd.Parameters.AddWithValue("cost",product.apparel.ApparelCost);
+                cmd.Parameters.AddWithValue("desc",product.apparel.Description);
+                cmd.Parameters.AddWithValue("imagepath", product.apparel.ApparelImage);
+                cmd.Parameters.AddWithValue("category",product.apparel.ApparelCategory);
                 int i = cmd.ExecuteNonQuery();
                 
                 SqlCommand cmd2 = new SqlCommand("insert into Quantity values ( IDENT_CURRENT('Apparel'), @size, @quantity, @discount ) ", conn);
-                
-                cmd2.Parameters.AddWithValue("size", product.ApparelSize);
-                cmd2.Parameters.AddWithValue("quantity", product.QuantityPerSize);
-                cmd2.Parameters.AddWithValue("discount", product.ApparelDiscount);
-                int res = cmd2.ExecuteNonQuery();
-                status = true;               
+                if (product.small > 0)
+                {
+                    cmd2.Parameters.AddWithValue("size", "S");
+                    cmd2.Parameters.AddWithValue("quantity", product.small);
+                    cmd2.Parameters.AddWithValue("discount", product.apparel.ApparelDiscount);
+                    int res = cmd2.ExecuteNonQuery();
+                    status = true;
+                }
+                if (product.medium > 0)
+                {
+                    cmd2.Parameters.AddWithValue("size", "M");
+                    cmd2.Parameters.AddWithValue("quantity", product.medium);
+                    cmd2.Parameters.AddWithValue("discount", product.apparel.ApparelDiscount);
+                    int res = cmd2.ExecuteNonQuery();
+                    status = true;
+                }
+                if (product.large > 0)
+                {
+                    cmd2.Parameters.AddWithValue("size", "L");
+                    cmd2.Parameters.AddWithValue("quantity", product.large);
+                    cmd2.Parameters.AddWithValue("discount", product.apparel.ApparelDiscount);
+                    int res = cmd2.ExecuteNonQuery();
+                    status = true;
+                }
             }
             catch (Exception exc)
             {
@@ -70,7 +88,6 @@ namespace FashionableMe.DataAccessLayer
                         prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
                         prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
                         prodObj.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize"));
-                        prodObj.QuantityPerSize = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
                         prodObj.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
                         dataRows.Add(prodObj);
                     }

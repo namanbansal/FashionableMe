@@ -54,7 +54,7 @@ namespace FashionableMe.Controllers
         public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
-            List<Apparel> listApparel = obj.fetchProductByCategory(Convert.ToInt16(val));
+            List<Apparel> listApparel = obj.fetchProductByCategory(val);
             //ViewBag.Message = listApparel[0].ApparelName;
             string msg = "0";
             if (listApparel.Count > 0)
@@ -71,14 +71,26 @@ namespace FashionableMe.Controllers
             
             return (jsonobj.Serialize(model));
         }
-        
 
-        
 
-        public ActionResult addApparel()
+        public ActionResult Apparel()
         {
             ViewBag.categoryData = util.getCategoryDropDown();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Apparel(AddApparel model)
+        {
+            ViewBag.categoryData = util.getCategoryDropDown();
+            AdminBLL obj = new AdminBLL();
+            bool result = obj.addApparel(model);
+            if (result)
+                ViewBag.Message = "Sucessfully added apparel";
+            else
+                ViewBag.Message = "Unable to add apparel";
+
+            return View(model);
         }
 
         //

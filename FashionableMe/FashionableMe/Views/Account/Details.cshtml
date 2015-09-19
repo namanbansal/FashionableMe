@@ -1,72 +1,150 @@
 ﻿@model FashionableMe.Models.DetailsViewModel
 
 @{
-    Layout = null;
+    ViewBag.Title = "User Details";
 }
 
-<!DOCTYPE html>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".editor-field").children().prop("readonly", true);
+        $(':radio:not(:checked)').attr('disabled', true);
+        $("#passField").hide();
+        
+
+        $("#editButton").click(function () {
+            $(".editor-field").children().prop("readonly", false);
+            $(':radio:not(:checked)').attr('disabled', false);
+            $(this).hide();
+            $(".hiddenButton").show();
+            
+        });
+
+        $("#passLink").click(function () {
+            $("#passField").toggle();
+        });
+
+        ast = $("<b> * <b>");
+        ast.css("color", "red");
+        $(".editor-label").children().append(ast);
+    });
+</script>
+
+
+<h2>Details</h2>
+<h3>@ViewBag.Message</h3>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
     <fieldset>
         <legend>DetailsViewModel</legend>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Name)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Name)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Address)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Address)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Address)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.City)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.City)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.City)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.City)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.State)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.State)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.State)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.State)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.Pincode)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Pincode)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Pincode)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Pincode)
+            @Html.ValidationMessageFor(model => model.Pincode)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.MobileNumber)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MobileNumber)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.MobileNumber)
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MobileNumber)
+            @Html.ValidationMessageFor(model => model.MobileNumber)
         </div>
-    
-        <div class="display-label">
-             @Html.DisplayNameFor(model => model.IsMale)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsMale)
         </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.IsMale)
+        <div class="editor-field" id="rbuttons">
+            @Html.RadioButtonFor(model => model.IsMale, "true")Male
+            @Html.RadioButtonFor(model => model.IsMale, "false")Female
+            @Html.ValidationMessageFor(model => model.IsMale)
         </div>
+
+        <br /><a id="passLink">Change Password</a><br /><br />
+
+        <div id="passField">
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.OldPassword)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.OldPassword)
+                @Html.ValidationMessageFor(model => model.OldPassword)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ConfirmPassword)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ConfirmPassword)
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+
+        </div>
+     
+
+         <p>
+             <input type="button" value="Edit"  id ="editButton"/>
+             <input class="hiddenButton" type="submit"  value="Update" hidden  />
+             <input class="hiddenButton" type="button" value="Cancel" hidden onclick="location.href='@Url.Action("Details", "Account")' "/>
+        </p>
     </fieldset>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

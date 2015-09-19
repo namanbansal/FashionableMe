@@ -39,11 +39,11 @@
            
         });
 
-
+        
 
     });
     function checkAge() {
-       
+
         var EnteredDate = $('input[type=date]').val(); // For JQuery
         var errorMsg = "";
         var date = EnteredDate.substring(8, 10);
@@ -53,8 +53,8 @@
         var myDate = new Date();
         myDate.setFullYear(year, month - 1, date);
         console.log(myDate);
-        
-        var currdate = new Date();
+
+            var currdate = new Date();
         var setDate = new Date();
         setDate.setFullYear(myDate.getFullYear() + age, month-1, date);
 
@@ -66,13 +66,13 @@
             $("#errorPanel").html("<h3>You should be of atleast 18 years to register</h3>");
             return false;
         }
-       
-    }
+
+            }
 
     function chkUserName() {
         var userName = $("#UserID").val();
         var password = $("#Password").val();
-   
+
         if(userName == password){
             $("#errorPanelU").html("<h3>UserId and Password cannot be same.</h3>");
             return false;

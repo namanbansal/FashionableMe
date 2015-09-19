@@ -15,10 +15,10 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             HttpContext.Current.Session["status"] = "DefaultMessage";
-            try
-            {
                 string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("INSERT INTO Apparel values (@name,@bname,@desc,@imagepath,@category, GETDATE(),0)",conn);
                 
@@ -36,10 +36,10 @@ namespace FashionableMe.DataAccessLayer
                     cmd2.Parameters.AddWithValue("quantity", product.small);
                     cmd2.Parameters.AddWithValue("discount", product.apparel.ApparelDiscount);
                     cmd2.Parameters.AddWithValue("cost", product.apparel.ApparelCost);
-
-                    int res = cmd2.ExecuteNonQuery();
-                    status = true;
-                }
+                
+                int res = cmd2.ExecuteNonQuery();
+                status = true;               
+            }
                 SqlCommand cmd3 = new SqlCommand("INSERT into Quantity values ( IDENT_CURRENT('Apparel'), @size, @quantity, @discount, @cost ) ", conn);
 
                 if (product.medium > 0)
@@ -68,7 +68,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = exc.Message;
             }
-            
+            conn.Close();
             return status;
         }
 
@@ -106,6 +106,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return dataRows;
 
         }
@@ -133,6 +134,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return status;
         }
 
@@ -166,6 +168,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
+            conn.Close();
             return obj;
         }
 
@@ -174,6 +177,7 @@ namespace FashionableMe.DataAccessLayer
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
+            bool status = false;
             try
             {
                 conn.Open();
@@ -184,22 +188,21 @@ namespace FashionableMe.DataAccessLayer
                 cmd.Parameters.AddWithValue("offerDate", offerDate);
 
                 var reader = cmd.ExecuteReader();
-                conn.Close();
-
+                status = true;
             }
             catch (Exception ExcObj)
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
-                conn.Close();
-                return false;
             }
-            return true;
+            conn.Close();
+            return status;
         }
 
         public bool deleteOfferByDate(string offerDate)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
+            bool status = false;
             try
             {
                 conn.Open();
@@ -353,16 +356,14 @@ namespace FashionableMe.DataAccessLayer
                 cmd.Parameters.AddWithValue("size", size);
 
                 var reader = cmd.ExecuteReader();
-                conn.Close();
-
+                status = true;
             }
             catch (Exception ExcObj)
             {
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
-                conn.Close();
-                return false;
             }
-            return true;
+            conn.Close();
+            return status;
         }
 
     }

@@ -58,7 +58,7 @@ namespace FashionableMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            Session["SessionUser"] = null;
 
             return RedirectToAction("Index", "Home");
         }
@@ -110,16 +110,29 @@ namespace FashionableMe.Controllers
 
         //
         // GET: /Account/Details
-
+        
         public ActionResult Details()
         {
-            //AccountBLL accBLL = new AccountBLL();
-            //accBLL.getCustomerDetails(HttpContext.Session["userID"].ToString());
-            
-            return View();
+            AccountBLL accBLL = new AccountBLL();
+            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["SessionUser"].ToString());
+            if (model == null)
+            {
+                RedirectToAction("Login","Account");
+            }
+            ViewBag.Message = "New";
+            return View(model);
         }
 
-        
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Details(DetailsViewModel model)
+        {
+            string status = new AccountBLL().CheckAndUpdateCustomer(model);
+            ViewBag.Message = status;
+            return View();
+
+        }
         
 
         #region Helpers

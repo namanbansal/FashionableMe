@@ -1,0 +1,152 @@
+﻿@model List<FashionableMe.Models.AddApparel>
+
+@{
+    WebGrid grid = new WebGrid(Model);
+}
+<div id="updateMsg"></div>
+@grid.GetHtml(
+    tableStyle : "table",
+    alternatingRowStyle : "alternate",
+    
+    headerStyle : "header", 
+    columns : grid.Columns(
+        grid.Column("", 
+                    style: "col1", 
+                    format: @<text>
+                                <button class="edit-book display-mode" id="@item.apparel.ApparelID">Edit</button>
+                                <button class="save-book edit-mode" id="@item.apparel.ApparelID">Update</button>
+                                <button class="cancel-book edit-mode" id="@item.apparel.ApparelID">Cancel</button>
+                            </text>),
+        grid.Column("ApparelID",
+                    style: "col2",
+                    format: @<text>
+                                <span id="apparelID" class="display-modeO">@item.apparel.ApparelID</span>
+                                @*<input type="text" id="ApparelID" class="edit-mode" size="25" value="@item.apparel.ApparelID"/>*@
+                            </text>),
+        grid.Column("Description",
+                    style: "col2",
+                    format: @<text>
+                                <span id="description" class="display-modeO">@item.apparel.Description</span>
+                                @*<input type="text" id="Description" class="edit-mode" size="25" value="@item.apparel.Description"/>*@
+                            </text>),
+        grid.Column("Cost",
+                    header : "Cost",
+                    style: "col3",
+                    format: @<text>
+                                <span id="cost" class="display-mode">@item.apparel.ApparelCost</span>
+                                <input type="number" step="any" id="Cost" class="edit-mode" size="25" value="@item.apparel.ApparelCost" required/>
+                            </text>),
+        grid.Column("Discount",
+                    style: "col4",
+                    format: @<text>
+                                <span id="discount" class="display-mode">@item.apparel.ApparelDiscount</span>
+                                <input type="number" step="any" id="Discount" class="edit-mode" size="25" value="@item.apparel.ApparelDiscount" required/>
+                            </text>),
+        grid.Column("Category",
+                    style: "col5",
+                    format: @<text>
+                                <span id="category" class="display-modeO">@item.apparel.ApparelCategory</span>
+                                <input type="text" id="Category" class="edit-modeO" size="25" value="@item.apparel.ApparelCategory" hidden/>
+                            </text>),
+        grid.Column("Size",
+                    style: "col5",
+                    format: @<text>
+                                <span id="size" class="display-modeO">@item.apparel.ApparelSize</span>
+                                <input type="text" id="Size" class="edit-modeO" size="25" value="@item.apparel.ApparelSize" hidden/>
+                            </text>),
+        grid.Column("Quantity",
+                    style: "col5",
+                    format: @<text>
+                                <span id="quantity" class="display-mode">@item.apparel.ApparelQuantity</span>
+                                <input type="number" id="Quantity" class="edit-mode" size="25" value="@item.apparel.ApparelQuantity" required/>
+                            </text>)
+     )  
+     )    
+
+
+<script>
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-book').on('click', function () {
+            $("#updateMsg").html("");
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+        $('.save-book').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var apparelID = $(this).prop('id');
+            var cost = tr.find('#Cost').val();
+            var discount = tr.find('#Discount').val();
+            var quantity = tr.find('#Quantity').val();
+            var category = tr.find('#Category').val();
+            var size = tr.find("#Size").val();
+            console.log(apparelID);
+            console.log(cost);
+            console.log(discount);
+            console.log(category);
+            console.log(size);
+            var searchUrl = '@Url.Action("UpdateApparel", "Admin")';
+            console.log("in");
+            $.ajax({
+                url: searchUrl,
+                type: "POST",
+                data: { apparelID: apparelID, cost: cost, discount: discount, quantity: quantity, category: category, size: size },
+                success: function (data) {
+                    if (data == "True") {
+                        $("#updateMsg").html("<h2 style=\"color:green\">" + "Apparel Updated Successfully!!" + "</h2>");
+                    }
+                    else {
+                        $("#updateMsg").html("<h2 style=\"color:red\">" + "Unable to Add Apparel!!" + "</h2>");
+
+                    }
+                    tr.find('#cost').text(cost);
+                    tr.find('#discount').text(discount);
+                    tr.find('#quantity').text(quantity);
+                    tr.find('.edit-mode, .display-mode').toggle();
+                }
+            });
+            console.log("out");
+
+        });
+        $(".cancel-book").on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+
+        });
+    });
+</script>
+<style type="text/css">
+        .webGrid {
+    margin: 4px;
+    border: 1px solid;
+    background-color: burlywood;
+    width: 500px;
+}
+
+.webGrid tr td {
+    border: 1px solid;
+}
+
+.header {
+    background-color:antiquewhite;
+}
+
+.altColor {
+    background-color: darkgray;
+}
+
+.button {
+    width: 50px;
+}
+
+span {
+    padding-left: 4px;
+    width : 100px !important;
+}
+input {
+    padding-left: 4px !important;
+    width : 100px !important;
+
+}
+        .selectRow{background-color: #389DF5}
+    </style>

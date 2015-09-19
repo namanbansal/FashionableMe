@@ -4,15 +4,7 @@
     ViewBag.Title = "Offer";
 }
 
-     <style type="text/css">
-        .table { margin: 4px;  width: 500px;  background-color:#FCFCFC; column-gap:1em}
-        .head { background-color: #C1D4E6; font-weight: bold; color: #FFF; }
-        .webGrid th, .webGrid td { border: 1px solid #C0C0C0; padding: 10px; }
-        .altRow { background-color: #E4E9F5; color: #000; }
-        .gridHead a:hover {text-decoration:underline;}
-        .description { width:auto}
-        .selectRow{background-color: #389DF5}
-    </style>
+     
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
@@ -198,8 +190,10 @@
     What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
-<div><h1>@ViewBag.Message</h1></div>
+
 <div id="addPanel">
+<div><h1>@ViewBag.Message</h1></div>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

@@ -169,5 +169,11 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
+        public List<Apparel> getProductByCategory(string category)
+        {
+            AdminDal obj = new AdminDal();
+            return obj.getProductByCategory(category);
+        }
+
     }
 }

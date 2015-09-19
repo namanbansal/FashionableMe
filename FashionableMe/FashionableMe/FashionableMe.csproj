@@ -188,20 +188,26 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BLL\AccountBLL.cs" />
     <Compile Include="BLL\AdminBLL.cs" />
+    <Compile Include="BLL\CustomerBLL.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataAccessLayer\AdminDal.cs" />
+    <Compile Include="DataAccessLayer\CartDAL.cs" />
     <Compile Include="DataAccessLayer\CustomerDal.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AddApparel.cs" />
     <Compile Include="Models\Apparel.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\DetailsViewModel.cs" />
+    <Compile Include="Models\DropDownFormat.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CaptchaImageResult.cs" />
@@ -325,7 +331,13 @@
     <Content Include="Views\Admin\addApparel.cshtml" />
     <Content Include="Views\Admin\_apparelDetails.cshtml" />
     <Content Include="Views\Admin\_apparelDetailsTable.cshtml" />
-    <Content Include="Views\Account\Details.cshtml" />
+    <Content Include="Views\Admin\_updateOffer.cshtml" />
+    <Content Include="Views\Admin\Apparel.cshtml" />
+    <Content Include="Views\Admin\_updateApparel.cshtml" />
+    <Content Include="Views\Customer\Him.cshtml" />
+    <Content Include="Views\Customer\Her.cshtml" />
+    <Content Include="Views\Customer\_productHome.cshtml" />
+    <Content Include="Views\Customer\Kids.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

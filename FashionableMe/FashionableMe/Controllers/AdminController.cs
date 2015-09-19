@@ -54,7 +54,7 @@ namespace FashionableMe.Controllers
         public ActionResult searchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
-            List<Apparel> listApparel = obj.fetchProductByCategory(Convert.ToInt16(val));
+            List<Apparel> listApparel = obj.fetchProductByCategory(val);
             //ViewBag.Message = listApparel[0].ApparelName;
             string msg = "0";
             if (listApparel.Count > 0)
@@ -71,14 +71,26 @@ namespace FashionableMe.Controllers
             
             return (jsonobj.Serialize(model));
         }
-        
 
-        
 
-        public ActionResult addApparel()
+        public ActionResult Apparel()
         {
             ViewBag.categoryData = util.getCategoryDropDown();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Apparel(AddApparel model)
+        {
+            ViewBag.categoryData = util.getCategoryDropDown();
+            AdminBLL obj = new AdminBLL();
+            bool result = obj.addApparel(model);
+            if (result)
+                ViewBag.Message = "Sucessfully added apparel";
+            else
+                ViewBag.Message = "Unable to add apparel";
+
+            return View(model);
         }
 
         //
@@ -111,11 +123,45 @@ namespace FashionableMe.Controllers
         //
         // GET: /Admin/Delete/5
 
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public ActionResult getBrandNames()
         {
-            return View();
+            AdminBLL obj = new AdminBLL();
+            List<DropDownFormat> result = obj.getBrandNames();
+            SelectList resList = new SelectList(result, "value", "name");
+            return Json(resList);
+            
+        }
+        
+
+        [HttpPost]
+        public ActionResult getApparelNameByBrand(string brand)
+        {
+            AdminBLL obj = new AdminBLL();
+            List<DropDownFormat> result = obj.getApparelNameByBrand(brand);
+            SelectList resList = new SelectList(result, "value", "name");
+            return Json(resList);
+            
         }
 
+
+        [HttpPost]
+        public ActionResult getApparelsByBrandAndName(string name, string brand)
+        {
+            AdminBLL obj = new AdminBLL();
+            List<AddApparel> listApparel = obj.getApparelsByBrandAndName(name, brand);
+            return PartialView("_updateApparel", listApparel);
+
+        }
+
+        [HttpPost]
+        public bool UpdateApparel(string apparelID, string  cost, string discount, string quantity, string category, string size )
+        {
+            AdminBLL obj = new AdminBLL();
+            bool result = obj.UpdateApparel(apparelID, cost, discount, quantity, category, size);
+            return result;
+
+        }
         //
         // POST: /Admin/Delete/5
 

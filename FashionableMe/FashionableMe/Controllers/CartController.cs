@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using FashionableMe.BLL;
 using FashionableMe.Models;
 
 namespace FashionableMe.Controllers
 {
-    public class CustomerController : Controller
+    public class CartController : Controller
     {
         //
-        // GET: /Customer/
+        // GET: /Cart/
 
         public ActionResult Index()
         {
@@ -19,45 +18,24 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // GET: /Customer/Details/5
+        // GET: /Cart/Details/5
 
-        public ActionResult Him()
+        public ActionResult OrderNow(int id)
         {
-            ViewBag.Title = "Apparel for Him";
-            CustomerBLL obj = new CustomerBLL();
-            List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Male");
-            return View(model);
+            if (Session["cart"] == null)
+            {
+                List<CartItem> cart = new List<CartItem>();
+                //cart.Add(new CartItem(
+            }
+            else
+            {
 
-        }
-
-        public ActionResult Her()
-        {
-            ViewBag.Title = "Apparel for Her";
-            CustomerBLL obj = new CustomerBLL();
-            List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Female");
-            return View(model);
-
-        }
-
-        public ActionResult Kids()
-        {
-            ViewBag.Title = "Apparel for Kids";
-            CustomerBLL obj = new CustomerBLL();
-            List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Kids");
-            return View(model);
-
-        }
-
-        public ActionResult Details(int id)
-        {
+            }
             return View();
         }
 
         //
-        // GET: /Customer/Create
+        // GET: /Cart/Create
 
         public ActionResult Create()
         {
@@ -65,7 +43,7 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // POST: /Customer/Create
+        // POST: /Cart/Create
 
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -83,7 +61,7 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // GET: /Customer/Edit/5
+        // GET: /Cart/Edit/5
 
         public ActionResult Edit(int id)
         {
@@ -91,7 +69,7 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // POST: /Customer/Edit/5
+        // POST: /Cart/Edit/5
 
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
@@ -109,7 +87,7 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // GET: /Customer/Delete/5
+        // GET: /Cart/Delete/5
 
         public ActionResult Delete(int id)
         {
@@ -117,7 +95,7 @@ namespace FashionableMe.Controllers
         }
 
         //
-        // POST: /Customer/Delete/5
+        // POST: /Cart/Delete/5
 
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)

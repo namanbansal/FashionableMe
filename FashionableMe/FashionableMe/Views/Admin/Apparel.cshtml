@@ -1,0 +1,288 @@
+﻿@model FashionableMe.Models.AddApparel
+
+@{
+    ViewBag.Title = "Add or Update Apparel";
+}
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        
+        $("#updatePanel").hide();
+        $("#small").hide();
+        $("#medium").hide();
+        $("#large").hide();
+        $("#StxtBUttonMF").hide();
+        $("#MtxtBUttonMF").hide();
+        $("#LtxtBUttonMF").hide();
+        $("#quantityPanelMF").hide();
+        $("#quantityPanelKid").hide();
+        $("#SchkButton").change(function (e) {
+            if (this.checked) {
+                $("#small").show();
+            }
+            else {
+                $("#small").hide();
+            }
+        });
+        $("#MchkButton").change(function (e) {
+            if (this.checked) {
+                $("#medium").show();
+            }
+            else {
+                $("#medium").hide();
+            }
+        });
+        $("#LchkButton").change(function (e) {
+            if (this.checked) {
+                $("#large").show();
+            }
+            else {
+                $("#large").hide();
+            }
+        });
+
+
+        $('#radio').click(function () {
+            if ($('#addRadioButton').is(':checked')) {
+                $("#updatePanel").hide();
+                $("#addPanel").show();
+
+            }
+            if ($('#updateRadioButton').is(':checked')) {
+                $("#addPanel").hide();
+                $("#updatePanel").show();
+                $("#apparelNameList").attr("disabled", true);
+                var searchUrl = '@Url.Action("getBrandNames", "Admin")';
+                console.log("in");
+                $.ajax({
+                    url: searchUrl,
+                    type: "POST",
+
+                    success: function (data) {
+                        console.log(data);
+                        var trhtml = "<option value=" + 0 + "> --select--</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            trhtml += "<option value=" + data[x].Value + "> " + data[x].Text + "</option>";
+                        }
+                        $('#brandList').html(trhtml);
+                    }
+                });
+                console.log("out");
+
+
+            }
+        });
+
+        $('#brandList').change(function () {
+            var selectedBrand = $(this).val();
+            console.log(selectedBrand);
+            var searchUrl = '@Url.Action("getApparelNameByBrand", "Admin")';
+            console.log("in");
+            $.ajax({
+                url: searchUrl,
+                type: "POST",
+                data: { brand: selectedBrand },
+                success: function (data) {
+                    console.log(data);
+                    $("#apparelNameList").attr("disabled", false);
+
+                    var trhtml = "<option value=" + 0 + "> --select--</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        trhtml += "<option value=" + data[x].Value + "> " + data[x].Text + "</option>";
+                    }
+                    $('#apparelNameList').html(trhtml);
+                }
+            });
+            console.log("out");
+        });
+
+        $('#apparelNameList').change(function () {
+            var selectedApparel = $(this).val();
+            var selectedBrand = $("#brandList").val();
+            console.log(selectedBrand);
+            console.log(selectedApparel);
+            var searchUrl = '@Url.Action("getApparelsByBrandAndName", "Admin")';
+            console.log("in");
+            $.ajax({
+                url: searchUrl,
+                type: "POST",
+                data: { name: selectedApparel, brand: selectedBrand },
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.length);
+
+                    $('#dynmGrid').html(data);
+                }
+            });
+            console.log("out");
+        });
+
+
+        $("#apparel_ApparelCategory").change(function (e) {
+            e.preventDefault();
+           
+            if ($(this).val() == "1" || $(this).val() == "2") {
+                $("#quantityPanelKid").show();
+                $("#first").html("Small");
+                $("#second").html("Medium");
+                $("#third").html("Large");
+               
+            }
+            if ($(this).val() == "3") {
+                $("#quantityPanelKid").show();
+                $("#first").html("0-1 Years");
+                $("#second").html("2-3 Years");
+                $("#third").html("4-5 Years");
+
+
+            }
+        });
+       
+        
+    });
+    function atleastOneCheckBoxChecked() {
+
+        if ($("#addPanel input[type=checkbox]:checked").length>0) {
+            $("#addErrorPanel").html("");
+            return true;
+        }
+        else {
+            $("#addErrorPanel").html("<h3 style='color:red'>At least one checkbox should be selected!");
+        }
+        return false;
+    }
+    function checkDate() {
+        var EnteredDate = $('input[type=date]').val(); // For JQuery
+        
+        var date = EnteredDate.substring(8, 10);
+        var month = EnteredDate.substring(5, 7);
+        var year = EnteredDate.substring(0, 4);
+        
+        var myDate = new Date(year, month - 1, date);
+
+        var today = new Date();
+
+        if (myDate < today) {
+            alert("Entered date should be greater than today's date ");
+        }
+    }
+</script>
+
+<h2>Add or Update Offer</h2>
+<div id="radio">
+    What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
+  <input type="radio" id="updateRadioButton" name="same" value="Update">Update
+</div>
+
+<div id="addPanel">
+    <div><h1 style="color:green">@ViewBag.Message</h1></div>
+    <h2>Add Apparel Items</h2>
+    <div id="addErrorPanel" style="color:red"></div>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Apparel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.ApparelCategory)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.apparel.ApparelCategory, new SelectList(ViewBag.categoryData, "Value", "Text"))
+            @Html.ValidationMessageFor(model => model.apparel.ApparelCategory)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.ApparelName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.ApparelName)
+            @Html.ValidationMessageFor(model => model.apparel.ApparelName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.Description)
+            @Html.ValidationMessageFor(model => model.apparel.Description)
+        </div>
+
+        <div class="editor-label">
+            
+            @Html.LabelFor(model => model.apparel.BrandName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.BrandName)
+            @Html.ValidationMessageFor(model => model.apparel.BrandName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.ApparelCost)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.ApparelCost)
+            @Html.ValidationMessageFor(model => model.apparel.ApparelCost)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.ApparelImage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.ApparelImage)
+            @Html.ValidationMessageFor(model => model.apparel.ApparelImage)
+        </div>
+
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apparel.ApparelDiscount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.apparel.ApparelDiscount)
+            @Html.ValidationMessageFor(model => model.apparel.ApparelDiscount)
+        </div>
+
+        <div id="quantityPanelKid">
+            <table>
+                <thead><tr><th>Select Age</th><th>Quantity</th></tr></thead>
+                <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)</td></tr>
+                <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)</td></tr>
+                <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)</td></tr>
+            </table>
+        </div>
+        
+        <p>
+            <input type="submit" value="Add item" />
+        </p>
+    </fieldset>
+}
+    </div>
+<div id="updatePanel">
+    <h2 style="align-content:center">Update Apparel Items</h2>
+
+    <div>
+     Brand Name: <select id ="brandList">
+   
+    </select>    
+    </div>   
+    
+    <div>
+     Apparel Name: <select id ="apparelNameList">
+         <option value="0" >--Select--</option>
+   
+    </select>    
+    </div>
+    <div id="dynmGrid"></div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

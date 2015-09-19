@@ -15,8 +15,6 @@ namespace FashionableMe.Controllers
         public ActionResult Index()
         {
             Session["ErrorMessage"] = "No  ERROR Found ";
-            //Session["SessionUser"] = null;
-            //Session["role"] = "visitor";
             //Apparel ap = new Apparel() { ApparelID = 101, ApparelName = "trouser", BrandName="van hussein",ApparelCost= 50M, Description= "very good",ApparelImage= "path1", ApparelCategory="Female",ApparelAddTime= DateTime.Now,ApparelRating= 0,ApparelSize= "XL",QuantityPerSize = 10,ApparelDiscount= 5 };
             //new AdminDal().addProduct(ap);
             ViewBag.Message = Session["ErrorMessage"]; //"Modify this template to jump-start your ASP.NET MVC application.";
@@ -69,17 +67,17 @@ namespace FashionableMe.Controllers
 
         public ActionResult HisPage()
         {
-            return View();
+            return RedirectToAction("Him", "Customer");
         }
 
         public ActionResult HerPage()
         {
-            return View();
+            return RedirectToAction("Her", "Customer");
         }
 
         public ActionResult KidPage()
         {
-            return View();
+            return RedirectToAction("Kids", "Customer");
         }
 
     }

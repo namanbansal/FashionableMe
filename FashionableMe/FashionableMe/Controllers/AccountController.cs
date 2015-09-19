@@ -90,8 +90,13 @@ namespace FashionableMe.Controllers
                     if (accBLL.sendRegisterDetails(model))
                     {
                         ViewBag.Message = "User added successfully!!!";
-                            return View(model);
+                        return View(model);
                     }
+                }
+                else
+                {
+                    ViewBag.Message = "Captcha did not Match! Try Again.";
+                    return View(model);
                 }
              
             }

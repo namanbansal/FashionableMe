@@ -49,12 +49,12 @@ namespace FashionableMe.BLL
         }
 
         public DetailsViewModel getCustomerDetails(string userID)
-        {
-            CustomerDal CustObj = new CustomerDal();
-            if (userID == "000")
+        {   
+            if (userID == string.Empty)
             {
                 return null;
             }
+            CustomerDal CustObj = new CustomerDal();
             return CustObj.getCustomerDetails(userID.ToString());
 
         }

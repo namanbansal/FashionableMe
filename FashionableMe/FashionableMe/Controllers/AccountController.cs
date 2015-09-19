@@ -109,12 +109,12 @@ namespace FashionableMe.Controllers
         public ActionResult Details()
         {
             AccountBLL accBLL = new AccountBLL();
-            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["SessionUser"].ToString());
-            if (model == null)
+            if (Session["SessionUser"] == null)
             {
-                RedirectToAction("Login","Account");
+                return(RedirectToAction("Login","Account","/Account/Details"));
             }
-            ViewBag.Message = "New";
+
+            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["SessionUser"].ToString());
             return View(model);
         }
 
@@ -122,7 +122,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Details(DetailsViewModel model)
-        {
+        {   
             string status = new AccountBLL().CheckAndUpdateCustomer(model);
             ViewBag.Message = status;
             return View();

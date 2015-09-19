@@ -188,6 +188,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BLL\AccountBLL.cs" />
     <Compile Include="BLL\AdminBLL.cs" />
+    <Compile Include="BLL\CartBLL.cs" />
     <Compile Include="BLL\CustomerBLL.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -338,6 +339,7 @@
     <Content Include="Views\Customer\Her.cshtml" />
     <Content Include="Views\Customer\_productHome.cshtml" />
     <Content Include="Views\Customer\Kids.cshtml" />
+    <Content Include="Views\Cart\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

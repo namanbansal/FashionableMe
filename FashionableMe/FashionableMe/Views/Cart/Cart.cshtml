@@ -1,0 +1,36 @@
+﻿@model List<FashionableMe.Models.CartItem>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>My Cart</h2>
+
+<table >
+    <tr>
+        <th>Apparel Name</th><th>Size</th><th>Quantity</th><th>Total Amount</th>
+    </tr>
+        @{
+            decimal sum = 0;
+            decimal price = 0;
+        }
+        @foreach (var item in (List<FashionableMe.Models.CartItem>)Session["cart"])
+        {
+            price = (((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity);
+            sum += price;
+            <tr>
+                <td>@item.Apparel.ApparelName</td>
+                <td>@item.Apparel.ApparelSize</td>
+                <td>@item.Quantity</td>
+                <td>@price</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize})</td>
+            </tr>
+            
+        }
+        <tr>
+            <td align="right" colspan="5">Sum</td>
+            <td>@sum</td>
+        </tr>
+</table>
+
+@Html.ActionLink("Continue Shopping", "Index", "Home")

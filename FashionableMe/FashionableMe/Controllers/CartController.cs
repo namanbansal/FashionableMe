@@ -4,14 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FashionableMe.Models;
+using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
     public class CartController : Controller
     {
+        private CartBLL bllObj;
+        public CartController()
+        {
+            bllObj = new CartBLL();
+        }
+
         //
         // GET: /Cart/
-
         public ActionResult Index()
         {
             return View();
@@ -19,78 +25,48 @@ namespace FashionableMe.Controllers
 
         //
         // GET: /Cart/Details/5
-
-        public ActionResult OrderNow(int id)
+        public ActionResult OrderNow(string id, string size)
         {
+            size = size.Trim();
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
-                //cart.Add(new CartItem(
+                cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                Session["cart"] = cart;
             }
             else
             {
-
+                List<CartItem> cart = (List<CartItem>)Session["cart"];
+                int index = isExisting(Convert.ToInt32(id), size);
+                if (index == -1)
+                    cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                else
+                    cart[index].Quantity++;
+                Session["cart"] = cart;
             }
-            return View();
+            return View("Cart");
         }
 
-        //
-        // GET: /Cart/Create
-
-        public ActionResult Create()
+        private int isExisting(int id, string size)
         {
-            return View();
-        }
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
 
-        //
-        // POST: /Cart/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            for (int i = 0; i < cart.Count; i++)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (cart[i].Apparel.ApparelID == id && cart[i].Apparel.ApparelSize.Equals(size))
+                    return i;
             }
-            catch
-            {
-                return View();
-            }
+            return -1;
         }
-
-        //
-        // GET: /Cart/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Cart/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+       
         //
         // GET: /Cart/Delete/5
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, string size)
         {
+            int index = isExisting(id, size);
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            cart.RemoveAt(index);
             return View();
         }
 

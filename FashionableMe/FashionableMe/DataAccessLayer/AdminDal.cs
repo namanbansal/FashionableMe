@@ -344,6 +344,7 @@ namespace FashionableMe.DataAccessLayer
         public bool UpdateApparel(int apparelID, decimal cost, decimal discount, int quantity, string category, string size)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            bool status = false;
             SqlConnection conn = new SqlConnection(conStr);
             try
             {

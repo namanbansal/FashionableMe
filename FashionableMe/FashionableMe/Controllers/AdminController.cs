@@ -123,11 +123,45 @@ namespace FashionableMe.Controllers
         //
         // GET: /Admin/Delete/5
 
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public ActionResult getBrandNames()
         {
-            return View();
+            AdminBLL obj = new AdminBLL();
+            List<DropDownFormat> result = obj.getBrandNames();
+            SelectList resList = new SelectList(result, "value", "name");
+            return Json(resList);
+            
+        }
+        
+
+        [HttpPost]
+        public ActionResult getApparelNameByBrand(string brand)
+        {
+            AdminBLL obj = new AdminBLL();
+            List<DropDownFormat> result = obj.getApparelNameByBrand(brand);
+            SelectList resList = new SelectList(result, "value", "name");
+            return Json(resList);
+            
         }
 
+
+        [HttpPost]
+        public ActionResult getApparelsByBrandAndName(string name, string brand)
+        {
+            AdminBLL obj = new AdminBLL();
+            List<AddApparel> listApparel = obj.getApparelsByBrandAndName(name, brand);
+            return PartialView("_updateApparel", listApparel);
+
+        }
+
+        [HttpPost]
+        public bool UpdateApparel(string apparelID, string  cost, string discount, string quantity, string category, string size )
+        {
+            AdminBLL obj = new AdminBLL();
+            bool result = obj.UpdateApparel(apparelID, cost, discount, quantity, category, size);
+            return result;
+
+        }
         //
         // POST: /Admin/Delete/5
 

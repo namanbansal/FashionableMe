@@ -82,6 +82,45 @@ namespace FashionableMe.BLL
                 return true;
             return false;
         }
+
+        public List<DropDownFormat> getBrandNames()
+        {
+            AdminDal obj = new AdminDal();
+            List<string> result = new List<string>();
+            List<DropDownFormat> res = new List<DropDownFormat>();
+            result = obj.getBrandNames();
+            foreach (var item in result)
+	        {
+                res.Add(new DropDownFormat(){ name=item, value=item });
+	        }
+            return res;
+        }
         
+        public List<DropDownFormat> getApparelNameByBrand(string brand)
+        {
+            AdminDal obj = new AdminDal();
+            List<string> result = new List<string>();
+            List<DropDownFormat> res = new List<DropDownFormat>();
+            result = obj.getApparelNameByBrand(brand);
+            foreach (var item in result)
+	        {
+                res.Add(new DropDownFormat(){ name=item, value=item });
+	        }
+            return res;
+        }
+
+        public List<AddApparel> getApparelsByBrandAndName(string name, string brand)
+        {
+            AdminDal obj = new AdminDal();
+            List<AddApparel> result = new List<AddApparel>();
+            result = obj.getApparelsByBrandAndName(name, brand);
+            return result;
+        }
+
+        public bool UpdateApparel(string apparelID, string cost, string discount, string quantity, string category, string size)
+        {
+            AdminDal obj = new AdminDal();
+            return obj.UpdateApparel(Convert.ToInt32(apparelID), Convert.ToDecimal(cost), Convert.ToDecimal(discount), Convert.ToInt32(quantity), category, size);
+        }
     }
 }

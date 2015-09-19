@@ -34,6 +34,7 @@ namespace FashionableMe.Models
         [Required]
         [DataType(DataType.PhoneNumber)]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Only 10 characters allowed.")]
+        [RegularExpression("^[1-9]+[0-9]*")]
         public string MobileNumber { get; set; }
 
         [Required]

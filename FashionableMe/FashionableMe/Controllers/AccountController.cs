@@ -14,7 +14,7 @@ using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
-    [Authorize]
+    //[Authorize]
     
     public class AccountController : Controller
     {
@@ -109,11 +109,11 @@ namespace FashionableMe.Controllers
         
 
         //
-        // GET: /Account/Manage
+        // GET: /Account/Details
 
         public ActionResult Details()
         {
-            AccountBLL accBLL = new AccountBLL();
+            //AccountBLL accBLL = new AccountBLL();
             //accBLL.getCustomerDetails(HttpContext.Session["userID"].ToString());
             
             return View();

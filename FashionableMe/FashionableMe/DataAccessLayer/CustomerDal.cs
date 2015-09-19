@@ -49,7 +49,7 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             HttpContext.Current.Session["userRole"] = "visitor";
-            HttpContext.Current.Session["SessionUser"] = "000";
+            //HttpContext.Current.Session["SessionUser"] = "000";
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             try

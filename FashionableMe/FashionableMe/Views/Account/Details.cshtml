@@ -11,6 +11,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".editor-field").children().prop("readonly", true);
+        $(".editor-field").children().css("background-color","lightgrey");
         $(':radio:not(:checked)').attr('disabled', true);
         $("#passField").hide();
         
@@ -20,7 +21,7 @@
             $(':radio:not(:checked)').attr('disabled', false);
             $(this).hide();
             $(".hiddenButton").show();
-            
+            $(".editor-field").children().css("background-color","white");
         });
 
         $("#passLink").click(function () {
@@ -34,8 +35,7 @@
 </script>
 
 
-<h2>Details</h2>
-<h3>@ViewBag.Message</h3>
+<h2>Customer Details</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -138,11 +138,9 @@
              <input class="hiddenButton" type="button" value="Cancel" hidden onclick="location.href='@Url.Action("Details", "Account")' "/>
         </p>
     </fieldset>
+    <h3 style="font-weight:bold ; font-size: x-large ; color: forestgreen ">@ViewBag.Message</h3>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

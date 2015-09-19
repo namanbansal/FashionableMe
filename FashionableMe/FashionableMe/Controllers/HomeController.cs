@@ -72,7 +72,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult HerPage()
         {
-            return RedirectToAction("His", "Customer");
+            return RedirectToAction("Her", "Customer");
         }
 
         public ActionResult KidPage()

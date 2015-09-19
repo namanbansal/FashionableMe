@@ -1,0 +1,157 @@
+﻿@model IEnumerable<FashionableMe.Models.Apparel>
+
+@{
+    ViewBag.Title = "Her";
+}
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    function showDetails(id, name, brand, description, discount, image, cost){
+        $("#apparelName").text(name);
+        $("#brandName").text(brand);
+        $("#apparelDescription").text(description);
+        $("#apparelDiscount").text(discount);
+        $("#apparelImage").text(image);
+        var sellingFare = cost - ((cost*discount)/100.0);
+        $("#originalFare").text(cost);
+        $("#sellingFare").text(sellingFare);
+
+        $("#listPanel").hide();
+        $("#detailsPanel").show();
+
+        console.log(id, name, brand, description, discount, image, cost);
+    }
+    $(document).ready(function () {
+        $("#detailsPanel").hide();
+        
+        $("#Category").change(function (e) {
+            e.preventDefault();
+            var searchUrl = '@Url.Action("searchByCategory", "Admin")';
+            var rsltval = $(this).val();
+            if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
+                $.ajax({
+                    url: searchUrl,
+                    data: { val: rsltval },
+                    type: "POST",
+                    success: function (data) {
+                        $("#dynm").html(data);
+                    }
+                });
+            }
+        });
+        $("#backToCollection").click(function(){
+            $("#detailsPanel").hide();
+            $("#listPanel").show();
+        });
+
+    });
+    </script>
+<h2 style="color:cadetblue">Apparel for Her</h2>
+
+<div id="listPanel">
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelImage)
+        </th>
+        
+        @*<th>
+            @Html.DisplayNameFor(model => model.ApparelRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApparelDiscount)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelImage)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ApparelCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelAddTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelRating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApparelDiscount)
+        </td>*@
+        <td>
+            <input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelDiscount)    ', '@(item.ApparelImage)    ', '@(item.ApparelCost)    ')" />
+            
+            @*@Html.ActionLink("View Details", "Details", new { id=item.ApparelID }) |*@
+        </td>
+    </tr>
+}
+    
+</table>
+    </div>
+<div id="detailsPanel">
+    <table>
+            
+        <tr><td>Name of the Apparel</td><td id="apparelName"></td></tr>
+        <tr><td>Brand Name</td><td id="brandName"></td></tr>
+        <tr><td>Apparel Description</td><td id="apparelDescription"></td></tr>
+        <tr><td>Discount Percentage</td><td id="apparelDiscount"></td></tr>
+        <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
+    </table>
+        <br />
+    <table>
+        <tr>
+            <td align="left"><input type="button" id="backToCollection" value="Back To Collection" /></td> 
+            <td align="right"><label >Original Fare:</label><label id="originalFare"></label></td>
+        </tr>
+        <tr>
+            <td><label>Select from the Available Size</label>
+                 <select id="sizeDropDown"> 
+                     <option value="0">--Select--</option>
+                     <option value="1">S</option>
+                     <option value="2">M</option>
+                     <option value="3">L</option>
+                 </select>
+                </td>
+            <td>
+                <label style="align-self:center">Selling Fare:</label><label id="sellingFare"></label>
+            </td>
+        </tr>
+    </table>
+    <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;color:green"/>
+
+</div>

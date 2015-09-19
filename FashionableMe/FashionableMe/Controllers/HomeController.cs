@@ -67,17 +67,17 @@ namespace FashionableMe.Controllers
 
         public ActionResult HisPage()
         {
-            return View();
+            return RedirectToAction("Him", "Customer");
         }
 
         public ActionResult HerPage()
         {
-            return View();
+            return RedirectToAction("His", "Customer");
         }
 
         public ActionResult KidPage()
         {
-            return View();
+            return RedirectToAction("Kids", "Customer");
         }
 
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FashionableMe.BLL;
+using FashionableMe.Models;
 
 namespace FashionableMe.Controllers
 {
@@ -18,6 +20,25 @@ namespace FashionableMe.Controllers
 
         //
         // GET: /Customer/Details/5
+
+        public ActionResult Him()
+        {
+            ViewBag.Title = "Apparel for Him";
+            CustomerBLL obj = new CustomerBLL();
+            List<Apparel> model = new List<Apparel>();
+            model = obj.getProductByCategory("Male");
+            return View(model);
+
+        }
+
+        public ActionResult Her()
+        {
+            CustomerBLL obj = new CustomerBLL();
+            List<Apparel> model = new List<Apparel>();
+            model = obj.getProductByCategory("Female");
+            return View(model);
+
+        }
 
         public ActionResult Details(int id)
         {

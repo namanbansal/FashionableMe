@@ -190,8 +190,10 @@
     What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
-<div><h1>@ViewBag.Message</h1></div>
+
 <div id="addPanel">
+<div><h1>@ViewBag.Message</h1></div>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

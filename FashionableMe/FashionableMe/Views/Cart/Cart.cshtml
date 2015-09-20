@@ -3,7 +3,61 @@
 @{
     ViewBag.Title = "Cart";
 }
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".editQuantity").hide();
+        $(".updatePanel").hide();
+        $(".cancel").hide();
+
+        $(".edit").click(function () {
+            var tr = $(this).parents('tr:first');
+            var apparelID = $(this).prop('id');
+            console.log("edit click", apparelID);
+            tr.find("#Quantity").hide();
+            tr.find("#Edit").hide();
+            tr.find("#EditQuantity").show();
+            tr.find(".updatePanel").show();
+            tr.find("#Cancel").show();
+
+        });
+        $(".updatePanel").click(function () {
+            var tr = $(this).parents('tr:first');
+            var apparelID = $(this).prop('id');
+            console.log(apparelID);
+            var size = tr.find("#Size").text();
+            console.log(size);
+            var quantity = (tr.find("#EditQuantity").val());
+
+            var searchUrl = '@Url.Action("updateCart", "Cart")';
+                $.ajax({
+                    url: searchUrl,
+                    data: { id: apparelID, size:size, quantity:quantity },
+                    type: "POST",
+                    success: function (data) {
+                        window.location.href = '@Url.Action("Index", "Cart")';
+                    }
+                    
+                });
+        });
+        $(".cancel").click(function () {
+            var tr = $(this).parents('tr:first');
+            tr.find(".updatePanel").hide();
+            tr.find("#EditQuantity").hide();
+            tr.find("#Cancel").hide();
+            tr.find("#Quantity").show();
+            tr.find("#Edit").show();
+            
+        });
+        
+    });
+    function updateQ(quant){
+
+    }
+    </script>
 <h2>My Cart</h2>
 
 <table >
@@ -20,10 +74,16 @@
             sum += price;
             <tr>
                 <td>@item.Apparel.ApparelName</td>
-                <td>@item.Apparel.ApparelSize</td>
-                <td>@item.Quantity</td>
+                <td id="Size">@item.Apparel.ApparelSize</td>
+                <td ><label class="quantity" id="Quantity">@item.Quantity</label>
+                <input class="editQuantity" id="EditQuantity" type="number" value="@item.Quantity"/></td>
                 <td>@price</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize},null)</td>
+                
+                <td>
+                    <input type="button" class="edit" id="Edit" value="Edit" />
+                    <input type="button" class="updatePanel" id="@item.Apparel.ApparelID" value="Update" />
+                    <input type="button" class="cancel" id="Cancel" value="Cancel" />
+                    @Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize},null)</td>
             </tr>
             
         }

@@ -20,7 +20,7 @@ namespace FashionableMe.Controllers
         // GET: /Cart/
         public ActionResult Index()
         {
-            return View();
+            return View("Cart");
         }
 
         //
@@ -45,6 +45,27 @@ namespace FashionableMe.Controllers
                 Session["cart"] = cart;
             }
             return View("Cart");
+        }
+
+        [HttpPost]
+        public bool updateCart(string id, string size, int quantity)
+        {
+            size = size.Trim();
+            bool status=false;
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            int index = isExisting(Convert.ToInt32(id), size);
+            if (index == -1)
+                //cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                ViewBag.Message = "Unable to Update Cart!";
+            else
+            {
+                cart[index].Quantity = quantity;
+                ViewBag.Message = "Cart Updated!";
+                status = true;
+
+            }
+            Session["cart"] = cart;
+            return status;
         }
 
         private int isExisting(int id, string size)

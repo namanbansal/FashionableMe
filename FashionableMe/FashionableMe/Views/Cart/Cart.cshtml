@@ -23,7 +23,7 @@
                 <td>@item.Apparel.ApparelSize</td>
                 <td>@item.Quantity</td>
                 <td>@price</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize})</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize},null)</td>
             </tr>
             
         }

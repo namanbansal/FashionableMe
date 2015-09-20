@@ -67,25 +67,12 @@ namespace FashionableMe.Controllers
             int index = isExisting(id, size);
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             cart.RemoveAt(index);
-            return View();
+            return View("Cart");
         }
 
         //
         // POST: /Cart/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

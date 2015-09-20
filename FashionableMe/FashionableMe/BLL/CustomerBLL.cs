@@ -18,5 +18,9 @@ namespace FashionableMe.BLL
         {
             return dalObj.getProductByCategory(category);
         }
+        public List<Quantity> getQuantityDetails(string apparelID)
+        {
+            return dalObj.getQuantityDetails(Convert.ToInt32(apparelID.Trim()));
+        }
     }
 }

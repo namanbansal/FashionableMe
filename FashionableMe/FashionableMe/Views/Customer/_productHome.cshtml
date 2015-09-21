@@ -5,40 +5,115 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
 <script type="text/javascript">
-    function showDetails(id, name, brand, description, discount, image, cost){
+    function showDetails(id, name, brand, description, image){
+        $("#apparelId").val(id);
         $("#apparelName").text(name);
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
-        $("#apparelDiscount").text(discount);
+        //$("#apparelDiscount").text(discount);
         $("#apparelImage").text(image);
-        var sellingFare = cost - ((cost*discount)/100.0);
-        $("#originalFare").text(cost);
-        $("#sellingFare").text(sellingFare);
+        //var sellingFare = cost - ((cost*discount)/100.0);
+        //$("#originalFare").text(cost);
+        //$("#sellingFare").text(sellingFare);
+        console.log(id);
+        var rsltval = id;
+        var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
+            $.ajax({
+                url: searchUrl,
+                data: { apparelID: rsltval },
+                type: "POST",
+                success: function (data) {
+                    var data = JSON.parse(data);
+                    $("#quantityS").val('0')
+                    $("#quantityM").val('0')
+                    $("#quantityL").val('0')
 
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].ApparelSize == "S"){
+                            $("#apparelDiscountS").text(data[i].ApparelDiscount);
+                            $("#originalFareS").text(data[i].ApparelCost);
+                            $("#sellingFareS").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#quantityS").val(data[i].ApparelQuantity);
+
+                        }
+                        else if(data[i].ApparelSize == "M"){
+                            $("#apparelDiscountM").text(data[i].ApparelDiscount);
+                            $("#originalFareM").text(data[i].ApparelCost);
+                            $("#sellingFareM").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#quantityM").val(data[i].ApparelQuantity);
+
+                        }
+                        if(data[i].ApparelSize == "L"){
+                            $("#apparelDiscountL").text(data[i].ApparelDiscount);
+                            $("#originalFareL").text(data[i].ApparelCost);
+                            $("#sellingFareL").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#quantityL").val(data[i].ApparelQuantity);
+
+                        }
+
+                    }
+                    $(".apparelCategoryS").hide();
+                    $(".apparelCategoryM").hide();
+                    $(".apparelCategoryL").hide();
+                }
+            });
         $("#listPanel").hide();
         $("#detailsPanel").show();
 
-        console.log(id, name, brand, description, discount, image, cost);
+        console.log(id, name, brand, description, image);
+    }
+    function sendData(){
+        var id = $("#apparelId").val().trim();
+        var size = $("#sizeDropDown").val().trim();
+        console.log(id, size);
+        
+
+        var link = '@Html.Raw(@Url.Action("OrderNow", "Cart", new { id = -1, size= -2 }))';
+        link = link.replace("-1", id);
+        link = link.replace("-2", size);
+        console.log(link);
+        window.location = link;
     }
     $(document).ready(function () {
         $("#detailsPanel").hide();
         
-        $("#Category").change(function (e) {
+        $("#sizeDropDown").change(function (e) {
             e.preventDefault();
-            var searchUrl = '@Url.Action("searchByCategory", "Admin")';
             var rsltval = $(this).val();
-            if ($(this).val() == "1" || $(this).val() == "2" || $(this).val() == "3") {
-                $.ajax({
-                    url: searchUrl,
-                    data: { val: rsltval },
-                    type: "POST",
-                    success: function (data) {
-                        $("#dynm").html(data);
-                    }
-                });
+            console.log("dropval");
+            console.log(rsltval);
+            $(".apparelCategoryS").hide();
+            $(".apparelCategoryM").hide();
+            $(".apparelCategoryL").hide();
+            $("#addToCart").attr("disabled", false);
+
+            if(rsltval == "S"){
+                $(".apparelCategoryS").show();
+                console.log($("#quantityS").val());
+                if(parseInt($("#quantityS").val())<1)
+                    $("#addToCart").attr("disabled", true);
+
             }
+            if(rsltval == "M"){
+                console.log($("#quantityM").val());
+
+                $(".apparelCategoryM").show();
+                if(parseInt($("#quantityM").val())<1)
+                    $("#addToCart").attr("disabled", true);
+            }
+            if(rsltval == "L"){
+                console.log($("#quantityL").val());
+
+                $(".apparelCategoryL").show();
+                if(parseInt($("#quantityL").val())<1)
+                    $("#addToCart").attr("disabled", true);
+            }
+                
+
+
         });
         $("#backToCollection").click(function(){
+            $("#sizeDropDown").val("0");
             $("#detailsPanel").hide();
             $("#listPanel").show();
         });
@@ -148,7 +223,7 @@
             @Html.DisplayFor(modelItem => item.ApparelDiscount)
         </td>*@
         <td>
-            <input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelDiscount)    ', '@(item.ApparelImage)    ', '@(item.ApparelCost)    ')" />
+            <input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelImage) ')" />
             
             @*@Html.ActionLink("View Details", "Details", new { id=item.ApparelID }) |*@
         </td>
@@ -158,35 +233,39 @@
 </table>
     </div>
 <div id="detailsPanel">
+    <input type="hidden" id="apparelId"  />
+    <input type="hidden" id="quantityS"  />
+    <input type="hidden" id="quantityM"  />
+    <input type="hidden" id="quantityL"  />
     <table>
             
         <tr><td>Name of the Apparel</td><td id="apparelName"></td></tr>
         <tr><td>Brand Name</td><td id="brandName"></td></tr>
         <tr><td>Apparel Description</td><td id="apparelDescription"></td></tr>
-        <tr><td>Discount Percentage</td><td id="apparelDiscount"></td></tr>
+        <tr><td>Discount Percentage</td><td class="apparelCategoryS" id="apparelDiscountS"></td><td class="apparelCategoryM" id="apparelDiscountM"></td><td class="apparelCategoryL" id="apparelDiscountL"></td></tr>
         <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
     </table>
         <br />
     <table>
         <tr>
             <td align="left"><input type="button" id="backToCollection" value="Back To Collection" /></td> 
-            <td align="right"><label >Original Fare:</label><label id="originalFare"></label></td>
+            <td align="right"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
         </tr>
         <tr>
             <td><label>Select from the Available Size</label>
                  <select id="sizeDropDown"> 
-                     <option value="0">--Select--</option>
-                     <option value="1">S</option>
-                     <option value="2">M</option>
-                     <option value="3">L</option>
+                     <option value="E">--Select--</option>
+                     <option value="S">S</option>
+                     <option value="M">M</option>
+                     <option value="L">L</option>
                  </select>
                 </td>
             <td>
-                <label style="align-self:center">Selling Fare:</label><label id="sellingFare"></label>
+                <label style="align-self:center">Selling Fare:</label><label class="apparelCategoryS" id="sellingFareS"></label><label class="apparelCategoryM" id="sellingFareM"></label><label class="apparelCategoryL" id="sellingFareL"></label>
             </td>
         </tr>
     </table>
-    <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;color:green"/>
+    <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;background-color:green" onclick="sendData()"/>
 
 </div>
 

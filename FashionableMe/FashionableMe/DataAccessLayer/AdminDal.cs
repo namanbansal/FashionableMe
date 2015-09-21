@@ -309,8 +309,7 @@ namespace FashionableMe.DataAccessLayer
                         prodObj.apparel.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
                         //prodObj.apparel.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
                         prodObj.apparel.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize"));
-                        int quant = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
-                        prodObj.apparel.ApparelQuantity = quant.ToString();
+                        prodObj.apparel.ApparelQuantity = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
                         prodObj.apparel.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
                         //if (prodObj.apparel.ApparelSize == "S")
                         //{

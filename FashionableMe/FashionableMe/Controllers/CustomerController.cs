@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FashionableMe.BLL;
 using FashionableMe.Models;
+using System.Web.Script.Serialization;
 
 namespace FashionableMe.Controllers
 {
@@ -49,6 +50,28 @@ namespace FashionableMe.Controllers
             model = obj.getProductByCategory("Kids");
             return View(model);
 
+        }
+
+        [HttpPost]
+        public ActionResult searchByCategory(string val)
+        {
+            CustomerBLL obj = new CustomerBLL();
+            List<Apparel> listApparel = obj.getProductByCategory(val);
+            //ViewBag.Message = listApparel[0].ApparelName;
+            string msg = "0";
+            if (listApparel.Count > 0)
+                msg = listApparel[0].ApparelName;
+            return PartialView("_apparelDetailsTable", listApparel);
+        }
+
+        [HttpPost]
+        public string getQuantityDetails(string apparelID)
+        {
+            CustomerBLL obj = new CustomerBLL();
+            List<Quantity> quantityDetails = obj.getQuantityDetails(apparelID);
+            JavaScriptSerializer jsonobj = new JavaScriptSerializer();
+
+            return (jsonobj.Serialize(quantityDetails));
         }
 
         public ActionResult Details(int id)

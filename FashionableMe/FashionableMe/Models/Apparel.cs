@@ -24,8 +24,7 @@ namespace FashionableMe.Models
         public DateTime ApparelAddTime { get; set; }
         public int ApparelRating { get; set; }
         public string ApparelSize { get; set; }
-        public string ApparelQuantity{get; set;}
-
+        public int ApparelQuantity{get; set;}
         [Required]
         [RegularExpression(@"^[1-9](?:\d*\.)?\d+$", ErrorMessage = "Discount should be only numeric greater than zero")]
         public decimal ApparelDiscount { get; set; }

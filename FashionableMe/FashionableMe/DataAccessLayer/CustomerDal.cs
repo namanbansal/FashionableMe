@@ -171,8 +171,70 @@ namespace FashionableMe.DataAccessLayer
 
         public List<Apparel> getProductByCategory(string category)
         {
-            AdminDal obj = new AdminDal();
-            return obj.getProductByCategory(category);
+            List<Apparel> dataRows = new List<Apparel>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Select * from Apparel where ApparelCategory=@category", conn);
+                cmd.Parameters.AddWithValue("category", category.Trim());
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Apparel prodObj = new Apparel();
+                        prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
+                        prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
+                        prodObj.Description = reader.GetString(reader.GetOrdinal("Description"));
+                        prodObj.ApparelImage = reader.GetString(reader.GetOrdinal("ApparelImage"));
+                        prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
+                        prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
+                        dataRows.Add(prodObj);
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return dataRows;
+        }
+
+        public List<Quantity> getQuantityDetails(int apparelID)
+        {
+            List<Quantity> dataRows = new List<Quantity>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Select * from Quantity where ApparelID=@apparelID", conn);
+                cmd.Parameters.AddWithValue("apparelID", apparelID);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Quantity prodObj = new Quantity();
+                        prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        prodObj.ApparelCost = reader.GetDecimal(reader.GetOrdinal("ApparelCost"));
+                        prodObj.ApparelSize = reader.GetString(reader.GetOrdinal("ApparelSize")).Trim();
+                        prodObj.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
+                        prodObj.ApparelQuantity = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
+                        dataRows.Add(prodObj);
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return dataRows;
         }
 
     }

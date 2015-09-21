@@ -113,12 +113,13 @@ namespace FashionableMe.DataAccessLayer
         }
 
 
-        public bool CheckAndUpdateCustomer(DetailsViewModel model)
+        public bool CheckAndUpdateCustomer(DetailsViewModel model,out int statusCode)
         {
             bool status = false;
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             SqlCommand cmd;
+            statusCode = 0;
             string userID = HttpContext.Current.Session["SessionUser"].ToString();
             try
             {
@@ -133,7 +134,8 @@ namespace FashionableMe.DataAccessLayer
                     int count = (Int32)cmd.ExecuteNonQuery() ;
                     if (count == 0)
                     {
-                        HttpContext.Current.Session["ErroMessage"] = "Old Password is NOT Correct ";
+                        HttpContext.Current.Session["ErrorMessage"] = "Old Password is NOT Correct ";
+                        statusCode = 1;
                         status = false;
                     }
                     else
@@ -156,6 +158,7 @@ namespace FashionableMe.DataAccessLayer
                     if (success > 0)
                     {
                         status = true;
+                        statusCode = 0;
                     }
                 }
 
@@ -163,6 +166,7 @@ namespace FashionableMe.DataAccessLayer
             catch (Exception Exc)
             {
                 HttpContext.Current.Session["ErrorMessage"] = Exc.Message;
+                statusCode = 2;
             }
 
             conn.Close();

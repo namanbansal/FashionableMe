@@ -39,7 +39,8 @@
            
         });
 
-        
+        ast = $("<b> * <b>").css("color", "red");
+        $("label").append(ast);
 
     });
     function checkAge() {
@@ -96,7 +97,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <span id="IsRegistered">@ViewBag.Message</span>
+    <span id="IsRegistered" style="color : red">@ViewBag.Message</span>
     <fieldset>
         <legend>Customer</legend>
         <ol>

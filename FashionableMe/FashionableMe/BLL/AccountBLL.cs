@@ -59,7 +59,7 @@ namespace FashionableMe.BLL
 
         }
 
-        public string CheckAndUpdateCustomer(DetailsViewModel model)
+        public string CheckAndUpdateCustomer(DetailsViewModel model,out int statusCode)
         {
             string status = "";
             model.OldPassword = model.OldPassword ?? "" ;
@@ -70,7 +70,8 @@ namespace FashionableMe.BLL
             }
 
             CustomerDal dalObj = new CustomerDal();
-            if (dalObj.CheckAndUpdateCustomer(model))
+            statusCode = 0;
+            if (dalObj.CheckAndUpdateCustomer(model,out statusCode))
                 status = "Updated Successfully";
             else
                 status = HttpContext.Current.Session["ErrorMessage"].ToString();

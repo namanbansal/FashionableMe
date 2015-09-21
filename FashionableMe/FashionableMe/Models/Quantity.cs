@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace FashionableMe.Models
 {
@@ -11,6 +12,7 @@ namespace FashionableMe.Models
         public decimal ApparelCost { get; set; }
         public string ApparelSize { get; set; }
         public decimal ApparelDiscount { get; set; }
+        [RegularExpression("[1-9][0-9]*")]
         public int ApparelQuantity { get; set; }
 
     }

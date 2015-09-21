@@ -14,6 +14,7 @@ namespace FashionableMe.Models
         [Required]
         public string BrandName { get; set; }
         [Required]
+        [RegularExpression(@"^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$", ErrorMessage = "Cost should be only numeric greater than zero")]
         public decimal ApparelCost { get; set; }
         [Required]
         public string Description { get; set; }
@@ -26,7 +27,7 @@ namespace FashionableMe.Models
         public string ApparelSize { get; set; }
         public int ApparelQuantity{get; set;}
         [Required]
-        [RegularExpression(@"^[1-9](?:\d*\.)?\d+$", ErrorMessage = "Discount should be only numeric greater than zero")]
+        [RegularExpression(@"^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$", ErrorMessage = "Discount should be only numeric greater than zero")]
         public decimal ApparelDiscount { get; set; }
 
     }

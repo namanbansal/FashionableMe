@@ -28,6 +28,9 @@ namespace FashionableMe.Controllers
         public ActionResult OrderNow(string id, string size)
         {
             size = size.Trim();
+            if (Session["SessionUser"] == null)
+                return RedirectToAction("Login", "Account");
+
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
@@ -40,6 +43,35 @@ namespace FashionableMe.Controllers
                 int index = isExisting(Convert.ToInt32(id), size);
                 if (index == -1)
                     cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                else
+                    cart[index].Quantity++;
+                Session["cart"] = cart;
+            }
+            return View("Cart");
+        }
+
+        public ActionResult OrderNowOffer(string id, string size, string offerDiscount)
+        {
+            size = size.Trim();
+            if (Session["SessionUser"] == null)
+                return RedirectToAction("Login", "Account");
+
+            Apparel apparel = new Apparel();
+            apparel = bllObj.getApparelForCart(id, size);
+            apparel.ApparelDiscount += Convert.ToDecimal(offerDiscount);
+            if (Session["cart"] == null)
+            {
+                List<CartItem> cart = new List<CartItem>();
+                
+                cart.Add(new CartItem(apparel, 1));
+                Session["cart"] = cart;
+            }
+            else
+            {
+                List<CartItem> cart = (List<CartItem>)Session["cart"];
+                int index = isExisting(Convert.ToInt32(id), size);
+                if (index == -1)
+                    cart.Add(new CartItem(apparel, 1));
                 else
                     cart[index].Quantity++;
                 Session["cart"] = cart;

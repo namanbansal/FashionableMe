@@ -204,6 +204,41 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
+        public List<Apparel> getApparelByID(int id)
+        {
+            List<Apparel> dataRows = new List<Apparel>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Select * from Apparel where ApparelID=@id", conn);
+                cmd.Parameters.AddWithValue("id", id);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Apparel prodObj = new Apparel();
+                        prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        prodObj.ApparelName = reader.GetString(reader.GetOrdinal("ApparelName"));
+                        prodObj.BrandName = reader.GetString(reader.GetOrdinal("BrandName"));
+                        prodObj.Description = reader.GetString(reader.GetOrdinal("Description"));
+                        prodObj.ApparelImage = reader.GetString(reader.GetOrdinal("ApparelImage"));
+                        prodObj.ApparelCategory = reader.GetString(reader.GetOrdinal("ApparelCategory"));
+                        prodObj.ApparelRating = reader.GetInt32(reader.GetOrdinal("ApparelRating"));
+                        dataRows.Add(prodObj);
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return dataRows;
+        }
+
         public List<Quantity> getQuantityDetails(int apparelID)
         {
             List<Quantity> dataRows = new List<Quantity>();
@@ -236,6 +271,41 @@ namespace FashionableMe.DataAccessLayer
             conn.Close();
             return dataRows;
         }
+
+        public Offer getTodaysOffer(string date)
+        {
+            Offer obj = new Offer();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferDate=@offdate", conn);
+                cmd.Parameters.AddWithValue("offdate", date);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        //Offer obj = new Offer();
+                        obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
+                        obj.OfferDescription = reader.GetString(reader.GetOrdinal("OfferDescription"));
+                        obj.ApparelID = reader.GetInt32(reader.GetOrdinal("OfferApparelID"));
+                        obj.Discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
+                        //objlist.Add(obj);
+                    }
+                }
+                conn.Close();
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return obj;
+        }
+
+        
 
     }
 }

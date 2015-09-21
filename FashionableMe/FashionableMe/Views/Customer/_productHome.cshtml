@@ -55,6 +55,33 @@
                     $(".apparelCategoryS").hide();
                     $(".apparelCategoryM").hide();
                     $(".apparelCategoryL").hide();
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].ApparelSize == "S"){
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryS").show();
+                                $('#sizeDropDown option[value=S]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                        else if(data[i].ApparelSize == "M"){
+
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryM").show();
+                                $('#sizeDropDown option[value=M]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                        if(data[i].ApparelSize == "L"){
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryL").show();
+                                $('#sizeDropDown option[value=L]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                    }
                 }
             });
         $("#listPanel").hide();
@@ -202,7 +229,8 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ApparelImage)
+            
+            <img src="@item.ApparelImage" />
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.ApparelCategory)

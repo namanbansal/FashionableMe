@@ -16,11 +16,11 @@ namespace FashionableMe.Controllers
     {
         //
         // GET: /Admin/
-        UtilityFunctions util = new UtilityFunctions();
+        
 
         public ActionResult Index()
         {
-            Session["s"] = "b";
+           
             
             return View();
         }
@@ -30,7 +30,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult Offer()
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
 
@@ -39,7 +39,7 @@ namespace FashionableMe.Controllers
         {
             AdminBLL obj = new AdminBLL();
            List<SelectListItem> defaultList = new List<SelectListItem>();
-           defaultList = util.getCategoryDropDown();
+           defaultList = UtilityFunctions.getCategoryDropDown();
            // defaultList[0].Selected= false;
             
            // defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
@@ -85,14 +85,14 @@ namespace FashionableMe.Controllers
 
         public ActionResult Apparel()
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
 
         [HttpPost]
         public ActionResult Apparel(AddApparel model)
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             AdminBLL obj = new AdminBLL();
             bool result = obj.addApparel(model);
             if (result)

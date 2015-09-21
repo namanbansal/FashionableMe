@@ -23,7 +23,7 @@ namespace FashionableMe.Models
         [Required]
         public int ApparelID { get; set; }
         [Required]
-        [RegularExpression(@"^[1-9](?:\d*\.)?\d+$", ErrorMessage="Discount should be only numeric greater than zero")]
+        [RegularExpression(@"^[1-9](?:\d*\.)?\d*$", ErrorMessage="Discount should be only numeric greater than zero")]
         public decimal Discount { get; set; }
 
         

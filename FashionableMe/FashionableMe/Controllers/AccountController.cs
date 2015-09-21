@@ -63,6 +63,8 @@ namespace FashionableMe.Controllers
         public ActionResult LogOff()
         {
             Session["SessionUser"] = null;
+            Session["UserRole"] = null;
+            Session["cart"] = null;
 
             return RedirectToAction("Index", "Home");
         }

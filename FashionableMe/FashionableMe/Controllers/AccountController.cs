@@ -41,7 +41,11 @@ namespace FashionableMe.Controllers
                 AccountBLL accBLL = new AccountBLL();
                 if (accBLL.checkLoginDetails(model))
                 {
-                    Session["userID"] = model.UserID;
+                    if (Convert.ToString(Session["UserRole"]) == "admin")
+                    {
+                        return RedirectToAction("Offer", "Admin");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
             }

@@ -9,6 +9,7 @@ using FashionableMe.Utils;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
 
+
 namespace FashionableMe.Controllers
 {
     public class AdminController : Controller
@@ -16,9 +17,10 @@ namespace FashionableMe.Controllers
         //
         // GET: /Admin/
         UtilityFunctions util = new UtilityFunctions();
+
         public ActionResult Index()
         {
-           
+            Session["s"] = "b";
             
             return View();
         }
@@ -42,11 +44,19 @@ namespace FashionableMe.Controllers
             
            // defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
             ViewBag.categoryData = defaultList;
-            
+
             if (obj.addOffer(model))
                 ViewBag.Message = "Offer Added Successfully";
             else
-                ViewBag.Message = "Unable to add Offer";
+            {
+                if (Convert.ToString(Session["ErrorMessage"]) == "Offer with Same Date exists")
+                {
+                    ViewBag.Message = "Offer with Same Date exists.Try Updating with same date!";
+                    
+                }
+                else
+                    ViewBag.Message = "Unable to add Offer";
+            }
             return View(model); ;
         }
 

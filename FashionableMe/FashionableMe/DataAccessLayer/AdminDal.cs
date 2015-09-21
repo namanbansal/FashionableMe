@@ -115,6 +115,11 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            if (hasOfferWithSameDate( OfferObj.OfferDate ))
+            {
+                HttpContext.Current.Session["ErrorMessage"] = "Offer with Same Date exists";
+                return status;
+            }
             SqlConnection conn = new SqlConnection(conStr);
             try
             {
@@ -172,7 +177,28 @@ namespace FashionableMe.DataAccessLayer
             return obj;
         }
 
-
+        public bool hasOfferWithSameDate(DateTime date)
+        {
+            bool status = false;
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) from Offer where OfferDate=@offdate", conn);
+                cmd.Parameters.AddWithValue("offdate", date);
+                var reader = Convert.ToInt32(cmd.ExecuteScalar());
+                if (reader > 0)
+                    status = true;
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = "Offer with same name exists";
+            }
+            conn.Close();
+            return status;
+        }
+        
         public bool updateOfferByDate(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;

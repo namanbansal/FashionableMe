@@ -101,7 +101,7 @@ namespace FashionableMe.BLL
             AdminDal obj = new AdminDal();
             List<string> result = new List<string>();
             List<DropDownFormat> res = new List<DropDownFormat>();
-            result = obj.getApparelNameByBrand(brand);
+            result = obj.getApparelNameByBrand(brand.Trim());
             foreach (var item in result)
 	        {
                 res.Add(new DropDownFormat(){ name=item, value=item });

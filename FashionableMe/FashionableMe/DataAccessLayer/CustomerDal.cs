@@ -48,7 +48,7 @@ namespace FashionableMe.DataAccessLayer
         public bool LoginCheck(LoginModel login)
         {
             bool status = false;
-            HttpContext.Current.Session["userRole"] = "visitor";
+            HttpContext.Current.Session["UserRole"] = "visitor";
             //HttpContext.Current.Session["SessionUser"] = "000";
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -64,9 +64,9 @@ namespace FashionableMe.DataAccessLayer
                 {   
                     HttpContext.Current.Session["SessionUser"] = login.UserID;
                     if(login.UserID.ToLower() == "adminfme")
-                        HttpContext.Current.Session["userRole"] = "admin";
+                        HttpContext.Current.Session["UserRole"] = "admin";
                     else
-                    HttpContext.Current.Session["userRole"] = "customer";
+                    HttpContext.Current.Session["UserRole"] = "customer";
                     status = true;
                 }
                 

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Registered User Sign In To Your Account";
 }
-<h3 align="right"> @Html.ActionLink("Visit Site", "OfferOfDay", "Home")</h3>
+<h3 align="right"> @Html.ActionLink("Visit Site", "Index", "Home")</h3>
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     
@@ -34,7 +34,7 @@
         <input type="submit" value="Log in" />
     </fieldset>
     <p>
-        New User &nbsp&nbsp&nbsp&nbsp<input type="submit" value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' " />
+        New User &nbsp&nbsp&nbsp&nbsp<input type="button" value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' " />
         
     </p>
 }

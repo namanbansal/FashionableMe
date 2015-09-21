@@ -27,6 +27,7 @@
             }
             else {
                 $("#small").hide();
+                $("#small").val('0');
             }
         });
         $("#MchkButton").change(function (e) {
@@ -35,6 +36,7 @@
             }
             else {
                 $("#medium").hide();
+                $("#medium").val('0');
             }
         });
         $("#LchkButton").change(function (e) {
@@ -43,6 +45,7 @@
             }
             else {
                 $("#large").hide();
+                $("#large").val('0');
             }
         });
 
@@ -79,7 +82,7 @@
         });
 
         $('#brandList').change(function () {
-            var selectedBrand = $(this).val();
+            var selectedBrand = $(this).find('option:selected').text();
             console.log(selectedBrand);
             var searchUrl = '@Url.Action("getApparelNameByBrand", "Admin")';
             console.log("in");
@@ -102,8 +105,8 @@
         });
 
         $('#apparelNameList').change(function () {
-            var selectedApparel = $(this).val();
-            var selectedBrand = $("#brandList").val();
+            var selectedBrand = $("#brandList").find('option:selected').text();
+            var selectedApparel = $(this).find('option:selected').text();
             console.log(selectedBrand);
             console.log(selectedApparel);
             var searchUrl = '@Url.Action("getApparelsByBrandAndName", "Admin")';
@@ -113,7 +116,7 @@
                 type: "POST",
                 data: { name: selectedApparel, brand: selectedBrand },
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     console.log(data.length);
 
                     $('#dynmGrid').html(data);
@@ -152,28 +155,15 @@
             return true;
         }
         else {
-            $("#addErrorPanel").html("<h3 style='color:red'>At least one checkbox should be selected!");
+            $("#addErrorPanel").html("<h3 style='color:red'>At least one checkbox should be selected!</h3>");
         }
         return false;
     }
-    function checkDate() {
-        var EnteredDate = $('input[type=date]').val(); // For JQuery
-        
-        var date = EnteredDate.substring(8, 10);
-        var month = EnteredDate.substring(5, 7);
-        var year = EnteredDate.substring(0, 4);
-        
-        var myDate = new Date(year, month - 1, date);
-
-        var today = new Date();
-
-        if (myDate < today) {
-            alert("Entered date should be greater than today's date ");
-        }
-    }
+    
+    
 </script>
 
-<h2>Add or Update Offer</h2>
+<h2>Add or Update Apparel</h2>
 <div id="radio">
     What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
@@ -258,7 +248,7 @@
         </div>
         
         <p>
-            <input type="submit" value="Add item" />
+            <input type="submit" value="Add item" onclick="return atleastOneCheckBoxChecked()"/>
         </p>
     </fieldset>
 }

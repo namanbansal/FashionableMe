@@ -120,10 +120,11 @@ namespace FashionableMe.Controllers
             AccountBLL accBLL = new AccountBLL();
             if (Session["SessionUser"] == null)
             {
-                return(RedirectToAction("Login","Account","/Account/Details"));
+                return(RedirectToAction("Login","Account"));
             }
 
             DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["SessionUser"].ToString());
+            ViewBag.statusCode = 0;
             return View(model);
         }
 
@@ -134,6 +135,7 @@ namespace FashionableMe.Controllers
         {   
             string status = new AccountBLL().CheckAndUpdateCustomer(model);
             ViewBag.Message = status;
+            ViewBag.statusCode = 1;
             return View();
 
         }

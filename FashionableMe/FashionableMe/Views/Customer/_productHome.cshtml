@@ -43,12 +43,49 @@
             $("#listPanel").show();
         });
 
+        $("#searchButton").click(function(){
+            var srch = $("#searchBox").val().trim().toLowerCase();
+            var count = 0;
+            $("#apparelList tr:gt(0)").each(function(j){
+                var present = 0;
+                for (i in [0,1,2]) {
+                    present += ($(this).children("td").eq(i).text().toLowerCase().search(srch)) >= 0 ? 1 : 0 ;
+                }
+                if(present == 0)
+                    $(this).prop("class","hideRow");
+            });
+            $(".hideRow").hide();
+        });
+
+        $("#clearSearch").click(function(){
+            $(".hideRow").show();
+            $("#searchBox").val("");
+            $(".hideRow").prop("class","");
+        });
+
+        //$("tr:odd").css("background-color","lightblue")
+        $("#searchBox").on("input", function(){
+            var inputVal = $(this).val();
+            var characterReg = /^([a-zA-Z0-9]{3,15})$/;
+            if(!characterReg.test(inputVal))
+                $("#error").text("Only 3 to 15 number of AlphaNumeric characters").css("color","red");
+            else
+                $("#error").text("");
+        });
     });
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 
+<div id="searchPanel" style="float:right">
+    <label id="error"></label>
+    <input id="searchBox" placeholder="Search here" /> &nbsp &nbsp &nbsp
+    <input id="searchButton" type="button" value="Search" /><br />
+    <a id="clearSearch" style="float:right">Clear Search</a><br />
+</div>
+<br /><br /><br />
+
 <div id="listPanel">
-<table>
+<table id="apparelList">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ApparelName)

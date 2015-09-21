@@ -10,10 +10,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $(".editor-field").children().prop("readonly", true);
-        $(".editor-field").children().css("background-color","lightgrey");
-        $(':radio:not(:checked)').attr('disabled', true);
-        $("#passField").hide();
+        var statusCode = parseInt(@ViewBag.statusCode);
+            $(".editor-field").children().prop("readonly", true);
+            $(".editor-field").children().css("background-color","lightgrey");
+            $(':radio:not(:checked)').attr('disabled', true);
+            
+            if (statusCode == 0) {
+                $("#passField").hide();
+            }
+            else {
+                $("#editButton").hide();
+                $(".hiddenButton").show().prop("disabled",true);
+                
+            }
         
 
         $("#editButton").click(function () {
@@ -22,20 +31,21 @@
             $(this).hide();
             $(".hiddenButton").show();
             $(".editor-field").children().css("background-color","white");
+            
         });
 
         $("#passLink").click(function () {
             $("#passField").toggle();
+            $("#passField").children().children().prop("required",true);
         });
 
-        ast = $("<b> * <b>");
-        ast.css("color", "red");
+        ast = $("<b> * <b>").css("color", "red");
         $(".editor-label").children().append(ast);
     });
 </script>
 
 
-<h2>Customer Details</h2>
+<h2>Customer Details</h2><br /><br />
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -106,10 +116,10 @@
         <div id="passField">
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.OldPassword)
+                @Html.LabelFor(model => model.OldPassword )
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.OldPassword)
+                @Html.EditorFor(model => model.OldPassword )
                 @Html.ValidationMessageFor(model => model.OldPassword)
             </div>
 

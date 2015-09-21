@@ -28,13 +28,15 @@ namespace FashionableMe.Models
         public string State { get; set; }
 
         [Required]
+        [RegularExpression(@"^([0-9]*)$", ErrorMessage = "Only digits are allowed")]
         [StringLength(6, MinimumLength=6, ErrorMessage = "Only 6 characters allowed.")]
         public string Pincode { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^([0-9]*)$", ErrorMessage = "Only digits are allowed")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Only 10 characters allowed.")]
-        [RegularExpression("^[1-9]+[0-9]*")]
+        //[RegularExpression("^[1-9]+[0-9]*")]
         public string MobileNumber { get; set; }
 
         [Required]

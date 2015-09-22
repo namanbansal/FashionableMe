@@ -8,6 +8,11 @@ namespace FashionableMe.Models
 {
     public class AddApparel
     {
+        public AddApparel()
+        {
+            apparel = new Apparel();
+        }
+
         public Apparel apparel { get; set; }
         [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "Quantity should be only integer greater than zero")]
         public int small { get; set; }
@@ -20,9 +25,6 @@ namespace FashionableMe.Models
         public decimal costForMedium { get; set; }
         public decimal costForLarge { get; set; }
 
-        public AddApparel()
-        {
-            apparel = new Apparel();
-        }
+        
     }
 }

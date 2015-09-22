@@ -141,28 +141,35 @@
             $(".apparelCategoryS").hide();
             $(".apparelCategoryM").hide();
             $(".apparelCategoryL").hide();
-            $("#addToCart").attr("disabled", false);
+            //$("#addToCart").attr("disabled", false);
+            $("#addToCart").show();
 
             if(rsltval == "S"){
                 $(".apparelCategoryS").show();
                 console.log($("#quantityS").val());
-                if(parseInt($("#quantityS").val())<1)
-                    $("#addToCart").attr("disabled", true);
+                if(parseInt($("#quantityS").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
+                }
 
             }
             if(rsltval == "M"){
                 console.log($("#quantityM").val());
 
                 $(".apparelCategoryM").show();
-                if(parseInt($("#quantityM").val())<1)
-                    $("#addToCart").attr("disabled", true);
+                if(parseInt($("#quantityM").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
+                }
             }
             if(rsltval == "L"){
                 console.log($("#quantityL").val());
 
                 $(".apparelCategoryL").show();
-                if(parseInt($("#quantityL").val())<1)
-                    $("#addToCart").attr("disabled", true);
+                if(parseInt($("#quantityL").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
+                }
             }
                 
 

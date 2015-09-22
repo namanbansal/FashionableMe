@@ -226,9 +226,9 @@
             @*@Html.LabelFor(model => model.apparel.ApparelImage)*@
         </div>
         <div class="editor-field">
-            @*@Html.EditorFor(model => model.apparel.ApparelImage)*@
+            @Html.EditorFor(model => model.apparel.ApparelImage)
 @*            @Html.ValidationMessageFor(model => model.apparel.ApparelImage)*@
-            <img src="@Url.Content(Model.apparel.ApparelImage)" alt="Image" />
+            @*<img src="@Url.Content(Model.apparel.ApparelImage)" alt="Image" />*@
         </div>
 
         

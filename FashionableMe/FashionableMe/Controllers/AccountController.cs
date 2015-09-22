@@ -21,9 +21,20 @@ namespace FashionableMe.Controllers
         //
         // GET: /Account/Login
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult getReturnUrl(string returnUrl)
+        {
+            return (RedirectToAction("Login", new { returnUrl = returnUrl }));
+        }
+
+
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            string str = string.Empty;
+            //str = Request.RawUrl.ToString();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }

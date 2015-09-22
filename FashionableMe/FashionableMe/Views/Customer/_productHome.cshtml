@@ -12,7 +12,7 @@
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
         //$("#apparelDiscount").text(discount);
-        console.log(image);
+        //console.log(image);
         
         $("#apparelImage").attr("src",image);
         //var sellingFare = cost - ((cost*discount)/100.0);
@@ -92,12 +92,13 @@
         $("#detailsPanel").show();
         $("#ratingPanel").show();
         getRating(id);
-        //console.log(id, name, brand, description, image);
+        ////console.log(id, name, brand, description, image);
     }
 
     function getRating(id)
     {
         var searchUrl = '@Url.Action("getRatingDetails", "Customer")';
+        
         $.ajax({
             url: searchUrl,
             data: { apparelID: id.trim() },
@@ -110,24 +111,26 @@
                 $("#comment").val(data.Comment).prop("disabled",true).css({"background-color":"lightgrey"});
                 $("#userRate").val(data.userRating);
                 $("#userComment").val(data.userComment);
-                if(!data.canRate)
-                {
-                    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                $("#userRate,#userComment,#reviewButton").prop("disabled",false).css({"cursor":"default","background-color":"white"});
+                //if(!data.canRate)
+                //{
+                //    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                //}
+                console.log("got : ",UserID);
                 }
-            }
         });
     }
 
     function sendData(){
         var id = $("#apparelId").val().trim();
         var size = $("#sizeDropDown").val().trim();
-        console.log(id, size);
+        //console.log(id, size);
         
 
         var link = '@Html.Raw(@Url.Action("OrderNow", "Cart", new { id = -1, size= -2 }))';
         link = link.replace("-1", id);
         link = link.replace("-2", size);
-        console.log(link);
+        //console.log(link);
         window.location = link;
     }
     $(document).ready(function () {
@@ -136,8 +139,8 @@
         $("#sizeDropDown").change(function (e) {
             e.preventDefault();
             var rsltval = $(this).val();
-            console.log("dropval");
-            console.log(rsltval);
+            //console.log("dropval");
+            //console.log(rsltval);
             $(".apparelCategoryS").hide();
             $(".apparelCategoryM").hide();
             $(".apparelCategoryL").hide();
@@ -146,7 +149,7 @@
 
             if(rsltval == "S"){
                 $(".apparelCategoryS").show();
-                console.log($("#quantityS").val());
+                //console.log($("#quantityS").val());
                 if(parseInt($("#quantityS").val())<1){
                     //$("#addToCart").attr("disabled", true);
                     $("#addToCart").hide();
@@ -154,7 +157,7 @@
 
             }
             if(rsltval == "M"){
-                console.log($("#quantityM").val());
+                //console.log($("#quantityM").val());
 
                 $(".apparelCategoryM").show();
                 if(parseInt($("#quantityM").val())<1){
@@ -163,7 +166,7 @@
                 }
             }
             if(rsltval == "L"){
-                console.log($("#quantityL").val());
+                //console.log($("#quantityL").val());
 
                 $(".apparelCategoryL").show();
                 if(parseInt($("#quantityL").val())<1){
@@ -219,23 +222,32 @@
                 
         });
 
-        $("#reviewButton").click(function(e){
-            if ($("#userRate").val() == 0 ) {
+        $("#reviewForm").submit(function(e){
+            console.log("user id = ",UserID);
+            if ($("#userRate").val() == 0 )
+            {
                 $("#erroMessage").text("Please Rate before Submitting Review").css("color","red");
-                return;
+                return false;
             }  
             else
                 $("#erroMessage").text("");
+
+            if(UserID != null) 
+            {
             var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
             $.ajax({
                 url: searchUrl,
                 data: { apparelID: AppID , userID : UserID, rating : parseInt($("#userRate").val()), comment:$("#userComment").val(), currRating : currentRating },
                 type: "POST",
                 success: function (data){
-                    console.log(data.state);
+                        //console.log(data.state);
                     $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
                 }
             });
+                return false;
+            }
+            console.log("User Id = ",UserID);
+            return true;
         });
 
     });
@@ -362,7 +374,10 @@
 </div>
 <br />
 <br />
-<form id="ratingPanel" hidden>
+
+@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+{
+<div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
     <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
     <label>Please Rate This Product : </label>
@@ -376,9 +391,12 @@
     </select>
     <label>Write a Review : </label><textarea id="userComment" style="height:200px;width:800px"></textarea><br />
     <label id="erroMessage"></label>
-    <input id="reviewButton" type="button" value="Submit Review"/>
+    <input id="returnUrl" hidden value="/Customer/Her" />
+    <input id="reviewButton" type="submit" value="Submit Review"  />
+    
+</div>
+}
 
     
-</form>
 
 

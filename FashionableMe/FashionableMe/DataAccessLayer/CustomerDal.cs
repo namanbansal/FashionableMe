@@ -334,22 +334,25 @@ namespace FashionableMe.DataAccessLayer
                     {
                         rateObj.Comment += reader.GetString(reader.GetOrdinal("Comment"))+"\r\n*****\r\n";
                     }
-                    reader.Close();
                 }
+                reader.Close();
                 cmd = new SqlCommand("SELECT AVG(cast(Rating as Float)) as TotalRating FROM Rating where ApparelID=@appID  ",conn);
                 cmd.Parameters.AddWithValue("appID", ApparelID);
                 var val = cmd.ExecuteScalar();
                 if (val != System.DBNull.Value)
                 {
-                    rateObj.ApparelRating = Convert.ToInt32((double)val+0.5);
+                    rateObj.ApparelRating = Convert.ToInt32((double)val);
                 }
                 else
                 {
                     rateObj.ApparelRating = 0;
                 }
 
-                if (HttpContext.Current.Session["UserID"] != null)
+                if (HttpContext.Current.Session["SessionUser"] != null)
+                {
 		            rateObj.canRate = true;
+                    rateObj.UserID = HttpContext.Current.Session["SessionUser"].ToString();
+                }   
                 else
                     rateObj.canRate = false;
 
@@ -369,6 +372,7 @@ namespace FashionableMe.DataAccessLayer
                         rateObj.userRating = reader.GetInt32(reader.GetOrdinal("Rating"));
                         rateObj.userComment = reader.GetString(reader.GetOrdinal("Comment"));
                     }
+                    reader.Close();
                 }
             }
             catch (Exception ExcObj)

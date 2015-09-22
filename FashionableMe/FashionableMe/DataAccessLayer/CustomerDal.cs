@@ -241,5 +241,103 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
+
+        public Rating getRatingDetails(string ApparelID)
+        {
+            Rating rateObj = new Rating();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            rateObj.ApparelID = ApparelID;
+            
+            rateObj.AddTime = DateTime.Now;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT TOP 10 Comment from Rating where ApparelID=@appId ORDER BY AddTime DESC ", conn);
+                cmd.Parameters.AddWithValue("appId",ApparelID);
+                var reader = cmd.ExecuteReader();
+                rateObj.Comment = string.Empty;
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        rateObj.Comment += reader.GetString(reader.GetOrdinal("Comment"))+"\r\n*****\r\n";
+                    }
+                    reader.Close();
+                }
+                cmd = new SqlCommand("SELECT AVG(cast(Rating as Float)) as TotalRating FROM Rating where ApparelID=@appID  ",conn);
+                cmd.Parameters.AddWithValue("appID", ApparelID);
+                var val = cmd.ExecuteScalar();
+                if (val != System.DBNull.Value)
+                {
+                    rateObj.ApparelRating = Convert.ToInt32((double)val+0.5);
+                }
+                else
+                {
+                    rateObj.ApparelRating = 0;
+                }
+
+                if (HttpContext.Current.Session["SessionUser"] != null)
+		            rateObj.canRate = true;
+                else
+                    rateObj.canRate = false;
+
+                rateObj.userRating = 0;
+                rateObj.userComment = string.Empty;
+
+                if(rateObj.ApparelRating != 0 && rateObj.canRate)
+                {
+                    rateObj.UserID = HttpContext.Current.Session["SessionUser"].ToString();
+                    cmd = new SqlCommand("SELECT Rating, Comment from Rating where ApparelID=@appid and UserID=@userID ", conn);
+                    cmd.Parameters.AddWithValue("appid", rateObj.ApparelID);
+                    cmd.Parameters.AddWithValue("userID", rateObj.UserID);
+                    reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        rateObj.userRating = reader.GetInt32(reader.GetOrdinal("Rating"));
+                        rateObj.userComment = reader.GetString(reader.GetOrdinal("Comment"));
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return rateObj;
+        }
+
+
+        public bool InsertOrUpdateRating(string apparelID, string userID, int rating, string comment, int currRating)
+        {
+            bool status = false;
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd ;
+                if (currRating > 0)
+                    cmd = new SqlCommand("UPDATE Rating set Rating=@rating, Comment=@comment, AddTime=GETDATE() WHERE ApparelID=@appid and UserID=@userid ", conn);
+                else
+                    cmd = new SqlCommand("INSERT INTO Rating VALUES(@appid, @userid, @rating, @comment, GETDATE()) ", conn);
+                
+                cmd.Parameters.AddWithValue("rating", rating);
+                cmd.Parameters.AddWithValue("comment", comment);
+                cmd.Parameters.AddWithValue("appid", apparelID);
+                cmd.Parameters.AddWithValue("userid", userID);
+                int ret = cmd.ExecuteNonQuery();
+                if (ret > 0)
+                    status = true;
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return status;
+        }
+
     }
 }

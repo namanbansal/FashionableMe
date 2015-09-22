@@ -5,6 +5,7 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
 <script type="text/javascript">
+    AppID = ""; UserID=""; currentRating=0;
     function showDetails(id, name, brand, description, image){
         $("#apparelId").val(id);
         $("#apparelName").text(name);
@@ -15,8 +16,8 @@
         //var sellingFare = cost - ((cost*discount)/100.0);
         //$("#originalFare").text(cost);
         //$("#sellingFare").text(sellingFare);
-        console.log(id);
-        var rsltval = id;
+        //console.log(id);
+        rsltval = id;
         var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
             $.ajax({
                 url: searchUrl,
@@ -58,10 +59,36 @@
                 }
             });
         $("#listPanel").hide();
+        $("#searchPanel").hide();
         $("#detailsPanel").show();
-
-        console.log(id, name, brand, description, image);
+        $("#ratingPanel").show();
+        getRating(id);
+        //console.log(id, name, brand, description, image);
     }
+
+    function getRating(id)
+    {
+        var searchUrl = '@Url.Action("getRatingDetails", "Customer")';
+        $.ajax({
+            url: searchUrl,
+            data: { apparelID: id.trim() },
+            type: "POST",
+            success: function (data){
+                AppID = data.ApparelID;
+                UserID = data.UserID;
+                currentRating = data.userRating;
+                $("#prodRate").val(data.ApparelRating).prop("disabled",true).css({"background-color":"lightgrey"});
+                $("#comment").val(data.Comment).prop("disabled",true).css({"background-color":"lightgrey"});
+                $("#userRate").val(data.userRating);
+                $("#userComment").val(data.userComment);
+                if(!data.canRate)
+                {
+                    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                }
+            }
+        });
+    }
+
     function sendData(){
         var id = $("#apparelId").val().trim();
         var size = $("#sizeDropDown").val().trim();
@@ -143,10 +170,38 @@
             var inputVal = $(this).val();
             var characterReg = /^([a-zA-Z0-9]{3,15})$/;
             if(!characterReg.test(inputVal))
+            {
                 $("#error").text("Only 3 to 15 number of AlphaNumeric characters").css("color","red");
+                $("#searchButton").prop("disabled",true).css("cursor","default");
+            }
+                
             else
+            {
                 $("#error").text("");
+                $("#searchButton").prop("disabled",false).css("cursor","pointer");
+            }
+                
         });
+
+        $("#reviewButton").click(function(e){
+            if ($("#userRate").val() == 0 ) {
+                $("#erroMessage").text("Please Rate before Submitting Review").css("color","red");
+                return;
+            }  
+            else
+                $("#erroMessage").text("");
+            var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
+            $.ajax({
+                url: searchUrl,
+                data: { apparelID: AppID , userID : UserID, rating : parseInt($("#userRate").val()), comment:$("#userComment").val(), currRating : currentRating },
+                type: "POST",
+                success: function (data){
+                    console.log(data.state);
+                    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                }
+            });
+        });
+
     });
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
@@ -268,4 +323,24 @@
     <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;background-color:green" onclick="sendData()"/>
 
 </div>
+<br />
+<br />
+<form id="ratingPanel" hidden>
+    <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
+    <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
+    <label>Please Rate This Product : </label>
+    <select id="userRate">
+        <option value="0">Not Rated</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <label>Write a Review : </label><textarea id="userComment" style="height:200px;width:800px"></textarea><br />
+    <label id="erroMessage"></label>
+    <input id="reviewButton" type="button" value="Submit Review"/>
+    
+</form>
+
 

@@ -48,9 +48,14 @@
         $("#newPass").children("input").on("input",function(){
             if ($(this).val() == $("#oldPass").children("input").val()) {
                 $("#checkPass").text("New Password Cannot be same as Old password");
+                $(":submit").prop("disabled",true).css("cursor","default");
             }
             else
+            {
                 $("#checkPass").text("");
+                $(":submit").prop("disabled",false).css("cursor","pointer");
+            }
+                
         });
 
     });

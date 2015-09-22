@@ -11,7 +11,7 @@ namespace FashionableMe.Models
         public decimal ApparelCost { get; set; }
         public string ApparelSize { get; set; }
         public decimal ApparelDiscount { get; set; }
-        public int ApparelQuantity { get; set; }
+        public int ApparelQuantity { get; set; } 
 
     }
 }

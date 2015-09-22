@@ -110,10 +110,10 @@
                 $("#comment").val(data.Comment).prop("disabled",true).css({"background-color":"lightgrey"});
                 $("#userRate").val(data.userRating);
                 $("#userComment").val(data.userComment);
-                if(!data.canRate)
-                {
-                    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
-                }
+                //if(!data.canRate)
+                //{
+                //    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                //}
             }
         });
     }
@@ -219,6 +219,11 @@
             }  
             else
                 $("#erroMessage").text("");
+            if(UserID = "")
+            {
+                $.get("/Account/Login",{returnUrl : "/Customer/Her"},function (data){ $("body").html(data)});
+                return;
+            }
             var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
             $.ajax({
                 url: searchUrl,
@@ -355,7 +360,10 @@
 </div>
 <br />
 <br />
-<form id="ratingPanel" hidden>
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Get, new { ReturnUrl = Request.RawUrl }))
+{
+<div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
     <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
     <label>Please Rate This Product : </label>
@@ -369,8 +377,12 @@
     </select>
     <label>Write a Review : </label><textarea id="userComment" style="height:200px;width:800px"></textarea><br />
     <label id="erroMessage"></label>
-    <input id="reviewButton" type="button" value="Submit Review"/>
+    <input id="returnUrl" hidden value="/Customer/Her" />
+    <input id="reviewButton" type="submit" value="Submit Review"  />
     
-</form>
+</div>
+}
+
+
 
 

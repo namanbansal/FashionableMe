@@ -20,10 +20,12 @@ namespace FashionableMe.Models
         public string Address { get; set; }
 
         [Required]
+        [RegularExpression(@"^([a-z A-Z]*)$", ErrorMessage = "Only letters are allowed")]
         [StringLength(25, ErrorMessage = "Atmost 25 characters allowed.")]
         public string City { get; set; }
 
         [Required]
+        [RegularExpression(@"^([a-z A-Z]*)$", ErrorMessage = "Only letters are allowed")]
         [StringLength(25, ErrorMessage = "Atmost 25 characters allowed.")]
         public string State { get; set; }
 

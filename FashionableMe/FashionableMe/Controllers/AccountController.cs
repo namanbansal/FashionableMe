@@ -21,12 +21,21 @@ namespace FashionableMe.Controllers
         //
         // GET: /Account/Login
 
+        [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string ReturnUrl)
+        public ActionResult getReturnUrl(string returnUrl)
+        {
+            return (RedirectToAction("Login", new { returnUrl = returnUrl }));
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
         {
             string str = string.Empty;
             //str = Request.RawUrl.ToString();
-            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -35,7 +44,7 @@ namespace FashionableMe.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid)

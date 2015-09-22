@@ -94,7 +94,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult getRatingDetails(string apparelID)
         {
-            CustomerDal obj = new CustomerDal();
+            CustomerDal obj = new CustomerDal(); 
             return(Json(obj.getRatingDetails(apparelID),JsonRequestBehavior.AllowGet));
         }
 
@@ -105,7 +105,7 @@ namespace FashionableMe.Controllers
             bool status = obj.InsertOrUpdateRating(apparelID , userID , rating , comment,currRating);
             return(Json(new {state = status},JsonRequestBehavior.AllowGet));
         }
-
+        
         //public ActionResult Details(int id)
         //{
         //    return View();

@@ -63,7 +63,7 @@ namespace FashionableMe.Models
         [Required]
         [DataType(DataType.Password)]
         [StringLength(15, MinimumLength = 8, ErrorMessage = "Minimum 8 and atmost 15 characters allowed.")]
-        [RegularExpression(@"([0-9]+[a-zA-Z]|[a-zA-Z]+[0-9])[A-Za-z0-9]*", ErrorMessage = "Atleast one alphabet and one digit required.")]
+        [RegularExpression(@"([0-9]+[a-zA-Z]|[a-zA-Z]+[0-9])[A-Za-z0-9!@#$%^&*()?<>]*", ErrorMessage = "Atleast one alphabet and one digit required.")]
         //[Compare("UserID", ErrorMessage = "The UserID and password cannot be same.")]
         public string Password { get; set; }
 

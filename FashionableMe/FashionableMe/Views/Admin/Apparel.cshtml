@@ -27,7 +27,8 @@
             }
             else {
                 $("#small").hide();
-                $("#small").val('0');
+                $("#small").val('');
+
             }
         });
         $("#MchkButton").change(function (e) {
@@ -36,7 +37,7 @@
             }
             else {
                 $("#medium").hide();
-                $("#medium").val('0');
+                $("#medium").val('');
             }
         });
         $("#LchkButton").change(function (e) {
@@ -45,7 +46,7 @@
             }
             else {
                 $("#large").hide();
-                $("#large").val('0');
+                $("#large").val('');
             }
         });
 
@@ -243,9 +244,9 @@
         <div id="quantityPanelKid">
             <table>
                 <thead><tr><th>Select Age</th><th>Quantity</th></tr></thead>
-                <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)</td></tr>
-                <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)</td></tr>
-                <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)</td></tr>
+                <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)@Html.ValidationMessageFor(model => model.small)</td></tr>
+                <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)@Html.ValidationMessageFor(model => model.medium)</td></tr>
+                <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)@Html.ValidationMessageFor(model => model.large)</td></tr>
             </table>
         </div>
         

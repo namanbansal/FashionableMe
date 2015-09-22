@@ -348,10 +348,10 @@ namespace FashionableMe.DataAccessLayer
                     rateObj.ApparelRating = 0;
                 }
 
-                if (HttpContext.Current.Session["SessionUser"] != null)
+                if (HttpContext.Current.Session["UserID"] != null)
                 {
 		            rateObj.canRate = true;
-                    rateObj.UserID = HttpContext.Current.Session["SessionUser"].ToString();
+                    rateObj.UserID = HttpContext.Current.Session["UserID"].ToString();
                 }   
                 else
                     rateObj.canRate = false;

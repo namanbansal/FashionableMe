@@ -41,7 +41,11 @@ namespace FashionableMe.Controllers
                 AccountBLL accBLL = new AccountBLL();
                 if (accBLL.checkLoginDetails(model))
                 {
-                    Session["userID"] = model.UserID;
+                    if (Convert.ToString(Session["UserRole"]) == "admin")
+                    {
+                        return RedirectToAction("Offer", "Admin");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -59,6 +63,8 @@ namespace FashionableMe.Controllers
         public ActionResult LogOff()
         {
             Session["SessionUser"] = null;
+            Session["UserRole"] = null;
+            Session["cart"] = null;
 
             return RedirectToAction("Index", "Home");
         }

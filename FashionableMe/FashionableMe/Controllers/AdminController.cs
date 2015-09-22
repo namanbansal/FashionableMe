@@ -9,13 +9,15 @@ using FashionableMe.Utils;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
 
+
 namespace FashionableMe.Controllers
 {
     public class AdminController : Controller
     {
         //
         // GET: /Admin/
-        UtilityFunctions util = new UtilityFunctions();
+        
+
         public ActionResult Index()
         {
            
@@ -28,7 +30,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult Offer()
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
 
@@ -37,16 +39,24 @@ namespace FashionableMe.Controllers
         {
             AdminBLL obj = new AdminBLL();
            List<SelectListItem> defaultList = new List<SelectListItem>();
-           defaultList = util.getCategoryDropDown();
+           defaultList = UtilityFunctions.getCategoryDropDown();
            // defaultList[0].Selected= false;
             
            // defaultList[Convert.ToInt32(ModelState["temp"])].Selected = true;
             ViewBag.categoryData = defaultList;
-            
+
             if (obj.addOffer(model))
                 ViewBag.Message = "Offer Added Successfully";
             else
-                ViewBag.Message = "Unable to add Offer";
+            {
+                if (Convert.ToString(Session["ErrorMessage"]) == "Offer with Same Date exists")
+                {
+                    ViewBag.Message = "Offer with Same Date exists.Try Updating with same date!";
+                    
+                }
+                else
+                    ViewBag.Message = "Unable to add Offer";
+            }
             return View(model); ;
         }
 
@@ -75,14 +85,14 @@ namespace FashionableMe.Controllers
 
         public ActionResult Apparel()
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
 
         [HttpPost]
         public ActionResult Apparel(AddApparel model)
         {
-            ViewBag.categoryData = util.getCategoryDropDown();
+            ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             AdminBLL obj = new AdminBLL();
             bool result = obj.addApparel(model);
             if (result)

@@ -31,6 +31,7 @@
         });
 
         $('#radio').click(function () {
+            $("#errorPanel").html('');
             if ($('#addRadioButton').is(':checked'))
             {
                 $("#updatePanel").hide();
@@ -42,6 +43,11 @@
             {
 
                 $("#addPanel").hide();
+                $('#updatePanel :input[type=number]').val('');
+                $('#updatePanel :input[type=text]').val('');
+                $('#updatePanel #OfferDescription').val('');
+                $('#updatePanel :input[type=date]').val('');
+
                 $("#updatePanel").show();
                 $("#updateButton").show();
                 $("#saveButton").hide();
@@ -54,7 +60,10 @@
         });
         
         $("#fetchDetails").click(function (e) {
-                
+            $("#saveButton").hide();
+            $("#cancelButton").hide();
+            $("#updateButton").show();
+            
                 var dateToFetch = $("#updatePanel").find("input[type=date]").val();
                 console.log(dateToFetch);
                 
@@ -101,40 +110,43 @@
 
         $("#cancelButton").click(function () {
             console.log("cancel");
-            $('#updatePanel :input[type=number]').val('');
-            $('#updatePanel :input[type=text]').val('');
-            $('#updatePanel #OfferDescription').val('');
+            //$('#updatePanel :input[type=text]').val('');
+            $("#fetchDetails").trigger("click");
+            
+            
 
 
         });
 
         $("#saveButton").click(function (e) {
-            var searchUrl = '@Url.Action("UpdateOffer", "Admin")';
-            var offerName = $("#updatePanel input[id=OfferName]").val();
-            var offerDescription = $("#updatePanel textarea[id=OfferDescription]").val();
-            var offerDiscount = $("#updatePanel input[id=Discount]").val();
-            var offerDate = $("#updatePanel input[id=OfferDate]").val();
+            if (checkDate()) {
+                var searchUrl = '@Url.Action("UpdateOffer", "Admin")';
+                var offerName = $("#updatePanel input[id=OfferName]").val();
+                var offerDescription = $("#updatePanel textarea[id=OfferDescription]").val();
+                var offerDiscount = $("#updatePanel input[id=Discount]").val();
+                var offerDate = $("#updatePanel input[id=OfferDate]").val();
 
-            $.ajax({
-                url: searchUrl,
-                data: { offerDate: offerDate, offerName: offerName, offerDescription: offerDescription, offerDiscount: offerDiscount },
-                type: "POST",
+                $.ajax({
+                    url: searchUrl,
+                    data: { offerDate: offerDate, offerName: offerName, offerDescription: offerDescription, offerDiscount: offerDiscount },
+                    type: "POST",
 
-                success: function (data) {
-                    console.log(data);
-                    if (data == "true") {
-                        $("#resultPanel").html("<h2>Offer Updated Successfully!!!</h2>");
-                        $("#updatePanel :input").attr("disabled", true);
-                        $("#updatePanel :input[type=date]").attr("disabled", false);
-                        $("#updatePanel :input[id=fetchDetails]").attr("disabled", false);
+                    success: function (data) {
+                        console.log(data);
+                        if (data == "true") {
+                            $("#resultPanel").html("<h2>Offer Updated Successfully!!!</h2>");
+                            $("#updatePanel :input").attr("disabled", true);
+                            $("#updatePanel :input[type=date]").attr("disabled", false);
+                            $("#updatePanel :input[id=fetchDetails]").attr("disabled", false);
 
+                        }
+                        else {
+                            $("#resultPanel").html("<h2>Unable to update Offer!!!</h2>");
+
+                        }
                     }
-                    else {
-                        $("#resultPanel").html("<h2>Unable to update Offer!!!</h2>");
-
-                    }
-                }
-            });
+                });
+            }
         });
 
         $("#deleteButton").click(function (e) {
@@ -156,7 +168,7 @@
 
                     }
                     else {
-                        $("#resultPanel").html("<h2>Unable to delete Offer!!!</h2>");
+                        $("#resultPanel").html("<h2 style='color:red'>Unable to delete Offer!!!</h2>");
 
                     }
                 }
@@ -180,8 +192,10 @@
         var today = new Date();
 
         if (myDate < today) {
-            alert("Entered date should be greater than today's date ");
+            $("#errorPanel").html("<h3 style='color:red'>Entered date should be greater than today's date!</h3> ");
+            return false;
         }
+        return true;
     }
 </script>
 
@@ -190,9 +204,10 @@
     What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
+    <div id="errorPanel" style="color:red"></div>
 
 <div id="addPanel">
-<div><h1>@ViewBag.Message</h1></div>
+<div><h4>@ViewBag.Message</h4></div>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -254,7 +269,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" onclick="checkDate();"/>
+            <input type="submit" value="Create" onclick="return checkDate();"/>
         </p>
     </fieldset>
 }
@@ -262,7 +277,7 @@
 
 <div id="updatePanel">
     <div id="resultPanel"></div>
-    <h1>update</h1>
+    <h1>Update</h1>
     @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

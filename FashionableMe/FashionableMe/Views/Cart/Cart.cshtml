@@ -70,7 +70,7 @@
         }
         @foreach (var item in (List<FashionableMe.Models.CartItem>)Session["cart"])
         {
-            price = (((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity);
+            price = Math.Round((((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity),2);
             sum += price;
             <tr>
                 <td>@item.Apparel.ApparelName</td>

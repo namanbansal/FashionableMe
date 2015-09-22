@@ -12,7 +12,9 @@
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
         //$("#apparelDiscount").text(discount);
-        $("#apparelImage").text(image);
+        console.log(image);
+        
+        $("#apparelImage").attr("src",image);
         //var sellingFare = cost - ((cost*discount)/100.0);
         //$("#originalFare").text(cost);
         //$("#sellingFare").text(sellingFare);
@@ -33,21 +35,21 @@
                         if(data[i].ApparelSize == "S"){
                             $("#apparelDiscountS").text(data[i].ApparelDiscount);
                             $("#originalFareS").text(data[i].ApparelCost);
-                            $("#sellingFareS").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareS").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityS").val(data[i].ApparelQuantity);
 
                         }
                         else if(data[i].ApparelSize == "M"){
                             $("#apparelDiscountM").text(data[i].ApparelDiscount);
                             $("#originalFareM").text(data[i].ApparelCost);
-                            $("#sellingFareM").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareM").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityM").val(data[i].ApparelQuantity);
 
                         }
                         if(data[i].ApparelSize == "L"){
                             $("#apparelDiscountL").text(data[i].ApparelDiscount);
                             $("#originalFareL").text(data[i].ApparelCost);
-                            $("#sellingFareL").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareL").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityL").val(data[i].ApparelQuantity);
 
                         }
@@ -56,6 +58,33 @@
                     $(".apparelCategoryS").hide();
                     $(".apparelCategoryM").hide();
                     $(".apparelCategoryL").hide();
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].ApparelSize == "S"){
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryS").show();
+                                $('#sizeDropDown option[value=S]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                        else if(data[i].ApparelSize == "M"){
+
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryM").show();
+                                $('#sizeDropDown option[value=M]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                        if(data[i].ApparelSize == "L"){
+                            if(parseInt(data[i].ApparelQuantity) >0){
+                                $(".apparelCategoryL").show();
+                                $('#sizeDropDown option[value=L]').prop('selected', true);
+                                break;
+
+                            }
+                        }
+                    }
                 }
             });
         $("#listPanel").hide();
@@ -257,7 +286,8 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ApparelImage)
+            
+            <img src="@Url.Content(item.ApparelImage)" alt="Image" />
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.ApparelCategory)
@@ -298,7 +328,7 @@
         <tr><td>Brand Name</td><td id="brandName"></td></tr>
         <tr><td>Apparel Description</td><td id="apparelDescription"></td></tr>
         <tr><td>Discount Percentage</td><td class="apparelCategoryS" id="apparelDiscountS"></td><td class="apparelCategoryM" id="apparelDiscountM"></td><td class="apparelCategoryL" id="apparelDiscountL"></td></tr>
-        <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
+        <tr><td>Apparel Image</td><td ><img id="apparelImage" src=""/></td></tr>
     </table>
         <br />
     <table>

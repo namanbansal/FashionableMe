@@ -16,7 +16,21 @@
 }
 
 <div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit">
-    <h1>Todays Offers</h1>
+    <h1 style="color:red">Offer of the Day!!!</h1>
+    <table style="align-self:center">
+        <tr>
+            <td><h1 style="color:turquoise">2Day's Offer</h1></td>
+            <td ><h1>@ViewBag.OfferTitle</h1></td>
+        </tr>
+        <tr>
+            <td><h1 style="color:turquoise">Offer Description</h1></td>
+            <td ><h1>@ViewBag.OfferDescription</h1></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><h2>@Html.ActionLink("View Offer Details", "OfferOfDay","Customer")</h2></td>
+        </tr>
+    </table>
 </div>
 <br />
 <br />

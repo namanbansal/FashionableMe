@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using FashionableMe.Models;
 using FashionableMe.DataAccessLayer;
+using FashionableMe.Utils;
 
 namespace FashionableMe.BLL
 {
@@ -11,7 +12,7 @@ namespace FashionableMe.BLL
     {
         public List<Apparel> fetchProductByCategory(string category)
         {
-            string cat = parseInputCategoryToDBFormat(category);
+            string cat = UtilityFunctions.parseInputCategoryToDBFormat(category);
             AdminDal obj = new AdminDal();
             
             List<Apparel> result = new List<Apparel>();
@@ -31,51 +32,29 @@ namespace FashionableMe.BLL
         public Offer fetchOfferByDate(string dateToProcess)
         {
             AdminDal obj = new AdminDal();
-            string dateFormatted = parseInputDateToDBFormat(dateToProcess);
+            string dateFormatted = UtilityFunctions.parseInputDateToDBFormat(dateToProcess);
             return obj.getOfferDetails(dateFormatted); 
         }
 
         public bool UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
             AdminDal obj = new AdminDal();
-            return obj.updateOfferByDate(parseInputDateToDBFormat(offerDate), offerName, offerDescription, offerDiscount);
+            return obj.updateOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate), offerName, offerDescription, offerDiscount);
 
         }
 
         public bool DeleteOffer(string offerDate)
         {
             AdminDal obj = new AdminDal();
-            return obj.deleteOfferByDate(parseInputDateToDBFormat(offerDate));
+            return obj.deleteOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate));
 
         }
 
-        public string parseInputDateToDBFormat(string dateToProcess)
-        {
-            string date = dateToProcess.Substring(8, 2);
-            string month = dateToProcess.Substring(5, 2);
-            string year = dateToProcess.Substring(0, 4);
-            string dateFormatted = month + "/" + date + "/" + year;
-
-            return dateFormatted;
-        }
-
-        public string parseInputCategoryToDBFormat(string val)
-        {
-            string cat = "";
-            int category = Convert.ToInt32(val.Trim());
-            if (category == 1)
-                cat = "Male";
-            else if (category == 2)
-                cat = "Female";
-            else if (category == 3)
-                cat = "Kids";
-
-            return cat;
-        }
+        
         public bool addApparel(AddApparel model)
         {
             AdminDal obj = new AdminDal();
-            model.apparel.ApparelCategory = parseInputCategoryToDBFormat(model.apparel.ApparelCategory);
+            model.apparel.ApparelCategory = UtilityFunctions.parseInputCategoryToDBFormat(model.apparel.ApparelCategory);
             if (model.apparel.ApparelImage == null)
                 model.apparel.ApparelImage = string.Empty;
             if (obj.addProduct(model))
@@ -101,7 +80,7 @@ namespace FashionableMe.BLL
             AdminDal obj = new AdminDal();
             List<string> result = new List<string>();
             List<DropDownFormat> res = new List<DropDownFormat>();
-            result = obj.getApparelNameByBrand(brand);
+            result = obj.getApparelNameByBrand(brand.Trim());
             foreach (var item in result)
 	        {
                 res.Add(new DropDownFormat(){ name=item, value=item });

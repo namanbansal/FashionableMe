@@ -9,11 +9,11 @@ namespace FashionableMe.Models
     public class AddApparel
     {
         public Apparel apparel { get; set; }
-        [RegularExpression("^[1-9]+[0-9]*$")]
+        [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "Quantity should be only integer greater than zero")]
         public int small { get; set; }
-        [RegularExpression("^[1-9]+[0-9]*$")]
+        [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "Quantity should be only integer greater than zero")]
         public int medium { get; set; }
-        [RegularExpression("^[1-9]+[0-9]*$")]
+        [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "Quantity should be only integer greater than zero")]
         public int large { get; set; }
 
         public decimal costForSmall { get; set; }

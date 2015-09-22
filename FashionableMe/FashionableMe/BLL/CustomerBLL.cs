@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using FashionableMe.Models;
 using FashionableMe.DataAccessLayer;
+using FashionableMe.Utils;
 
 namespace FashionableMe.BLL
 {
@@ -21,6 +22,19 @@ namespace FashionableMe.BLL
         public List<Quantity> getQuantityDetails(string apparelID)
         {
             return dalObj.getQuantityDetails(Convert.ToInt32(apparelID.Trim()));
+        }
+
+        public List<Offer> getTodaysOffer()
+        {
+            List<Offer> offer = new List<Offer>();
+            offer.Add(dalObj.getTodaysOffer(Convert.ToString(DateTime.Now.Date.ToString("yyyy/MM/dd"))));
+
+            return offer;
+        }
+
+        public List<Apparel> getApparelByID(int id)
+        {
+            return dalObj.getApparelByID(id);
         }
     }
 }

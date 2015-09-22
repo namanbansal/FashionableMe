@@ -23,6 +23,22 @@ namespace FashionableMe.Controllers
         //
         // GET: /Customer/Details/5
 
+        public ActionResult OfferOfDay()
+        {
+            ViewBag.Title = "Offer of The Day!!!";
+            CustomerBLL obj = new CustomerBLL();
+            List<Offer> model = new List<Offer>();
+            model = obj.getTodaysOffer();
+            Apparel apparel = new Apparel();
+            apparel = obj.getApparelByID(model[0].ApparelID)[0];
+            ViewBag.OfferName = model[0].OfferName;
+            ViewBag.OfferDescription = model[0].OfferDescription;
+            ViewBag.OfferDiscount = model[0].Discount;
+            ViewBag.OfferName = model[0].OfferName;
+            return View(apparel);
+
+        }
+
         public ActionResult Him()
         {
             ViewBag.Title = "Apparel for Him";

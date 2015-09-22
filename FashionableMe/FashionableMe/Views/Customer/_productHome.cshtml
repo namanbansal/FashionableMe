@@ -13,7 +13,7 @@
         //$("#apparelDiscount").text(discount);
         console.log(image);
         
-        $("#apparelImage").attr("src","/Images/main_apparel.jpg");
+        $("#apparelImage").attr("src",image);
         //var sellingFare = cost - ((cost*discount)/100.0);
         //$("#originalFare").text(cost);
         //$("#sellingFare").text(sellingFare);
@@ -34,21 +34,21 @@
                         if(data[i].ApparelSize == "S"){
                             $("#apparelDiscountS").text(data[i].ApparelDiscount);
                             $("#originalFareS").text(data[i].ApparelCost);
-                            $("#sellingFareS").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareS").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityS").val(data[i].ApparelQuantity);
 
                         }
                         else if(data[i].ApparelSize == "M"){
                             $("#apparelDiscountM").text(data[i].ApparelDiscount);
                             $("#originalFareM").text(data[i].ApparelCost);
-                            $("#sellingFareM").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareM").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityM").val(data[i].ApparelQuantity);
 
                         }
                         if(data[i].ApparelSize == "L"){
                             $("#apparelDiscountL").text(data[i].ApparelDiscount);
                             $("#originalFareL").text(data[i].ApparelCost);
-                            $("#sellingFareL").text(data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100));
+                            $("#sellingFareL").text((data[i].ApparelCost - (data[i].ApparelCost*data[i].ApparelDiscount/100)).toFixed(2));
                             $("#quantityL").val(data[i].ApparelQuantity);
 
                         }

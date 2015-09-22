@@ -55,7 +55,6 @@ namespace FashionableMe.Models
         [Display(Name = "New Password")]
         public string Password { get; set; }
 
-
         //[Required]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

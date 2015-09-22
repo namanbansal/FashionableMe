@@ -209,6 +209,7 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\DetailsViewModel.cs" />
     <Compile Include="Models\DropDownFormat.cs" />
+    <Compile Include="Models\MyOrder.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferDetails.cs" />
     <Compile Include="Models\Quantity.cs" />
@@ -345,6 +346,8 @@
     <Content Include="Views\Customer\Kids.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
     <Content Include="Views\Customer\OfferOfDay.cshtml" />
+    <Content Include="Views\Cart\Shipping.cshtml" />
+    <Content Include="Views\Cart\CheckOut.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

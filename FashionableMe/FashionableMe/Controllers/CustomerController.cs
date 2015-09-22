@@ -31,6 +31,7 @@ namespace FashionableMe.Controllers
             model = obj.getTodaysOffer();
             Apparel apparel = new Apparel();
             apparel = obj.getApparelByID(model[0].ApparelID)[0];
+            ViewBag.OfferID = model[0].OfferID;
             ViewBag.OfferName = model[0].OfferName;
             ViewBag.OfferDescription = model[0].OfferDescription;
             ViewBag.OfferDiscount = model[0].Discount;

@@ -12,7 +12,14 @@
         $(".editQuantity").hide();
         $(".updatePanel").hide();
         $(".cancel").hide();
-
+        $("#EditQuantity").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 49 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("<h3 style='color:red'>Quantity should be greater than zero!</h3>").show().fadeOut(1000);
+                return false;
+            }
+        });
         $(".edit").click(function () {
             var tr = $(this).parents('tr:first');
             var apparelID = $(this).prop('id');
@@ -59,7 +66,7 @@
     }
     </script>
 <h2>My Cart</h2>
-
+<span id="errmsg"></span>
 <table >
     <tr>
         <th>Apparel Name</th><th>Size</th><th>Quantity</th><th>Total Amount</th>
@@ -75,8 +82,8 @@
             <tr>
                 <td>@item.Apparel.ApparelName</td>
                 <td id="Size">@item.Apparel.ApparelSize</td>
-                <td ><label class="quantity" id="Quantity">@item.Quantity</label>
-                <input class="editQuantity" id="EditQuantity" type="number" value="@item.Quantity"/></td>
+                <td ><label class="quantity" id="Quantity" >@item.Quantity</label>
+                <input class="editQuantity" id="EditQuantity" type="number" min="1" value="@item.Quantity" required/></td>
                 <td>@price</td>
                 
                 <td>
@@ -92,5 +99,19 @@
             <td>@sum</td>
         </tr>
 </table>
+<table><tr>
+<td>@Html.ActionLink("Continue Shopping", "Index", "Home")</td>
+<td float="right">@Html.ActionLink("Proceed", "Shipping", "Cart",new { @class = "my-class" })</td>
 
-@Html.ActionLink("Continue Shopping", "Index", "Home")
+       </tr>
+    </table>
+<style>
+#errmsg
+{
+color: red;
+font-size:larger
+}
+a.my-class { color: #1ECDE0 }
+a.my-class { font-size: x-large }
+
+    </style>

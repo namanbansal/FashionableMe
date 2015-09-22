@@ -9,6 +9,7 @@ namespace FashionableMe.Models
 {
     public class Offer
     {
+        public string OfferID { get; set; }
         [Required]
         public string OfferName { get; set; }
         [Required]

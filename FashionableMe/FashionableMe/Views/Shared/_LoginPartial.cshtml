@@ -1,7 +1,7 @@
-﻿@if(Session["SessionUser"] != null ) {
+﻿@if(Session["UserID"] != null ) {
     <text>
     <h2>
-        Welcome, @Session["SessionUser"].ToString() , @Html.ActionLink("Update Your Profile" , "Details", "Account", routeValues: Session["role"], htmlAttributes: new { @class = "username", title = "Customer Details" })
+        Welcome, @Session["UserID"].ToString() , @Html.ActionLink("Update Your Profile" , "Details", "Account", routeValues: Session["role"], htmlAttributes: new { @class = "username", title = "Customer Details" })
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>

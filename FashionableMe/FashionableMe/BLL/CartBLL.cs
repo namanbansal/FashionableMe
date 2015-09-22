@@ -14,9 +14,27 @@ namespace FashionableMe.BLL
         {
             dalObj = new CartDAL();
         }
+
         public Apparel getApparelForCart(string apparelID, string size)
         {
             return dalObj.getApparelForCart(apparelID, size);
         }
+
+        public DetailsViewModel getShippingDetails(string customerID)
+        {
+            CustomerDal custDalObj = new CustomerDal();
+            return custDalObj.getCustomerDetails(customerID);
+        }
+
+        public bool InsertOrderDetails(List<MyOrder> orders)
+        {
+            return dalObj.InsertOrderDetails(orders);
+
+        }
+        public List<MyOrder> GetOrderDetails(string UserID)
+        {
+            return dalObj.GetOrderDetails(UserID);
+        }
+        
     }
 }

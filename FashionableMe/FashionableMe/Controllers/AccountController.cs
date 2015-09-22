@@ -62,7 +62,7 @@ namespace FashionableMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            Session["SessionUser"] = null;
+            Session["UserID"] = null;
             Session["UserRole"] = null;
             Session["cart"] = null;
 
@@ -120,12 +120,12 @@ namespace FashionableMe.Controllers
         public ActionResult Details()
         {
             AccountBLL accBLL = new AccountBLL();
-            if (Session["SessionUser"] == null)
+            if (Session["UserID"] == null)
             {
                 return(RedirectToAction("Login","Account"));
             }
 
-            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["SessionUser"].ToString());
+            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["UserID"].ToString());
             ViewBag.statusCode = 0;
             return View(model);
         }

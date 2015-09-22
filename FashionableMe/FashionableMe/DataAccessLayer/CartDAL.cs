@@ -42,5 +42,95 @@ namespace FashionableMe.DataAccessLayer
             return data;
 
         }
+
+        public bool InsertOrderDetails(List<MyOrder> orders)
+        {
+            bool status = false;
+            HttpContext.Current.Session["status"] = "DefaultMessage";
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                
+                MyOrder order = new MyOrder();
+                DateTime dateOfPurchase = DateTime.Now;
+                Random generator = new Random();
+                String transactionID = generator.Next(0, 1000000).ToString("D6");
+                for (int i = 0; i < orders.Count; i++)
+                {
+                    SqlCommand cmd = new SqlCommand("INSERT INTO CustomerOrders values (@TransactionID, @CustomerID, @ProductName, @SizeOfApparel, @Quantity, @TotalAmount, @ShippingAddress, @City, @State, @Pincode, @DateOfPurchase )", conn);
+                    order = orders[i];
+                    cmd.Parameters.AddWithValue("TransactionID", transactionID);
+                    cmd.Parameters.AddWithValue("CustomerID", order.UserID);
+                    cmd.Parameters.AddWithValue("ProductName", order.ProductName);
+                    cmd.Parameters.AddWithValue("SizeOfApparel", order.SizeOfApparel);
+                    cmd.Parameters.AddWithValue("Quantity", order.Quantity);
+                    cmd.Parameters.AddWithValue("TotalAmount", order.TotalAmount);
+                    cmd.Parameters.AddWithValue("ShippingAddress", order.ShippingAddress);
+                    cmd.Parameters.AddWithValue("City", order.City);
+                    cmd.Parameters.AddWithValue("State", order.State);
+                    cmd.Parameters.AddWithValue("Pincode", order.Pincode);
+                    cmd.Parameters.AddWithValue("DateOfPurchase", dateOfPurchase);
+
+                    int rslt = cmd.ExecuteNonQuery();
+                    status = true;
+                }
+
+            }
+            catch (Exception exc)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = exc.Message;
+            }
+            conn.Close();
+            return status;
+        }
+
+        public List<MyOrder> GetOrderDetails(string UserID)
+        {
+            bool status = false;
+            HttpContext.Current.Session["status"] = "DefaultMessage";
+            List<MyOrder> orders = new List<MyOrder>();
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM CustomerOrders WHERE CustomerID=@UserID", conn);
+                cmd.Parameters.AddWithValue("UserID", UserID);
+        
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        MyOrder order = new MyOrder();
+                        
+                        order.TransactionID = reader.GetInt32(reader.GetOrdinal("TransactionID"));
+                        order.UserID = reader.GetInt32(reader.GetOrdinal("CustomerID")).ToString();
+                        order.ProductName = reader.GetString(reader.GetOrdinal("ProductName"));
+                        order.SizeOfApparel = reader.GetString(reader.GetOrdinal("SizeOfApparel"));
+                        order.Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                        order.TotalAmount = reader.GetDecimal(reader.GetOrdinal("TotalAmount"));
+                        order.ShippingAddress = reader.GetString(reader.GetOrdinal("ShippingAddress"));
+                        order.City = reader.GetString(reader.GetOrdinal("City"));
+                        order.State = reader.GetString(reader.GetOrdinal("State"));
+                        order.Pincode = reader.GetInt32(reader.GetOrdinal("Pincode")).ToString(); ;
+                        order.DateOfPurchase = reader.GetDateTime(reader.GetOrdinal("DateOfPurchase"));
+
+                        orders.Add(order);
+                        status = true;
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = exc.Message;
+            }
+            conn.Close();
+            return orders;
+                
+        }
+
     }
 }

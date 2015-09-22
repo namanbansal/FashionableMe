@@ -85,10 +85,11 @@
         console.log(id, size);
         
 
-        var link = '@Html.Raw(@Url.Action("OrderNowOffer", "Cart", new { id = -1, size= -2, offerDiscount = -3}))';
+        var link = '@Html.Raw(@Url.Action("OrderNowOffer", "Cart", new { id = -1, size= -2, offerDiscount = -3, offerID = -4}))';
         link = link.replace("-1", id);
         link = link.replace("-2", size);
         link = link.replace("-3", @ViewBag.OfferDiscount);
+        link = link.replace("-4", @ViewBag.OfferID);
         console.log(link);
         window.location = link;
     }

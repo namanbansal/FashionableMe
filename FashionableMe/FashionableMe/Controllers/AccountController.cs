@@ -134,10 +134,11 @@ namespace FashionableMe.Controllers
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Details(DetailsViewModel model)
-        {   
-            string status = new AccountBLL().CheckAndUpdateCustomer(model);
+        {
+            int statusCode = 0;
+            string status = new AccountBLL().CheckAndUpdateCustomer(model,out statusCode);
             ViewBag.Message = status;
-            ViewBag.statusCode = 1;
+            ViewBag.statusCode = statusCode;
             return View();
 
         }

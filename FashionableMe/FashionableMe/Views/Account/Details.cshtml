@@ -11,6 +11,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var statusCode = parseInt(@ViewBag.statusCode);
+        if (statusCode>0) {
+            $("#Message").css("color","red");
+        }
             $(".editor-field").children().prop("readonly", true);
             $(".editor-field").children().css("background-color","lightgrey");
             $(':radio:not(:checked)').attr('disabled', true);
@@ -41,6 +44,20 @@
 
         ast = $("<b> * <b>").css("color", "red");
         $(".editor-label").children().append(ast);
+
+        $("#newPass").children("input").on("input",function(){
+            if ($(this).val() == $("#oldPass").children("input").val()) {
+                $("#checkPass").text("New Password Cannot be same as Old password");
+                $(":submit").prop("disabled",true).css("cursor","default");
+            }
+            else
+            {
+                $("#checkPass").text("");
+                $(":submit").prop("disabled",false).css("cursor","pointer");
+            }
+                
+        });
+
     });
 </script>
 
@@ -118,16 +135,17 @@
             <div class="editor-label">
                 @Html.LabelFor(model => model.OldPassword )
             </div>
-            <div class="editor-field">
+            <div class="editor-field" id="oldPass">
                 @Html.EditorFor(model => model.OldPassword )
                 @Html.ValidationMessageFor(model => model.OldPassword)
             </div>
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.Password)
+                
             </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Password)
+            <div class="editor-field" id="newPass"> 
+                @Html.EditorFor(model => model.Password)<label id="checkPass" style="color:red"></label>
                 @Html.ValidationMessageFor(model => model.Password)
             </div>
 
@@ -148,7 +166,7 @@
              <input class="hiddenButton" type="button" value="Cancel" hidden onclick="location.href='@Url.Action("Details", "Account")' "/>
         </p>
     </fieldset>
-    <h3 style="font-weight:bold ; font-size: x-large ; color: forestgreen ">@ViewBag.Message</h3>
+    <h3 id="Message" style="font-weight:bold ; font-size: x-large ; color: forestgreen ">@ViewBag.Message</h3>
 }
 
 

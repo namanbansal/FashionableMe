@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using FashionableMe.BLL;
 using FashionableMe.Models;
 using System.Web.Script.Serialization;
+using FashionableMe.DataAccessLayer;
 
 namespace FashionableMe.Controllers
 {
@@ -90,10 +91,25 @@ namespace FashionableMe.Controllers
             return (jsonobj.Serialize(quantityDetails));
         }
 
-        public ActionResult Details(int id)
+        [HttpPost]
+        public ActionResult getRatingDetails(string apparelID)
         {
-            return View();
+            CustomerDal obj = new CustomerDal();
+            return(Json(obj.getRatingDetails(apparelID),JsonRequestBehavior.AllowGet));
         }
+
+        [HttpPost]
+        public ActionResult UpdateRatingDetails(string apparelID , string userID , int rating , string comment, int currRating)
+        {
+            CustomerDal obj = new CustomerDal();
+            bool status = obj.InsertOrUpdateRating(apparelID , userID , rating , comment,currRating);
+            return(Json(new {state = status},JsonRequestBehavior.AllowGet));
+        }
+
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         //
         // GET: /Customer/Create
@@ -102,6 +118,7 @@ namespace FashionableMe.Controllers
         {
             return View();
         }
+
 
         //
         // POST: /Customer/Create

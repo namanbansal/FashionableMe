@@ -60,7 +60,10 @@
         });
         
         $("#fetchDetails").click(function (e) {
-                
+            $("#saveButton").hide();
+            $("#cancelButton").hide();
+            $("#updateButton").show();
+            
                 var dateToFetch = $("#updatePanel").find("input[type=date]").val();
                 console.log(dateToFetch);
                 
@@ -107,9 +110,10 @@
 
         $("#cancelButton").click(function () {
             console.log("cancel");
-            $('#updatePanel :input[type=number]').val('');
-            $('#updatePanel :input[type=text]').val('');
-            $('#updatePanel #OfferDescription').val('');
+            //$('#updatePanel :input[type=text]').val('');
+            $("#fetchDetails").trigger("click");
+            
+            
 
 
         });

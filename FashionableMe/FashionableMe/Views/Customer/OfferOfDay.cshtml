@@ -1,0 +1,178 @@
+﻿@model FashionableMe.Models.Apparel
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    function showDetails(){
+        
+        var rsltval = @Model.ApparelID ;
+        var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
+        $.ajax({
+            url: searchUrl,
+            data: { apparelID: rsltval },
+            type: "POST",
+            success: function (data) {
+                var data = JSON.parse(data);
+                $("#quantityS").val('0')
+                $("#quantityM").val('0')
+                $("#quantityL").val('0')
+
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].ApparelSize == "S"){
+                        $("#apparelDiscountS").text(data[i].ApparelDiscount);
+                        $("#originalFareS").text(data[i].ApparelCost);
+                        $("#sellingFareS").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount + @ViewBag.OfferDiscount) /100));
+                        $("#quantityS").val(data[i].ApparelQuantity);
+
+                    }
+                    else if(data[i].ApparelSize == "M"){
+                        $("#apparelDiscountM").text(data[i].ApparelDiscount);
+                        $("#originalFareM").text(data[i].ApparelCost);
+                        $("#sellingFareM").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100));
+                        $("#quantityM").val(data[i].ApparelQuantity);
+
+                    }
+                    if(data[i].ApparelSize == "L"){
+                        $("#apparelDiscountL").text(data[i].ApparelDiscount);
+                        $("#originalFareL").text(data[i].ApparelCost);
+                        $("#sellingFareL").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100));
+                        $("#quantityL").val(data[i].ApparelQuantity);
+
+                    }
+
+                }
+                $(".apparelCategoryS").hide();
+                $(".apparelCategoryM").hide();
+                $(".apparelCategoryL").hide();
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].ApparelSize == "S"){
+                        if(parseInt(data[i].ApparelQuantity) >0){
+                            $(".apparelCategoryS").show();
+                            $('#sizeDropDown option[value=S]').prop('selected', true);
+                            break;
+
+                        }
+                    }
+                    else if(data[i].ApparelSize == "M"){
+
+                        if(parseInt(data[i].ApparelQuantity) >0){
+                            $(".apparelCategoryM").show();
+                            $('#sizeDropDown option[value=M]').prop('selected', true);
+                            break;
+
+                        }
+                    }
+                    if(data[i].ApparelSize == "L"){
+                        if(parseInt(data[i].ApparelQuantity) >0){
+                            $(".apparelCategoryL").show();
+                            $('#sizeDropDown option[value=L]').prop('selected', true);
+                            break;
+
+                        }
+                    }
+                }
+            }
+        });
+       
+
+        
+    }
+    function sendData(){
+        var id = @Model.ApparelID.ToString();
+        var size = $("#sizeDropDown").val().trim();
+        console.log(id, size);
+        
+
+        var link = '@Html.Raw(@Url.Action("OrderNowOffer", "Cart", new { id = -1, size= -2, offerDiscount = -3}))';
+        link = link.replace("-1", id);
+        link = link.replace("-2", size);
+        link = link.replace("-3", @ViewBag.OfferDiscount);
+        console.log(link);
+        window.location = link;
+    }
+    $(document).ready(function () {
+        showDetails();
+        $("#sizeDropDown").change(function (e) {
+            e.preventDefault();
+            var rsltval = $(this).val();
+            console.log("dropval");
+            console.log(rsltval);
+            $(".apparelCategoryS").hide();
+            $(".apparelCategoryM").hide();
+            $(".apparelCategoryL").hide();
+            $("#addToCart").attr("disabled", false);
+
+            if(rsltval == "S"){
+                $(".apparelCategoryS").show();
+                console.log($("#quantityS").val());
+                if(parseInt($("#quantityS").val())<1)
+                    $("#addToCart").attr("disabled", true);
+
+            }
+            if(rsltval == "M"){
+                console.log($("#quantityM").val());
+
+                $(".apparelCategoryM").show();
+                if(parseInt($("#quantityM").val())<1)
+                    $("#addToCart").attr("disabled", true);
+            }
+            if(rsltval == "L"){
+                console.log($("#quantityL").val());
+
+                $(".apparelCategoryL").show();
+                if(parseInt($("#quantityL").val())<1)
+                    $("#addToCart").attr("disabled", true);
+            }
+                
+
+
+        });
+        
+
+    });
+    </script>
+<h2 style="color:cadetblue">@ViewBag.Title</h2>
+
+
+<br /><br /><br />
+
+<div id="detailsPanel">
+    <input type="hidden" id="apparelId"  />
+    <input type="hidden" id="quantityS"  />
+    <input type="hidden" id="quantityM"  />
+    <input type="hidden" id="quantityL"  />
+    <table>
+            
+        <tr><td>Offer Name</td><td id="OfferName">@ViewBag.OfferName</td></tr>
+        <tr><td>Brand Name</td><td id="brandName">@Model.BrandName</td></tr>
+        <tr><td>Offer Description</td><td id="OfferDescription">@ViewBag.OfferDescription</td></tr>
+        <tr><td>Normal Discount Percentage</td><td class="apparelCategoryS" id="apparelDiscountS"></td><td class="apparelCategoryM" id="apparelDiscountM"></td><td class="apparelCategoryL" id="apparelDiscountL"></td></tr>
+        <tr><td>Additional Discount as per the Offer</td><td id="OfferDiscount">@ViewBag.OfferDiscount</td></tr>
+        <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
+    </table>
+        <br />
+    <table>
+        <tr>
+            <td align="left"><input type="button" id="backToCollection" value="Back To Offers" onclick="location.href= '@Url.Action("Index", "Home")'"/></td> 
+            <td align="right"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
+        </tr>
+        <tr>
+            <td><label>Select from the Available Size</label>
+                 <select id="sizeDropDown"> 
+                     <option value="E">--Select--</option>
+                     <option value="S">S</option>
+                     <option value="M">M</option>
+                     <option value="L">L</option>
+                 </select>
+                </td>
+            <td>
+                <label style="align-self:center">Selling Fare:</label><label class="apparelCategoryS" id="sellingFareS"></label><label class="apparelCategoryM" id="sellingFareM"></label><label class="apparelCategoryL" id="sellingFareL"></label>
+            </td>
+        </tr>
+    </table>
+    <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;background-color:green" onclick="sendData()"/>
+
+</div>
+

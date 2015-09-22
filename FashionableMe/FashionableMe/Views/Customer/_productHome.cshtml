@@ -11,7 +11,9 @@
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
         //$("#apparelDiscount").text(discount);
-        $("#apparelImage").text(image);
+        console.log(image);
+        
+        $("#apparelImage").attr("src","/Images/main_apparel.jpg");
         //var sellingFare = cost - ((cost*discount)/100.0);
         //$("#originalFare").text(cost);
         //$("#sellingFare").text(sellingFare);
@@ -230,7 +232,7 @@
         </td>
         <td>
             
-            <img src="@item.ApparelImage" />
+            <img src="@Url.Content(item.ApparelImage)" alt="Image" />
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.ApparelCategory)
@@ -271,7 +273,7 @@
         <tr><td>Brand Name</td><td id="brandName"></td></tr>
         <tr><td>Apparel Description</td><td id="apparelDescription"></td></tr>
         <tr><td>Discount Percentage</td><td class="apparelCategoryS" id="apparelDiscountS"></td><td class="apparelCategoryM" id="apparelDiscountM"></td><td class="apparelCategoryL" id="apparelDiscountL"></td></tr>
-        <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
+        <tr><td>Apparel Image</td><td ><img id="apparelImage" src=""/></td></tr>
     </table>
         <br />
     <table>

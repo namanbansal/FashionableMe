@@ -124,7 +124,7 @@
                 //    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
                 //}
                 console.log("got : ",UserID);
-            }
+                }
         });
     }
 
@@ -255,22 +255,22 @@
             {
                 $("#erroMessage").text("Please Rate before Submitting Review").css("color","red");
                 return false;
-            } 
+            }  
             else
                 $("#erroMessage").text("");
 
             if(UserID != null) 
             {
-                var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
-                $.ajax({
-                    url: searchUrl,
-                    data: { apparelID: AppID , userID : UserID, rating : parseInt($("#userRate").val()), comment:$("#userComment").val(), currRating : currentRating },
-                    type: "POST",
-                    success: function (data){
+            var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
+            $.ajax({
+                url: searchUrl,
+                data: { apparelID: AppID , userID : UserID, rating : parseInt($("#userRate").val()), comment:$("#userComment").val(), currRating : currentRating },
+                type: "POST",
+                success: function (data){
                         //console.log(data.state);
-                        $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
-                    }
-                });
+                    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                }
+            });
                 return false;
             }
             console.log("User Id = ",UserID);
@@ -440,6 +440,6 @@
 </div>
 }
 
-
+    
 
 

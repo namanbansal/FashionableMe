@@ -1,0 +1,155 @@
+﻿@model FashionableMe.Models.DetailsViewModel
+
+@{
+    ViewBag.Title = "CheckOut";
+}
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        $('#radio').click(function () {
+            if ($('#COD').is(':checked')) {
+                console.log("cod");
+
+            }
+            if ($('#Credit').is(':checked')) {
+                console.log("credit");
+            }
+        });
+        $("#confirmOrder").click(function () {
+            if (atleastOneOptionSelected()) {
+                if ($('#COD').is(':checked')) {
+                    console.log("cod");
+                    var searchUrl = '@Url.Action("ConfirmOrder", "Cart")';
+                    console.log("in");
+                    $.ajax({
+                        url: searchUrl,
+                        type: "POST",
+                        data: {UserID: '@ViewBag.UserID'},
+                        success: function (data) {
+                            //console.log(data);
+                            console.log(data.length);
+
+                            $('#dynmGrid').html(data);
+                        }
+                    });
+                    console.log("out");
+
+                }
+                if ($('#Credit').is(':checked')) {
+                    console.log("credit");
+                }
+            }
+        });
+
+    });
+    function atleastOneOptionSelected() {
+
+        if ($("input[type=radio]:checked").length > 0) {
+            $("#addErrorPanel").html("");
+            return true;
+        }
+        else {
+            $("#addErrorPanel").html("<h3 style='color:red'>At least one payment mode should be selected!</h3>");
+        }
+        return false;
+    }
+</script>
+<h1 float="center">CheckOut</h1>
+<h3>Dear @Model.Name ,</h3>
+<h3>The following items will be shipped to the below mentioned address</h3>
+
+<table>
+    <tr>
+        <th>Offer ID</th>
+        <th>Product ID</th>
+        <th>Apparel Name</th>
+        <th>Size</th>
+        <th>Quantity</th>
+        <th>Total Amount</th>
+    </tr>
+    @{
+        decimal sum = 0;
+        decimal price = 0;
+    }
+    @foreach (var item in (List<FashionableMe.Models.CartItem>)Session["cart"])
+    {
+        price = Math.Round((((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity), 2);
+        sum += price;
+        <tr>
+            <td>@item.OfferID</td>
+            <td>@item.Apparel.ApparelID</td>
+            <td>@item.Apparel.ApparelName</td>
+            <td id="Size">@item.Apparel.ApparelSize</td>
+            <td>
+                <label class="quantity" id="Quantity">@item.Quantity</label>
+            <td>@price</td>
+
+        </tr>
+            
+    }
+    <tr>
+        <td align="right" colspan="5">
+            <h3>Total Price</h3>
+        </td>
+        <td>
+            <h3>@sum</h3>
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+
+<h2>Shipping Address</h2>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+
+        <td>@Html.DisplayFor(model => model.Name)</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <td>@Html.DisplayFor(model => model.Address)</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <td>@Html.DisplayFor(model => model.City)</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <td>@Html.DisplayFor(model => model.State)</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Pincode)
+        </th>
+        <td>@Html.DisplayFor(model => model.Pincode)</td>
+    </tr>
+    <tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </th>
+        <td>@Html.DisplayFor(model => model.MobileNumber)</td>
+    </tr>
+</table>
+<div id="radio">
+    <h2>Mode of Payment</h2>
+    <input type="radio" id="COD" value="Cash on Delivery" name="same">Cash on Delivery &nbsp &nbsp &nbsp
+    <input type="radio" id="Credit" name="same" value="Credit Card">Credit Card
+</div>
+<input type="button" id="confirmOrder" value="Confirm Order" style="align-self:center"/>
+<div id="addErrorPanel"></div>

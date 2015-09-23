@@ -28,13 +28,13 @@ namespace FashionableMe.Controllers
         public ActionResult OrderNow(string id, string size)
         {
             size = size.Trim();
-            if (Session["SessionUser"] == null)
+            if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
 
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
-                cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1, "NOOFF"));
                 Session["cart"] = cart;
             }
             else
@@ -42,7 +42,7 @@ namespace FashionableMe.Controllers
                 List<CartItem> cart = (List<CartItem>)Session["cart"];
                 int index = isExisting(Convert.ToInt32(id), size);
                 if (index == -1)
-                    cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
+                    cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1, "NOOFF"));
                 else
                     cart[index].Quantity++;
                 Session["cart"] = cart;
@@ -50,10 +50,10 @@ namespace FashionableMe.Controllers
             return View("Cart");
         }
 
-        public ActionResult OrderNowOffer(string id, string size, string offerDiscount)
+        public ActionResult OrderNowOffer(string id, string size, string offerDiscount, string offerID)
         {
             size = size.Trim();
-            if (Session["SessionUser"] == null)
+            if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
 
             Apparel apparel = new Apparel();
@@ -62,8 +62,8 @@ namespace FashionableMe.Controllers
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
-                
-                cart.Add(new CartItem(apparel, 1));
+
+                cart.Add(new CartItem(apparel, 1, offerID));
                 Session["cart"] = cart;
             }
             else
@@ -71,12 +71,36 @@ namespace FashionableMe.Controllers
                 List<CartItem> cart = (List<CartItem>)Session["cart"];
                 int index = isExisting(Convert.ToInt32(id), size);
                 if (index == -1)
-                    cart.Add(new CartItem(apparel, 1));
+                    cart.Add(new CartItem(apparel, 1, offerID));
                 else
                     cart[index].Quantity++;
                 Session["cart"] = cart;
             }
             return View("Cart");
+        }
+
+        public ActionResult Shipping()
+        {
+            DetailsViewModel custDetails = new DetailsViewModel();
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
+            else
+            {
+                custDetails = bllObj.getShippingDetails(Session["UserID"].ToString());
+
+            }
+
+            return View(custDetails);
+        }
+
+        [HttpPost]
+        public ActionResult Shipping(DetailsViewModel custDetails)
+        {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
+            ViewBag.UserID = Session["UserID"];
+            Session["MyOrder"] = custDetails;
+            return View("CheckOut", custDetails);
         }
 
         [HttpPost]
@@ -98,6 +122,30 @@ namespace FashionableMe.Controllers
             }
             Session["cart"] = cart;
             return status;
+        }
+
+        [HttpPost]
+        public bool ConfirmOrder(string UserID)
+        {
+            DetailsViewModel custDetails = new DetailsViewModel();
+            custDetails = (DetailsViewModel)Session["MyOrder"];
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            List<MyOrder> orders = new List<MyOrder>();
+            MyOrder order = new MyOrder();
+            order.ShippingAddress = custDetails.Address;
+            order.City = custDetails.City;
+            order.State = custDetails.State;
+            order.Pincode = custDetails.Pincode;
+            order.UserID = UserID;
+            for (int i = 0; i < cart.Count; i++)
+            {
+                order.ProductName = cart[i].Apparel.ApparelName;
+                order.SizeOfApparel = cart[i].Apparel.ApparelSize;
+                order.Quantity = cart[i].Quantity;
+                order.TotalAmount = cart[i].Quantity * (cart[i].Apparel.ApparelCost - (cart[i].Apparel.ApparelCost * cart[i].Apparel.ApparelDiscount)/100);
+                orders.Add(order);
+            }
+            return bllObj.InsertOrderDetails(orders);
         }
 
         private int isExisting(int id, string size)

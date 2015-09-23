@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace FashionableMe.Models
 {
     public class CartItem
     {
         private Apparel apparel = new Apparel();
+        [RegularExpression("^[1-9]+[0-9]*$", ErrorMessage = "Quantity should be only integer greater than zero")]
         private int quantity;
 
         public Apparel Apparel
@@ -22,12 +24,15 @@ namespace FashionableMe.Models
             set { quantity = value; }
         }
 
+        public string OfferID { get; set; }
+
         public CartItem() { }
 
-        public CartItem(Apparel apparel, int quantity)
+        public CartItem(Apparel apparel, int quantity, string offerID)
         {
             this.apparel = apparel;
             this.quantity = quantity;
+            this.OfferID = offerID;
         }
     }
 

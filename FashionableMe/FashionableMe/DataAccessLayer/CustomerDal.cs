@@ -49,7 +49,7 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             HttpContext.Current.Session["UserRole"] = "visitor";
-            //HttpContext.Current.Session["SessionUser"] = "000";
+            //HttpContext.Current.Session["UserID"] = "000";
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             try
@@ -62,7 +62,7 @@ namespace FashionableMe.DataAccessLayer
                 //return count.ToString();
                 if (count==1)
                 {   
-                    HttpContext.Current.Session["SessionUser"] = login.UserID;
+                    HttpContext.Current.Session["UserID"] = login.UserID;
                     if(login.UserID.ToLower() == "adminfme")
                         HttpContext.Current.Session["UserRole"] = "admin";
                     else
@@ -120,7 +120,7 @@ namespace FashionableMe.DataAccessLayer
             SqlConnection conn = new SqlConnection(conStr);
             SqlCommand cmd;
             statusCode = 0;
-            string userID = HttpContext.Current.Session["SessionUser"].ToString();
+            string userID = HttpContext.Current.Session["UserID"].ToString();
             try
             {
                 conn.Open();
@@ -292,6 +292,7 @@ namespace FashionableMe.DataAccessLayer
                     while (reader.Read())
                     {
                         //Offer obj = new Offer();
+                        obj.OfferID = reader.GetInt32(reader.GetOrdinal("OfferID")).ToString();
                         obj.OfferName = reader.GetString(reader.GetOrdinal("OfferName"));
                         obj.OfferDescription = reader.GetString(reader.GetOrdinal("OfferDescription"));
                         obj.ApparelID = reader.GetInt32(reader.GetOrdinal("OfferApparelID"));
@@ -347,10 +348,10 @@ namespace FashionableMe.DataAccessLayer
                     rateObj.ApparelRating = 0;
                 }
 
-                if (HttpContext.Current.Session["SessionUser"] != null)
+                if (HttpContext.Current.Session["UserID"] != null)
                 {
-                    rateObj.canRate = true;
-                    rateObj.UserID = HttpContext.Current.Session["SessionUser"].ToString();
+		            rateObj.canRate = true;
+                    rateObj.UserID = HttpContext.Current.Session["UserID"].ToString();
                 }   
                 else
                     rateObj.canRate = false;
@@ -360,7 +361,7 @@ namespace FashionableMe.DataAccessLayer
 
                 if(rateObj.ApparelRating != 0 && rateObj.canRate)
                 {
-                    rateObj.UserID = HttpContext.Current.Session["SessionUser"].ToString();
+                    rateObj.UserID = HttpContext.Current.Session["UserID"].ToString();
                     cmd = new SqlCommand("SELECT Rating, Comment from Rating where ApparelID=@appid and UserID=@userID ", conn);
                     cmd.Parameters.AddWithValue("appid", rateObj.ApparelID);
                     cmd.Parameters.AddWithValue("userID", rateObj.UserID);

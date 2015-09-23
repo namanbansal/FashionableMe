@@ -43,9 +43,9 @@ namespace FashionableMe.DataAccessLayer
 
         }
 
-        public bool InsertOrderDetails(List<MyOrder> orders)
+        public string InsertOrderDetails(List<MyOrder> orders)
         {
-            bool status = false;
+            string status = "false";
             HttpContext.Current.Session["status"] = "DefaultMessage";
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -74,7 +74,7 @@ namespace FashionableMe.DataAccessLayer
                     cmd.Parameters.AddWithValue("DateOfPurchase", dateOfPurchase);
 
                     int rslt = cmd.ExecuteNonQuery();
-                    status = true;
+                    status = transactionID;
                 }
 
             }

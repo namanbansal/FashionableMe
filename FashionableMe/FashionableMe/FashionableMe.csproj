@@ -348,6 +348,7 @@
     <Content Include="Views\Customer\OfferOfDay.cshtml" />
     <Content Include="Views\Cart\Shipping.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\Cart\PayByCredit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

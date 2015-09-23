@@ -11,6 +11,8 @@
         $("#apparelName").text(name);
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
+        $("#addToCart").hide();
+
         //$("#apparelDiscount").text(discount);
         //console.log(image);
         
@@ -63,6 +65,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryS").show();
                                 $('#sizeDropDown option[value=S]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -72,6 +75,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryM").show();
                                 $('#sizeDropDown option[value=M]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -80,6 +84,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryL").show();
                                 $('#sizeDropDown option[value=L]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -124,14 +129,10 @@
     function sendData(){
         var id = $("#apparelId").val().trim();
         var size = $("#sizeDropDown").val().trim();
-        //console.log(id, size);
-        
 
-        var link = '@Html.Raw(@Url.Action("OrderNow", "Cart", new { id = -1, size= -2 }))';
-        link = link.replace("-1", id);
-        link = link.replace("-2", size);
-        //console.log(link);
-        window.location = link;
+        $("#idON").val(id);
+        $("#sizeON").val(size);
+        document.forms["ordernow"].submit();
     }
     $(document).ready(function () {
         $("#detailsPanel").hide();
@@ -144,38 +145,43 @@
             $(".apparelCategoryS").hide();
             $(".apparelCategoryM").hide();
             $(".apparelCategoryL").hide();
-            //$("#addToCart").attr("disabled", false);
-            $("#addToCart").show();
-
-            if(rsltval == "S"){
-                $(".apparelCategoryS").show();
-                //console.log($("#quantityS").val());
-                if(parseInt($("#quantityS").val())<1){
-                    //$("#addToCart").attr("disabled", true);
-                    $("#addToCart").hide();
-                }
-
+            if(rsltval == "E"){
+                $("#addToCart").hide();
             }
-            if(rsltval == "M"){
-                //console.log($("#quantityM").val());
+                //$("#addToCart").attr("disabled", false);
+            else{
+                $("#addToCart").show();
 
-                $(".apparelCategoryM").show();
-                if(parseInt($("#quantityM").val())<1){
-                    //$("#addToCart").attr("disabled", true);
-                    $("#addToCart").hide();
-                }
-            }
-            if(rsltval == "L"){
-                //console.log($("#quantityL").val());
+            
+                if(rsltval == "S"){
+                    $(".apparelCategoryS").show();
+                    //console.log($("#quantityS").val());
+                    if(parseInt($("#quantityS").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
 
-                $(".apparelCategoryL").show();
-                if(parseInt($("#quantityL").val())<1){
-                    //$("#addToCart").attr("disabled", true);
-                    $("#addToCart").hide();
                 }
-            }
+                if(rsltval == "M"){
+                    //console.log($("#quantityM").val());
+
+                    $(".apparelCategoryM").show();
+                    if(parseInt($("#quantityM").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
+                }
+                if(rsltval == "L"){
+                    //console.log($("#quantityL").val());
+
+                    $(".apparelCategoryL").show();
+                    if(parseInt($("#quantityL").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
+                }
                 
-
+            }
 
         });
         $("#backToCollection").click(function(){
@@ -396,7 +402,10 @@
     
 </div>
 }
+<form id='ordernow' action="/Cart/OrderNow" method="post">
+    <input type="hidden" name="id" id="idON"/>
+    <input type="hidden" name="size" id="sizeON"/>
+</form>
 
-    
 
 

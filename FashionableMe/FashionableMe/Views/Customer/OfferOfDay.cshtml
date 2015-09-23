@@ -18,26 +18,29 @@
                 $("#quantityS").val('0')
                 $("#quantityM").val('0')
                 $("#quantityL").val('0')
+                $("#apparelImage").attr("src", '@Model.ApparelImage');
 
                 for (var i = 0; i < data.length; i++) {
                     if(data[i].ApparelSize == "S"){
                         $("#apparelDiscountS").text(data[i].ApparelDiscount);
                         $("#originalFareS").text(data[i].ApparelCost);
-                        $("#sellingFareS").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount + @ViewBag.OfferDiscount) /100));
+                        $("#sellingFareS").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount + @ViewBag.OfferDiscount) /100)).toFixed(2));
                         $("#quantityS").val(data[i].ApparelQuantity);
+
+                        
 
                     }
                     else if(data[i].ApparelSize == "M"){
                         $("#apparelDiscountM").text(data[i].ApparelDiscount);
                         $("#originalFareM").text(data[i].ApparelCost);
-                        $("#sellingFareM").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100));
+                        $("#sellingFareM").text(data[i].ApparelCost - ((data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100)).toFixed(2));
                         $("#quantityM").val(data[i].ApparelQuantity);
 
                     }
                     if(data[i].ApparelSize == "L"){
                         $("#apparelDiscountL").text(data[i].ApparelDiscount);
                         $("#originalFareL").text(data[i].ApparelCost);
-                        $("#sellingFareL").text(data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100));
+                        $("#sellingFareL").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100)).toFixed(2));
                         $("#quantityL").val(data[i].ApparelQuantity);
 
                     }
@@ -51,6 +54,7 @@
                         if(parseInt(data[i].ApparelQuantity) >0){
                             $(".apparelCategoryS").show();
                             $('#sizeDropDown option[value=S]').prop('selected', true);
+                            $("#addToCart").show();
                             break;
 
                         }
@@ -60,6 +64,7 @@
                         if(parseInt(data[i].ApparelQuantity) >0){
                             $(".apparelCategoryM").show();
                             $('#sizeDropDown option[value=M]').prop('selected', true);
+                            $("#addToCart").show();
                             break;
 
                         }
@@ -68,6 +73,7 @@
                         if(parseInt(data[i].ApparelQuantity) >0){
                             $(".apparelCategoryL").show();
                             $('#sizeDropDown option[value=L]').prop('selected', true);
+                            $("#addToCart").show();
                             break;
 
                         }
@@ -82,52 +88,61 @@
     function sendData(){
         var id = @Model.ApparelID.ToString();
         var size = $("#sizeDropDown").val().trim();
-        console.log(id, size);
-        
-
-        var link = '@Html.Raw(@Url.Action("OrderNowOffer", "Cart", new { id = -1, size= -2, offerDiscount = -3, offerID = -4}))';
-        link = link.replace("-1", id);
-        link = link.replace("-2", size);
-        link = link.replace("-3", @ViewBag.OfferDiscount);
-        link = link.replace("-4", @ViewBag.OfferID);
-        console.log(link);
-        window.location = link;
+        $("#idONO").val(id);
+        $("#sizeONO").val(size);
+        $("#offerDiscountONO").val('@ViewBag.OfferDiscount');
+        $("#offerIDONO").val('@ViewBag.OfferID');
+        document.forms["ordernowoffer"].submit();
     }
     $(document).ready(function () {
         showDetails();
+        $("#addToCart").hide();
+
         $("#sizeDropDown").change(function (e) {
             e.preventDefault();
             var rsltval = $(this).val();
-            console.log("dropval");
-            console.log(rsltval);
+            //console.log("dropval");
+            //console.log(rsltval);
             $(".apparelCategoryS").hide();
             $(".apparelCategoryM").hide();
             $(".apparelCategoryL").hide();
-            $("#addToCart").attr("disabled", false);
-
-            if(rsltval == "S"){
-                $(".apparelCategoryS").show();
-                console.log($("#quantityS").val());
-                if(parseInt($("#quantityS").val())<1)
-                    $("#addToCart").attr("disabled", true);
-
+            if(rsltval == "E"){
+                $("#addToCart").hide();
             }
-            if(rsltval == "M"){
-                console.log($("#quantityM").val());
+                //$("#addToCart").attr("disabled", false);
+            else{
+                $("#addToCart").show();
 
-                $(".apparelCategoryM").show();
-                if(parseInt($("#quantityM").val())<1)
-                    $("#addToCart").attr("disabled", true);
-            }
-            if(rsltval == "L"){
-                console.log($("#quantityL").val());
+            
+                if(rsltval == "S"){
+                    $(".apparelCategoryS").show();
+                    //console.log($("#quantityS").val());
+                    if(parseInt($("#quantityS").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
 
-                $(".apparelCategoryL").show();
-                if(parseInt($("#quantityL").val())<1)
-                    $("#addToCart").attr("disabled", true);
-            }
+                }
+                if(rsltval == "M"){
+                    //console.log($("#quantityM").val());
+
+                    $(".apparelCategoryM").show();
+                    if(parseInt($("#quantityM").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
+                }
+                if(rsltval == "L"){
+                    //console.log($("#quantityL").val());
+
+                    $(".apparelCategoryL").show();
+                    if(parseInt($("#quantityL").val())<1){
+                        //$("#addToCart").attr("disabled", true);
+                        $("#addToCart").hide();
+                    }
+                }
                 
-
+            }
 
         });
         
@@ -151,7 +166,7 @@
         <tr><td>Offer Description</td><td id="OfferDescription">@ViewBag.OfferDescription</td></tr>
         <tr><td>Normal Discount Percentage</td><td class="apparelCategoryS" id="apparelDiscountS"></td><td class="apparelCategoryM" id="apparelDiscountM"></td><td class="apparelCategoryL" id="apparelDiscountL"></td></tr>
         <tr><td>Additional Discount as per the Offer</td><td id="OfferDiscount">@ViewBag.OfferDiscount</td></tr>
-        <tr><td>Apparel Image</td><td id="apparelImage"></td></tr>
+        <tr><td>Apparel Image</td><td ><img src="" id="apparelImage"/></td></tr>
     </table>
         <br />
     <table>
@@ -177,3 +192,10 @@
 
 </div>
 
+
+<form id='ordernowoffer' action="/Cart/OrderNowOffer" method="post">
+    <input type="hidden" name="id" id="idONO"/>
+    <input type="hidden" name="size" id="sizeONO"/>
+    <input type="hidden" name="offerDiscount" id="offerDiscountONO"/>
+    <input type="hidden" name="OfferID" id="OfferIDONO"/>
+</form>

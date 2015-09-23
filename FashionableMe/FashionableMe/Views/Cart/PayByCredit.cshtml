@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "PayByCredit";
+}
+
+<h2>Pay By Credit Card</h2>
+<script src="jquery.autotab.js">
+    $(document).ready(function () {
+    $('.answer').autotab({ maxlength: 1 });
+    });
+</script>
+
+<table>
+
+    <tr><td><h3>Total Amount</h3></td> <td><h3>Rs. @ViewBag.TotalAmount</h3></td></tr>
+    <tr><h1 style="color:darkblue">Enter Credit Card Details</h1></tr>
+    <tr><td><h3>Card Number</h3></td><td><input type="number" class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""></td></tr>
+    
+    <tr><td><h3>Card Holder Name</h3></td><td><input type="text" required /></td></tr>
+    <tr><td><h3>Valid Till</h3></td><td><input type="text" required /></td></tr>
+
+    
+
+    </table>

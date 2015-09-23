@@ -20,11 +20,15 @@ namespace FashionableMe.Controllers
         // GET: /Cart/
         public ActionResult Index()
         {
+            if (Session["UserID"] == null)
+                return View("Index", "Home");
+
             return View("Cart");
         }
 
         //
         // GET: /Cart/Details/5
+        [HttpPost]
         public ActionResult OrderNow(string id, string size)
         {
             size = size.Trim();
@@ -47,9 +51,10 @@ namespace FashionableMe.Controllers
                     cart[index].Quantity++;
                 Session["cart"] = cart;
             }
-            return View("Cart");
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public ActionResult OrderNowOffer(string id, string size, string offerDiscount, string offerID)
         {
             size = size.Trim();
@@ -76,7 +81,7 @@ namespace FashionableMe.Controllers
                     cart[index].Quantity++;
                 Session["cart"] = cart;
             }
-            return View("Cart");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Shipping()
@@ -125,7 +130,7 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public bool ConfirmOrder(string UserID)
+        public string ConfirmOrder(string UserID)
         {
             DetailsViewModel custDetails = new DetailsViewModel();
             custDetails = (DetailsViewModel)Session["MyOrder"];
@@ -146,6 +151,15 @@ namespace FashionableMe.Controllers
                 orders.Add(order);
             }
             return bllObj.InsertOrderDetails(orders);
+        }
+
+        [HttpPost]
+        public ActionResult PayByCredit(string totalAmount)
+        {
+            
+            ViewBag.TotalAmount = totalAmount;
+
+            return View();
         }
 
         private int isExisting(int id, string size)

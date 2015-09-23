@@ -26,7 +26,7 @@ namespace FashionableMe.BLL
             return custDalObj.getCustomerDetails(customerID);
         }
 
-        public bool InsertOrderDetails(List<MyOrder> orders)
+        public string InsertOrderDetails(List<MyOrder> orders)
         {
             return dalObj.InsertOrderDetails(orders);
 

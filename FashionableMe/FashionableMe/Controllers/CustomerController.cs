@@ -105,11 +105,27 @@ namespace FashionableMe.Controllers
             bool status = obj.InsertOrUpdateRating(apparelID , userID , rating , comment,currRating);
             return(Json(new {state = status},JsonRequestBehavior.AllowGet));
         }
-        
+
         //public ActionResult Details(int id)
         //{
         //    return View();
         //}
+
+
+        [HttpPost]
+        public bool setToSession(ItemDetails item)
+        {
+            Session["ItemDetails"] = item;
+            return true;
+        }
+
+        [HttpPost]
+        public ActionResult getFromSession(string sender)
+        {
+            ItemDetails item = (ItemDetails)Session["ItemDetails"];
+            Session["ItemDetails"] = null;
+            return(Json(item));
+        }
 
         //
         // GET: /Customer/Create

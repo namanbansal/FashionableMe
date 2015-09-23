@@ -345,8 +345,11 @@
     <Content Include="Views\Customer\Kids.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
     <Content Include="Views\Customer\OfferOfDay.cshtml" />
+    <Content Include="Views\Admin\UploadImage.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\Files\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

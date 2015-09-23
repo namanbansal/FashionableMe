@@ -62,7 +62,7 @@
             @Html.EditorFor(model => model.ApparelImage)
             @Html.ValidationMessageFor(model => model.ApparelImage)
         </div>
-
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.ApparelDiscount)
         </div>
@@ -96,6 +96,8 @@
         </p>
     </fieldset>
 }
+ 
+    @{Html.RenderPartial("UploadImage");}
 
 <div>
     @Html.ActionLink("Back to List", "Index")

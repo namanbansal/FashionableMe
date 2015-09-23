@@ -11,6 +11,7 @@ namespace FashionableMe.Models
     public class Customer
     {
         [Required]
+        [RegularExpression(@"^([a-z A-Z]*)$", ErrorMessage = "Only letters and spaces are allowed")]
         [StringLength(30, ErrorMessage = "Atmost 30 characters allowed.")]
         public string Name { get; set; }
 

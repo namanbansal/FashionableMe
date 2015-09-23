@@ -76,6 +76,7 @@ namespace FashionableMe.Controllers
             Session["SessionUser"] = null;
             Session["UserRole"] = null;
             Session["cart"] = null;
+            Session["ItemDetails"] = null;
 
             return RedirectToAction("Index", "Home");
         }

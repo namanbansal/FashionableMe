@@ -5,8 +5,12 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
 <script type="text/javascript">
-    AppID = ""; UserID=""; currentRating=0;
+    AppID = ""; UserID=""; currentRating=0;//nr=0;nc="";
+    itemDetails = {}
+
     function showDetails(id, name, brand, description, image){
+        itemDetails.id = id.trim(); itemDetails.name=name.trim(); itemDetails.brand=brand.trim(); 
+        itemDetails.description=description.trim(); itemDetails.image=image.trim();
         $("#apparelId").val(id);
         $("#apparelName").text(name);
         $("#brandName").text(brand);
@@ -92,22 +96,24 @@
                     }
                 }
             });
+        
         $("#listPanel").hide();
         $("#searchPanel").hide();
         $("#detailsPanel").show();
         $("#ratingPanel").show();
         getRating(id);
+        
         ////console.log(id, name, brand, description, image);
     }
 
     function getRating(id)
     {
-        var searchUrl = '@Url.Action("getRatingDetails", "Customer")';
-        
+        var searchUrl = '@Url.Action("getRatingDetails", "Customer")'; 
         $.ajax({
             url: searchUrl,
             data: { apparelID: id.trim() },
             type: "POST",
+            async : false,
             success: function (data){
                 AppID = data.ApparelID;
                 UserID = data.UserID;
@@ -116,7 +122,8 @@
                 $("#comment").val(data.Comment).prop("disabled",true).css({"background-color":"lightgrey"});
                 $("#userRate").val(data.userRating);
                 $("#userComment").val(data.userComment);
-                $("#userRate,#userComment,#reviewButton").prop("disabled",false).css({"cursor":"default","background-color":"white"});
+                $("#userRate,#userComment").prop("disabled",false).css({"cursor":"default","background-color":"white"});
+                $("#reviewButton").prop("disabled",false).css({"cursor":"pointer","background-color":"white"})
                 //if(!data.canRate)
                 //{
                 //    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
@@ -134,6 +141,26 @@
         $("#sizeON").val(size);
         document.forms["ordernow"].submit();
     }
+    
+    function loadItems() {
+        var srchUrl = '@Url.Action("getFromSession", "Customer")';
+        $.ajax({
+            url : srchUrl,
+            type : "POST",
+            datatype : 'json',
+            data : { sender : "item" },
+            success : function(data){
+                console.log(" Got From Server : ", data);
+                if (data != null) 
+                {
+                    showDetails(data.id, data.name, data.brand, data.description, data.image);
+                    $("#userRate").val(data.newRating);
+                    $("#userComment").val(data.newComment);
+                }
+            }
+        });
+    }
+    
     $(document).ready(function () {
         $("#detailsPanel").hide();
         
@@ -253,10 +280,26 @@
                 return false;
             }
             console.log("User Id = ",UserID);
-            return true;
+            itemDetails.newRating = $("#userRate").val();
+            itemDetails.newComment = $("#userComment").val();
+            var srchUrl = '@Url.Action("setToSession", "Customer")';
+            
+            $.ajax({
+            type : "POST",
+            url: srchUrl ,
+            dataType: 'json',
+            data : itemDetails ,
+            success : function() {}
+            });
+
         });
 
     });
+
+    $(window).bind("load", function() {
+        loadItems();
+    });
+
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 

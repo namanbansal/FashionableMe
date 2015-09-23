@@ -1,23 +1,114 @@
-﻿@{
+﻿@model FashionableMe.Models.CreditCard
+
+@{
     ViewBag.Title = "PayByCredit";
 }
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<h2>PayByCredit</h2>
+<script type="text/javascript">
+    function validateForm() {
+        $("#err").html("");
+        var status = true;
+        console.log($("#ExpiryMonth option:selected").val());
+        if ($("#ExpiryMonth option:selected").val() == "") {
+            $("#err").html("<h3 style=\"" + "color:red\"" + ">Please select Expiry Month</h3>");
+            status = false;
+        }
+        if ($("#ExpiryYear option:selected").val() == "") {
+            $("#err").append("<h3 style=\"" + "color:red\"" + ">Please select Expiry Year</h3>");
+            status = false;
 
-<h2>Pay By Credit Card</h2>
-<script src="jquery.autotab.js">
+        }
+        
+        return status;
+    }
     $(document).ready(function () {
-    $('.answer').autotab({ maxlength: 1 });
+        $("#pay").attr("disabled", true);
+        $("#Reset").attr("disabled", false);
+        $("#validate").attr("disabled", false);
+        
+        $("#myform").submit(function (e) {
+            e.preventDefault();
+            console.log("submit");
+            $("#myform").validate();
+            if ($("#myform").valid() && validateForm()) {
+                console.log("valid");
+                $("#success").html("<h3 style='color:green'>Validation Successful!</h3>");
+                $("#pay").attr("disabled", false);
+                $("#Reset").attr("disabled", true);
+                $("#validate").attr("disabled", true);
+            }
+            return false;
+        });
+
+        $("#Reset").click(function () {
+            $("#err").html("");
+            $('input[type="number"]').val('');
+            $('input[type="text"]').val('');
+            $('input[type="password"]').val('');
+        });
     });
+
 </script>
 
-<table>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id="myform"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-    <tr><td><h3>Total Amount</h3></td> <td><h3>Rs. @ViewBag.TotalAmount</h3></td></tr>
-    <tr><h1 style="color:darkblue">Enter Credit Card Details</h1></tr>
-    <tr><td><h3>Card Number</h3></td><td><input type="number" class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""> - <input class="text-box single-line" data-val="true" data-val-length="Only 4 numbers allowed." data-val-length-max="4" data-val-length-min="4" data-val-regex="Only digits are allowed" data-val-regex-pattern="^([0-9]{4})$" data-val-required="This field is required." id="card1" name="card1" type="text" value=""></td></tr>
-    
-    <tr><td><h3>Card Holder Name</h3></td><td><input type="text" required /></td></tr>
-    <tr><td><h3>Valid Till</h3></td><td><input type="text" required /></td></tr>
+    <fieldset>
+        <legend>CreditCard</legend>
 
-    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CardHolderName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CardHolderName)
+            @Html.ValidationMessageFor(model => model.CardHolderName)
+        </div>
 
-    </table>
+        <div class="editor-label">
+            <h4>Card Number</h4>
+        </div>
+        <div class="editor-field" id="cardnumber" >
+            @Html.EditorFor(model => model.CardNumber1) - @Html.EditorFor(model => model.CardNumber2) -@Html.EditorFor(model => model.CardNumber3) - @Html.EditorFor(model => model.CardNumber)
+            @Html.ValidationMessageFor(model => model.CardNumber)
+        </div>
+
+        <div class="editor-label">
+            <h4>Valid Till</h4>
+        </div>
+        <div>
+        @Html.DropDownList("ExpiryMonth", Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString() }), "Expiry Month")
+        @Html.DropDownList("ExpiryYear", Enumerable.Range(DateTime.Now.Year, 10).Select(x => new SelectListItem { Text = x.ToString() }), "Expiry Year")
+        </div>
+        <div id="err"></div>
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CVV)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CVV)
+            @Html.ValidationMessageFor(model => model.CVV)
+        </div>
+
+        <p>
+            <input type="submit" value="Validate Card Details" id="validate" /> <input type="button" value="Reset" id="Reset"/> <input type="submit" value="Pay Now" id="pay"/>
+        </p>
+    </fieldset>
+}
+
+<div id="success"></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<style>
+#cardnumber input[type="number"]{
+    width:80px !important;
+}
+
+    </style>

@@ -11,6 +11,7 @@ namespace FashionableMe.BLL
     public class CustomerBLL
     {
         private CustomerDal dalObj;
+
         public CustomerBLL()
         {
             dalObj = new CustomerDal();
@@ -35,6 +36,12 @@ namespace FashionableMe.BLL
         public List<Apparel> getApparelByID(int id)
         {
             return dalObj.getApparelByID(id);
+        }
+
+        public List<MyOrder> GetOrderDetails(string UserID)
+        {
+            CartDAL cartDalObj = new CartDAL();
+            return cartDalObj.GetOrderDetails(UserID.Trim());
         }
     }
 }

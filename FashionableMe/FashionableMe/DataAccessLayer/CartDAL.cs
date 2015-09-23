@@ -88,8 +88,6 @@ namespace FashionableMe.DataAccessLayer
 
         public List<MyOrder> GetOrderDetails(string UserID)
         {
-            bool status = false;
-            HttpContext.Current.Session["status"] = "DefaultMessage";
             List<MyOrder> orders = new List<MyOrder>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -106,8 +104,8 @@ namespace FashionableMe.DataAccessLayer
                     {
                         MyOrder order = new MyOrder();
                         
-                        order.TransactionID = reader.GetInt32(reader.GetOrdinal("TransactionID"));
-                        order.UserID = reader.GetInt32(reader.GetOrdinal("CustomerID")).ToString();
+                        order.TransactionID = reader.GetString(reader.GetOrdinal("TransactionID"));
+                        order.UserID = reader.GetString(reader.GetOrdinal("CustomerID")).ToString();
                         order.ProductName = reader.GetString(reader.GetOrdinal("ProductName"));
                         order.SizeOfApparel = reader.GetString(reader.GetOrdinal("SizeOfApparel"));
                         order.Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
@@ -115,11 +113,10 @@ namespace FashionableMe.DataAccessLayer
                         order.ShippingAddress = reader.GetString(reader.GetOrdinal("ShippingAddress"));
                         order.City = reader.GetString(reader.GetOrdinal("City"));
                         order.State = reader.GetString(reader.GetOrdinal("State"));
-                        order.Pincode = reader.GetInt32(reader.GetOrdinal("Pincode")).ToString(); ;
+                        order.Pincode = reader.GetInt64(reader.GetOrdinal("Pincode")).ToString() ;
                         order.DateOfPurchase = reader.GetDateTime(reader.GetOrdinal("DateOfPurchase"));
 
                         orders.Add(order);
-                        status = true;
                     }
                 }
             }

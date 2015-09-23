@@ -8,7 +8,7 @@ namespace FashionableMe.Models
     public class MyOrder
     {
         public string UserID { get; set; }
-        public int TransactionID { get; set; }
+        public string TransactionID { get; set; }
         public string ProductName { get; set; }
         public string SizeOfApparel { get; set; }
         public int Quantity { get; set; }

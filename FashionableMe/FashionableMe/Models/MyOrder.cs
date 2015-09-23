@@ -18,5 +18,7 @@ namespace FashionableMe.Models
         public string State { get; set; }
         public string Pincode { get; set; }
         public DateTime DateOfPurchase { get; set; }
+
+        public int ApparelID { get; set; }
     }
 }

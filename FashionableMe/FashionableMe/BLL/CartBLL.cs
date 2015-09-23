@@ -35,6 +35,20 @@ namespace FashionableMe.BLL
         {
             return dalObj.GetOrderDetails(UserID);
         }
-        
+
+        public bool saveCart(List<CartItem> cartItems, string UserID)
+        {
+            return dalObj.saveCart(cartItems, UserID);
+        }
+
+        public List<CartItem> getUserCart(string UserID)
+        {
+            return dalObj.getUserCart(UserID);
+        }
+
+        public int checkAvailableQuantity(int apparelID, string apparelSize, int quantity)
+        {
+            return dalObj.checkAvailableQuantity(apparelID, apparelSize, quantity);
+        }
     }
 }

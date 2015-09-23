@@ -276,6 +276,39 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
+        public Quantity getQuantityDetailForApparel(int apparelID, string size)
+        {
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            Quantity prodObj = new Quantity();
+
+            try
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("Select * from Quantity where ApparelID=@apparelID AND ApparelSize=@size", conn);
+                cmd.Parameters.AddWithValue("apparelID", apparelID);
+                cmd.Parameters.AddWithValue("size", size);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        prodObj.ApparelID = reader.GetInt32(reader.GetOrdinal("ApparelID"));
+                        prodObj.ApparelCost = reader.GetDecimal(reader.GetOrdinal("ApparelCost"));
+                        prodObj.ApparelDiscount = reader.GetDecimal(reader.GetOrdinal("ApparelDiscount"));
+                        prodObj.ApparelQuantity = reader.GetInt32(reader.GetOrdinal("QuantityPerSize"));
+                    }
+                }
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return prodObj;
+        }
+
         public Offer getTodaysOffer(string date)
         {
             Offer obj = new Offer();

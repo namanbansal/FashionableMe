@@ -30,6 +30,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult Offer()
         {
+
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }

@@ -60,6 +60,7 @@
             
         });
         
+
     });
     function updateQ(quant){
 
@@ -67,17 +68,29 @@
     </script>
 <h2>My Cart</h2>
 <span id="errmsg"></span>
+@if (@Session["cartUpdated"] == "true")
+{
+    Session["cartUpdated"] = "false";
+    <h2 style="color:lightgreen">Availability for some products has changed! Please review updated quantity.</h2>
+    
+}
+
+@if(@ViewBag.CartCount == "0"){
+    <h2 style="color:red">No Products in Cart!!!</h2>
+}
+else
+{
 <table >
     <tr>
         <th>Apparel Name</th><th>Size</th><th>Quantity</th><th>Total Amount</th>
     </tr>
         @{
-            decimal sum = 0;
-            decimal price = 0;
+    decimal sum = 0;
+    decimal price = 0;
         }
         @foreach (var item in (List<FashionableMe.Models.CartItem>)Session["cart"])
         {
-            price = Math.Round((((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity),2);
+            price = Math.Round((((item.Apparel.ApparelCost * (100 - @item.Apparel.ApparelDiscount)) / 100) * item.Quantity), 2);
             sum += price;
             <tr>
                 <td>@item.Apparel.ApparelName</td>
@@ -90,8 +103,9 @@
                     <input type="button" class="edit" id="Edit" value="Edit" />
                     <input type="button" class="updatePanel" id="@item.Apparel.ApparelID" value="Update" />
                     <input type="button" class="cancel" id="Cancel" value="Cancel" />
-                    @Html.ActionLink("Delete", "Delete", "Cart", new{id=item.Apparel.ApparelID, size = item.Apparel.ApparelSize},null)</td>
+                    @Html.ActionLink("Delete", "Delete", "Cart", new { id = item.Apparel.ApparelID, size = item.Apparel.ApparelSize }, null)</td>
             </tr>
+            
             
         }
         <tr>
@@ -101,10 +115,12 @@
 </table>
 <table><tr>
 <td>@Html.ActionLink("Continue Shopping", "Index", "Home")</td>
-<td float="right">@Html.ActionLink("Proceed", "Shipping", "Cart",new { @class = "my-class" })</td>
+    @*<td float="right"><input type="button" value="Proceed" id="proceed"/></td>*@
+<td float="right" >@Html.ActionLink("Proceed", "Shipping", "Cart", new { @class = "my-class" })</td>
 
        </tr>
     </table>
+}
 <style>
 #errmsg
 {

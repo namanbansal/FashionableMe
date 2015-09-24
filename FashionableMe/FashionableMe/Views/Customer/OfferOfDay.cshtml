@@ -118,7 +118,7 @@
 
 
     function sendData(){
-        var id = '@Model.ApparelID'.ToString();
+        var id = '@Model.ApparelID';
         var size = $("#sizeDropDown").val().trim();
         $("#idONO").val(id);
         $("#sizeONO").val(size);
@@ -223,8 +223,11 @@
                 return false;
             }
             console.log("User Id = ",UserID);
-            itemDetails.id = @Model.ApparelID.ToString(); itemDetails.name = @Model.ApparelName.ToString(); itemDetails.brand = @Model.BrandName.ToString();
-            itemDetails.description = @Model.Description.ToString(); itemDetails.image = @Model.ApparelImage.ToString();
+            itemDetails.id = '@Model.ApparelID'; 
+            itemDetails.name = '@Model.ApparelName'.ToString();
+            itemDetails.brand = '@Model.BrandName'.ToString();
+            itemDetails.description = '@Model.Description'.ToString();
+            itemDetails.image = '@Model.ApparelImage'.ToString();
             itemDetails.newRating = $("#userRate").val();
             itemDetails.newComment = $("#userComment").val();
             var srchUrl = '@Url.Action("setToSession", "Customer")';
@@ -251,7 +254,12 @@
 
 
 <br /><br /><br />
-
+@if (ViewBag.OfferTitle == "none")
+{
+    <div><h1 style="color:red">No Offers Today!</h1></div>
+}
+else
+{
 <div id="detailsPanel">
     <input type="hidden" id="apparelId"  />
     <input type="hidden" id="quantityS"  />
@@ -321,6 +329,6 @@ using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUr
     
 </div>
 }
-
 }
+
 

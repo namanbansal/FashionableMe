@@ -54,6 +54,7 @@
                     //link = link.replace("-1", total);
                     //console.log(link);
                     $("#totalAmountInput").val(total);
+                    $("#userID").val('@ViewBag.UserID');
                     document.forms["myform"].submit();
 
                     
@@ -173,4 +174,5 @@
 
 <form id='myform' action="/Cart/PayByCredit" method="post">
     <input type="hidden" name="totalAmount" id="totalAmountInput"/>
+    <input type="hidden" name="userID" id="userID"/>
 </form>

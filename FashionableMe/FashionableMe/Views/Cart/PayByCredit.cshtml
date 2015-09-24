@@ -34,13 +34,44 @@
             console.log("submit");
             $("#myform").validate();
             if ($("#myform").valid() && validateForm()) {
-                console.log("valid");
-                $("#success").html("<h3 style='color:green'>Validation Successful!</h3>");
-                $("#pay").attr("disabled", false);
-                $("#Reset").attr("disabled", true);
-                $("#validate").attr("disabled", true);
-            }
+                        console.log("valid");
+                
+                        $("#success").html("<h3 style='color:green'>Validation Successful!</h3>");
+                        $("#pay").attr("disabled", false);
+                        $("#Reset").attr("disabled", true);
+                        $("#validate").attr("disabled", true);
+
+                    }
+               
+                console.log("out");
+
+            
             return false;
+        });
+
+        $("#pay").click(function (e) {
+            e.preventDefault();
+            console.log("pay");
+            var searchUrl = '@Url.Action("ConfirmOrder", "Cart")';
+            console.log("in");
+            $.ajax({
+                url: searchUrl,
+                type: "POST",
+                data: { UserID: '@ViewBag.UserID' },
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.length);
+                    if (data == "false")
+                        $("#msgPanel").html("<h3 style='color:red'>Unable to confirm order!</h3>");
+                    else
+                        $("#msgPanel").html("<h3 style='color:green'>Order Confirmed! Transaction ID:" + data + "</h3>");
+                    $("#pay").attr("disabled", true);
+                    $("#Reset").attr("disabled", true);
+                    $("#validate").attr("disabled", true);
+
+                }
+            });
+                
         });
 
         $("#Reset").click(function () {
@@ -96,12 +127,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Validate Card Details" id="validate" /> <input type="button" value="Reset" id="Reset"/> <input type="submit" value="Pay Now" id="pay"/>
+            <input type="submit" value="Validate Card Details" id="validate" /> <input type="button" value="Reset" id="Reset"/> <input type="button" value="Pay Now" id="pay"/>
         </p>
     </fieldset>
 }
 
 <div id="success"></div>
+<div id="msgPanel"></div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

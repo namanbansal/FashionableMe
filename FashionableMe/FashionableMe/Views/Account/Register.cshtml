@@ -86,6 +86,33 @@
         var cusr = chkUserName();
         return (cage && cusr);
     }
+    function checkUserIDAvailability()
+    {
+        var username = document.getElementById("UserID").value;
+        var serviceurl = "http://localhost:52285/Service1.svc/checkavailability?username=" + username;
+        jQuery.support.cors = true;
+        $.ajax({
+            url: serviceurl,
+            cache: false,
+            type: "GET",
+            async: false,
+            dataType: "jsonp",
+            success: function (data) {
+                console.log(data);
+                var retval = JSON.parse(data);
+
+                if (retval["available"] == false)
+                    $("#userIDPanel").html("<h4 style='color:red'>UserID not available!!<h4>");
+                else {
+                    $("#userIDPanel").html("<h4 style='color:green'>UserID available!!<h4>");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                debugger;
+                alert("Service Error");
+            }
+        });
+    }
 </script>
 
 
@@ -151,6 +178,10 @@
             @Html.LabelFor(model => model.UserID)
             @Html.EditorFor(model => model.UserID)
             @Html.ValidationMessageFor(model => model.UserID)
+            </li>
+            <li>
+                <input type="button" value="Check UserID Availability" onclick="checkUserIDAvailability()" />
+                <div id="userIDPanel"></div>
             </li>
             <li>
             @Html.LabelFor(model => model.Password)

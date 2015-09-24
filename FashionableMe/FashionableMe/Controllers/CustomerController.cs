@@ -30,12 +30,22 @@ namespace FashionableMe.Controllers
             List<Offer> model = new List<Offer>();
             model = obj.getTodaysOffer();
             Apparel apparel = new Apparel();
-            apparel = obj.getApparelByID(model[0].ApparelID)[0];
-            ViewBag.OfferID = model[0].OfferID;
-            ViewBag.OfferName = model[0].OfferName;
-            ViewBag.OfferDescription = model[0].OfferDescription;
-            ViewBag.OfferDiscount = model[0].Discount;
-            ViewBag.OfferName = model[0].OfferName;
+
+            if (model.Count > 0)
+            {
+                apparel = obj.getApparelByID(model[0].ApparelID)[0];
+                ViewBag.OfferID = model[0].OfferID;
+                ViewBag.OfferName = model[0].OfferName;
+                ViewBag.OfferDescription = model[0].OfferDescription;
+                ViewBag.OfferDiscount = model[0].Discount;
+                ViewBag.OfferName = model[0].OfferName;
+            }
+            else
+            {
+                ViewBag.OfferTitle = "none";
+
+            }
+
             return View(apparel);
 
         }

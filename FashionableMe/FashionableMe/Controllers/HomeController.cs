@@ -26,7 +26,6 @@ namespace FashionableMe.Controllers
             {
                 ViewBag.OfferTitle = offer[0].OfferName;
                 ViewBag.OfferDescription = offer[0].OfferDescription;
-                ViewBag.OfferTitle = "none";
 
             }
                 return View();

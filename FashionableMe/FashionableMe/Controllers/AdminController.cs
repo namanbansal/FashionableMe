@@ -20,9 +20,9 @@ namespace FashionableMe.Controllers
 
         public ActionResult Index()
         {
-           
-            
-            return View();
+
+
+            return RedirectToAction("Offer");
         }
 
         //
@@ -47,16 +47,26 @@ namespace FashionableMe.Controllers
             ViewBag.categoryData = defaultList;
 
             if (obj.addOffer(model))
+            {
                 ViewBag.Message = "Offer Added Successfully";
+                Session["OfferMessage"] = "false";
+
+
+            }
             else
             {
                 if (Convert.ToString(Session["ErrorMessage"]) == "Offer with Same Date exists")
                 {
-                    ViewBag.Message = "Offer with Same Date exists.Try Updating with same date!";
-                    
+                    Session["OfferMessage"] = "true";
+                    Session["ErrorMessage"] = "Offer with Same Date Exists. Try Updating the Offer!";
+                    ViewBag.Message = "";
+
                 }
                 else
-                    ViewBag.Message = "Unable to add Offer";
+                {
+                    Session["OfferMessage"] = "true";
+                    Session["ErrorMessage"] = "Unable to add Offer";
+                }
             }
             return View(model); ;
         }

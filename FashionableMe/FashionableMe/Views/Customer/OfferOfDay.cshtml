@@ -127,7 +127,7 @@
         document.forms["ordernowoffer"].submit();
     }
 
-    function loadItems() {
+    function loadItems(){
         var srchUrl = '@Url.Action("getFromSession", "Customer")';
         $.ajax({
             url : srchUrl,
@@ -147,7 +147,7 @@
     }
 
 
-    $(document).ready(function () {
+    $(document).ready(function (){
         showDetails();
         $("#addToCart").hide();
 
@@ -167,34 +167,35 @@
                 $("#addToCart").show();
 
 
-            if(rsltval == "S"){
-                $(".apparelCategoryS").show();
+                if(rsltval == "S"){
+                    $(".apparelCategoryS").show();
                     //console.log($("#quantityS").val());
                     if(parseInt($("#quantityS").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
 
-            }
-            if(rsltval == "M"){
+                }
+                if(rsltval == "M"){
                     //console.log($("#quantityM").val());
 
-                $(".apparelCategoryM").show();
+                    $(".apparelCategoryM").show();
                     if(parseInt($("#quantityM").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-            }
-            if(rsltval == "L"){
+                }
+                if(rsltval == "L"){
                     //console.log($("#quantityL").val());
 
-                $(".apparelCategoryL").show();
+                    $(".apparelCategoryL").show();
                     if(parseInt($("#quantityL").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-            }
+                }
                 
+            }
         });
         
         $("#reviewForm").submit(function(e){
@@ -293,9 +294,18 @@ else{
 
 </div>
 
-@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
-{
+
+<form id='ordernowoffer' action="/Cart/OrderNowOffer" method="post">
+    <input type="hidden" name="id" id="idONO"/>
+    <input type="hidden" name="size" id="sizeONO"/>
+    <input type="hidden" name="offerDiscount" id="offerDiscountONO"/>
+    <input type="hidden" name="offerID" id="offerIDONO"/>
+</form>
     
+    
+    
+using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+{
 <div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
     <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
@@ -314,13 +324,7 @@ else{
     <input id="reviewButton" type="submit" value="Submit Review"  />
     
 </div>
+}   
+    
 }
 
-
-<form id='ordernowoffer' action="/Cart/OrderNowOffer" method="post">
-    <input type="hidden" name="id" id="idONO"/>
-    <input type="hidden" name="size" id="sizeONO"/>
-    <input type="hidden" name="offerDiscount" id="offerDiscountONO"/>
-    <input type="hidden" name="offerID" id="offerIDONO"/>
-</form>
-}

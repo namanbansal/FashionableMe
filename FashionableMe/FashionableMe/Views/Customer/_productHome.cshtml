@@ -232,12 +232,21 @@
                     $(this).prop("class","hideRow");
             });
             $(".hideRow").hide();
+            if($(".hideRow").length == $("#apparelList tr :gt(0)").length )
+            {
+                $("#noSearch").text("NO RECORDS MATCH");
+            }
+            else
+            {
+                $("#noSearch").text("");  
+            }
         });
 
         $("#clearSearch").click(function(){
             $(".hideRow").show();
             $("#searchBox").val("");
             $(".hideRow").prop("class","");
+            $("#noSearch").text("");
         });
 
         //$("tr:odd").css("background-color","lightblue")
@@ -306,12 +315,14 @@
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 
+
 <div id="searchPanel" style="float:right">
     <label id="error"></label>
     <input id="searchBox" placeholder="Search here" /> &nbsp &nbsp &nbsp
     <input id="searchButton" type="button" value="Search" /><br />
     <a id="clearSearch" style="float:right">Clear Search</a><br />
 </div>
+
 <br /><br /><br />
 
 <div id="listPanel">
@@ -385,9 +396,11 @@
         </td>
     </tr>
 }
-    
 </table>
-    </div>
+    <label id ="noSearch" style="color:red; font-weight:bolder ; font-size:x-large " ></label>
+</div>
+
+
 <div id="detailsPanel">
     <input type="hidden" id="apparelId"  />
     <input type="hidden" id="quantityS"  />

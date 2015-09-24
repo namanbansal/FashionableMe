@@ -98,19 +98,19 @@ namespace FashionableMe.DataAccessLayer
                     order = orders[i];
                     if (updatePurchasedQuantity(order.ApparelID, order.SizeOfApparel, order.Quantity))
                     {
-                        cmd.Parameters.AddWithValue("TransactionID", transactionID);
-                        cmd.Parameters.AddWithValue("CustomerID", order.UserID);
-                        cmd.Parameters.AddWithValue("ProductName", order.ProductName);
-                        cmd.Parameters.AddWithValue("SizeOfApparel", order.SizeOfApparel);
-                        cmd.Parameters.AddWithValue("Quantity", order.Quantity);
-                        cmd.Parameters.AddWithValue("TotalAmount", order.TotalAmount);
-                        cmd.Parameters.AddWithValue("ShippingAddress", order.ShippingAddress);
-                        cmd.Parameters.AddWithValue("City", order.City);
-                        cmd.Parameters.AddWithValue("State", order.State);
-                        cmd.Parameters.AddWithValue("Pincode", order.Pincode);
-                        cmd.Parameters.AddWithValue("DateOfPurchase", dateOfPurchase);
+                    cmd.Parameters.AddWithValue("TransactionID", transactionID);
+                    cmd.Parameters.AddWithValue("CustomerID", order.UserID);
+                    cmd.Parameters.AddWithValue("ProductName", order.ProductName);
+                    cmd.Parameters.AddWithValue("SizeOfApparel", order.SizeOfApparel);
+                    cmd.Parameters.AddWithValue("Quantity", order.Quantity);
+                    cmd.Parameters.AddWithValue("TotalAmount", order.TotalAmount);
+                    cmd.Parameters.AddWithValue("ShippingAddress", order.ShippingAddress);
+                    cmd.Parameters.AddWithValue("City", order.City);
+                    cmd.Parameters.AddWithValue("State", order.State);
+                    cmd.Parameters.AddWithValue("Pincode", order.Pincode);
+                    cmd.Parameters.AddWithValue("DateOfPurchase", dateOfPurchase);
 
-                        int rslt = cmd.ExecuteNonQuery();
+                    int rslt = cmd.ExecuteNonQuery();
                         status = transactionID;
                     }
                     else

@@ -5,6 +5,8 @@
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
 
 <script type="text/javascript">
+    AppID = ""; UserID=""; currentRating=0;
+    itemDetails = {};
     function showDetails(){
         
         var rsltval = @Model.ApparelID ;
@@ -81,10 +83,40 @@
                 }
             }
         });
-       
-
-        
+        $("#ratingPanel").show();
+        getRating(rsltval);
     }
+       
+    function getRating(id)
+    {
+
+        var searchUrl = '@Url.Action("getRatingDetails", "Customer")'; 
+        $.ajax({
+            url: searchUrl,
+            data: { apparelID: id.toString() },
+            type: "POST",
+        
+            success: function (data){
+                AppID = data.ApparelID;
+                UserID = data.UserID;
+                currentRating = data.userRating;
+                $("#prodRate").val(data.ApparelRating).prop("disabled",true).css({"background-color":"lightgrey"});
+                $("#comment").val(data.Comment).prop("disabled",true).css({"background-color":"lightgrey"});
+                $("#userRate").val(data.userRating);
+                $("#userComment").val(data.userComment);
+                $("#userRate,#userComment").prop("disabled",false).css({"cursor":"default","background-color":"white"});
+                $("#reviewButton").prop("disabled",false).css({"cursor":"pointer","background-color":"white"})
+                //if(!data.canRate)
+                //{
+                //    $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                //}
+                console.log("got : ",UserID);
+    }
+        });
+    }
+
+
+
     function sendData(){
         var id = @Model.ApparelID.ToString();
         var size = $("#sizeDropDown").val().trim();
@@ -94,6 +126,27 @@
         $("#offerIDONO").val('@ViewBag.OfferID');
         document.forms["ordernowoffer"].submit();
     }
+
+    function loadItems() {
+        var srchUrl = '@Url.Action("getFromSession", "Customer")';
+        $.ajax({
+            url : srchUrl,
+            type : "POST",
+            datatype : 'json',
+            data : { sender : "item" },
+            success : function(data){
+                console.log(" Got From Server : ", data);
+                if (data != null) 
+                {
+                    showDetails();
+                    $("#userRate").val(data.newRating);
+                    $("#userComment").val(data.newComment);
+                }
+            }
+        });
+    }
+
+
     $(document).ready(function () {
         showDetails();
         $("#addToCart").hide();
@@ -113,41 +166,85 @@
             else{
                 $("#addToCart").show();
 
-            
-                if(rsltval == "S"){
-                    $(".apparelCategoryS").show();
+
+            if(rsltval == "S"){
+                $(".apparelCategoryS").show();
                     //console.log($("#quantityS").val());
                     if(parseInt($("#quantityS").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
 
-                }
-                if(rsltval == "M"){
+            }
+            if(rsltval == "M"){
                     //console.log($("#quantityM").val());
 
-                    $(".apparelCategoryM").show();
+                $(".apparelCategoryM").show();
                     if(parseInt($("#quantityM").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-                }
-                if(rsltval == "L"){
+            }
+            if(rsltval == "L"){
                     //console.log($("#quantityL").val());
 
-                    $(".apparelCategoryL").show();
+                $(".apparelCategoryL").show();
                     if(parseInt($("#quantityL").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-                }
-                
             }
+                
+        });
+        
+        $("#reviewForm").submit(function(e){
+            console.log("user id = ",UserID);
+            if ($("#userRate").val() == 0 )
+            {
+                $("#erroMessage").text("Please Rate before Submitting Review").css("color","red");
+                return false;
+            }  
+            else
+                $("#erroMessage").text("");
+
+            if(UserID != null) 
+            {
+                var searchUrl = '@Url.Action("UpdateRatingDetails", "Customer")';
+                $.ajax({
+                    url: searchUrl,
+                    data: { apparelID: AppID , userID : UserID, rating : parseInt($("#userRate").val()), comment:$("#userComment").val(), currRating : currentRating },
+                    type: "POST",
+                    success: function (data){
+                        //console.log(data.state);
+                        $("#userRate,#userComment,#reviewButton").prop("disabled",true).css({"cursor":"default","background-color":"lightgrey"});
+                    }
+                });
+                return false;
+            }
+            console.log("User Id = ",UserID);
+            itemDetails.id = @Model.ApparelID.ToString(); itemDetails.name = @Model.ApparelName.ToString(); itemDetails.brand = @Model.BrandName.ToString();
+            itemDetails.description = @Model.Description.ToString(); itemDetails.image = @Model.ApparelImage.ToString();
+            itemDetails.newRating = $("#userRate").val();
+            itemDetails.newComment = $("#userComment").val();
+            var srchUrl = '@Url.Action("setToSession", "Customer")';
+                
+            $.ajax({
+                type : "POST",
+                url: srchUrl ,
+                dataType: 'json',
+                data : itemDetails ,
+                success : function() {}
+            });
+
+        });
 
         });
         
 
+    $(window).bind("load", function() {
+        loadItems();
     });
+
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 
@@ -195,6 +292,29 @@ else{
     <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;background-color:green" onclick="sendData()"/>
 
 </div>
+
+@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+{
+    
+<div id="ratingPanel" hidden >
+    <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
+    <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
+    <label>Please Rate This Product : </label>
+    <select id="userRate">
+        <option value="0">Not Rated</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <label>Write a Review : </label><textarea id="userComment" style="height:200px;width:800px"></textarea><br />
+    <label id="erroMessage"></label>
+    <input id="returnUrl" hidden value="/Customer/Her" />
+    <input id="reviewButton" type="submit" value="Submit Review"  />
+    
+</div>
+}
 
 
 <form id='ordernowoffer' action="/Cart/OrderNowOffer" method="post">

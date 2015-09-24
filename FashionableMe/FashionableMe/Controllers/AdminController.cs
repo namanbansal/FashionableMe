@@ -8,7 +8,7 @@ using FashionableMe.Models;
 using FashionableMe.Utils;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
-
+using System.IO;
 
 namespace FashionableMe.Controllers
 {
@@ -16,7 +16,8 @@ namespace FashionableMe.Controllers
     {
         //
         // GET: /Admin/
-        
+
+        public static string ImagePath = "Images/Apparels/"; //"App_Data/Images/";
 
         public ActionResult Index()
         {
@@ -105,9 +106,13 @@ namespace FashionableMe.Controllers
         {
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             AdminBLL obj = new AdminBLL();
-            bool result = obj.addApparel(model);
+            string AppID;
+            bool result = obj.addApparel(model, out AppID);
             if (result)
+            {
                 ViewBag.Message = "Sucessfully added apparel";
+            }
+                
             else
                 ViewBag.Message = "Unable to add apparel";
 
@@ -194,6 +199,7 @@ namespace FashionableMe.Controllers
         [AllowAnonymous]
         public JsonResult UploadImage()
         {
+            string imgPath = string.Empty;
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 HttpPostedFileBase file = Request.Files[i]; //Uploaded file
@@ -203,9 +209,10 @@ namespace FashionableMe.Controllers
                 string mimeType = file.ContentType;
                 System.IO.Stream fileContent = file.InputStream;
                 //To save file, use SaveAs method
-                file.SaveAs(Server.MapPath("~/")+"App_Data/Files/" + fileName); //File will be saved in application root
+                imgPath = AdminController.ImagePath+"TempImage.jpg";
+                file.SaveAs(Server.MapPath("~/")+imgPath); //File will be saved in directory
             }
-            return Json("Uploaded " + Request.Files.Count + " files");
+            return Json(imgPath);
         }
 
         //

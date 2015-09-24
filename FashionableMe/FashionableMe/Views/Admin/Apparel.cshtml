@@ -21,6 +21,7 @@
         $("#LtxtBUttonMF").hide();
         $("#quantityPanelMF").hide();
         $("#quantityPanelKid").hide();
+
         $("#SchkButton").change(function (e) {
             if (this.checked) {
                 $("#small").show();
@@ -40,6 +41,7 @@
                 $("#medium").val('');
             }
         });
+
         $("#LchkButton").change(function (e) {
             if (this.checked) {
                 $("#large").show();
@@ -147,12 +149,16 @@
             }
         });
        
+        $("#imageButton").click(function (){
+            ImageUpload();
+        });
         
     });
     function atleastOneCheckBoxChecked() {
 
         if ($("#addPanel input[type=checkbox]:checked").length>0) {
             $("#addErrorPanel").html("");
+            ImageUpload();
             return true;
         }
         else {
@@ -161,6 +167,23 @@
         return false;
     }
     
+    function ImageUpload() {
+        //alert("In function");
+        var formdata = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Admin/UploadImage');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert(xhr.responseText);
+            }
+        }
+    }
     
 </script>
 
@@ -227,9 +250,11 @@
             @*@Html.LabelFor(model => model.apparel.ApparelImage)*@
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.apparel.ApparelImage)
-@*            @Html.ValidationMessageFor(model => model.apparel.ApparelImage)*@
+            @*@Html.EditorFor(model => model.apparel.ApparelImage)*@
+            @* @Html.ValidationMessageFor(model => model.apparel.ApparelImage)*@
             @*<img src="@Url.Content(Model.apparel.ApparelImage)" alt="Image" />*@
+            <input id="fileInput" type="file" accept="image/*">
+            <input id="imageButton" type="button" value="Upload Image" />
         </div>
 
         

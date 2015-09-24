@@ -136,7 +136,7 @@
     function sendData(){
         var id = $("#apparelId").val().trim();
         var size = $("#sizeDropDown").val().trim();
-
+        
         $("#idON").val(id);
         $("#sizeON").val(size);
         document.forms["ordernow"].submit();
@@ -175,38 +175,38 @@
             if(rsltval == "E"){
                 $("#addToCart").hide();
             }
-                //$("#addToCart").attr("disabled", false);
+            //$("#addToCart").attr("disabled", false);
             else{
-                $("#addToCart").show();
+            $("#addToCart").show();
 
             
-                if(rsltval == "S"){
-                    $(".apparelCategoryS").show();
-                    //console.log($("#quantityS").val());
-                    if(parseInt($("#quantityS").val())<1){
-                        //$("#addToCart").attr("disabled", true);
-                        $("#addToCart").hide();
-                    }
-
+            if(rsltval == "S"){
+                $(".apparelCategoryS").show();
+                //console.log($("#quantityS").val());
+                if(parseInt($("#quantityS").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
                 }
-                if(rsltval == "M"){
-                    //console.log($("#quantityM").val());
 
-                    $(".apparelCategoryM").show();
-                    if(parseInt($("#quantityM").val())<1){
-                        //$("#addToCart").attr("disabled", true);
-                        $("#addToCart").hide();
-                    }
-                }
-                if(rsltval == "L"){
-                    //console.log($("#quantityL").val());
+            }
+            if(rsltval == "M"){
+                //console.log($("#quantityM").val());
 
-                    $(".apparelCategoryL").show();
-                    if(parseInt($("#quantityL").val())<1){
-                        //$("#addToCart").attr("disabled", true);
-                        $("#addToCart").hide();
-                    }
+                $(".apparelCategoryM").show();
+                if(parseInt($("#quantityM").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
                 }
+            }
+            if(rsltval == "L"){
+                //console.log($("#quantityL").val());
+
+                $(".apparelCategoryL").show();
+                if(parseInt($("#quantityL").val())<1){
+                    //$("#addToCart").attr("disabled", true);
+                    $("#addToCart").hide();
+                }
+            }
                 
             }
 
@@ -215,6 +215,8 @@
             $("#sizeDropDown").val("0");
             $("#detailsPanel").hide();
             $("#listPanel").show();
+            $("#ratingPanel").hide();
+            $("#searchPanel").show();
         });
 
         $("#searchButton").click(function(){
@@ -222,8 +224,9 @@
             var count = 0;
             $("#apparelList tr:gt(0)").each(function(j){
                 var present = 0;
-                for (i in [0,1,2]) {
-                    present += ($(this).children("td").eq(i).text().toLowerCase().search(srch)) >= 0 ? 1 : 0 ;
+                var loop = [0,1,2];
+                for (i in loop) {
+                    present += ($(this).children("td").eq(loop[i]).text().toLowerCase().search(srch)) >= 0 ? 1 : 0 ;
                 }
                 if(present == 0)
                     $(this).prop("class","hideRow");
@@ -449,6 +452,65 @@
     <input type="hidden" name="id" id="idON"/>
     <input type="hidden" name="size" id="sizeON"/>
 </form>
+<style>
+    img{
+        height : 200px;
+        width : 200px;
+    }
+    
+    table {
+	border-collapse:collapse;
+	margin-bottom:15px;
+	width:90%;
+	}
+    
+	caption {
+		text-align:left;
+		font-size:15px;
+		padding-bottom:10px;
+		}
+	
+	table td,
+	table th {
+		padding:10px;
+        margin : 10px;
+		border:1px solid #fff;
+		border-width:0 1px 1px 0;
+		}
 
+	thead th {
+		background:#91c5d4;
+		}
+			
+		thead th[colspan],
+		thead th[rowspan] {
+			background:#66a9bd;
+			}
+		
+	tbody th,
+	tfoot th {
+		text-align:left;
+		background:#91c5d4;
+		}
+		
+	tbody td,
+	tfoot td {
+		text-align:center;
+		background:#d5eaf0;
+		}
+		
+	tfoot th {
+		background:#b0cc7f;
+		}
+		
+	tfoot td {
+		background:#d7e1c5;
+		font-weight:bold;
+		}
+			
+	tbody tr.odd td { 
+		background:#bcd9e1;
+		}
 
+</style>
 

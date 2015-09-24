@@ -181,7 +181,7 @@ namespace FashionableMe.DataAccessLayer
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Select * from Apparel where ApparelCategory=@category", conn);
+                SqlCommand cmd = new SqlCommand("Select * from Apparel where ApparelCategory=@category ORDER BY ApparelAddTime DESC ", conn);
                 cmd.Parameters.AddWithValue("category", category.Trim());
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)

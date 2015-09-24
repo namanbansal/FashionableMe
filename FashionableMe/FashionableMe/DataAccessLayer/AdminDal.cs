@@ -11,24 +11,26 @@ namespace FashionableMe.DataAccessLayer
 {
     public class AdminDal
     {
-        public bool addProduct(AddApparel product)
+        public bool addProduct(AddApparel product, out string AppID)
         {
             bool status = false;
+            AppID = "";
+            //string AppID, imagePath;
             HttpContext.Current.Session["status"] = "DefaultMessage";
                 string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Apparel values (@name,@bname,@desc,@imagepath,@category, GETDATE(),0)",conn);
+                SqlCommand cmd = new SqlCommand(@"INSERT INTO Apparel OUTPUT INSERTED.ApparelID values (@name,@bname,@desc, CONCAT( @imagepath, CAST( IDENT_CURRENT('Apparel') as NVARCHAR), '.jpg'  ) , @category, GETDATE(),0)", conn);
                 
                 cmd.Parameters.AddWithValue("name",product.apparel.ApparelName);
                 cmd.Parameters.AddWithValue("bname",product.apparel.BrandName);
                 cmd.Parameters.AddWithValue("desc",product.apparel.Description);
                 cmd.Parameters.AddWithValue("imagepath", product.apparel.ApparelImage);
                 cmd.Parameters.AddWithValue("category",product.apparel.ApparelCategory.Trim());
-                int i = cmd.ExecuteNonQuery();
-                
+                AppID = Convert.ToString(cmd.ExecuteScalar());
+
                 SqlCommand cmd2 = new SqlCommand("INSERT into Quantity values ( IDENT_CURRENT('Apparel'), @size, @quantity, @discount, @cost ) ", conn);
                 if (product.small > 0)
                 {
@@ -220,7 +222,7 @@ namespace FashionableMe.DataAccessLayer
                 if (reader > 0)
                     status = true;
             }
-            catch (Exception ExcObj)
+            catch (Exception )
             {
                 HttpContext.Current.Session["ErrorMessage"] = "Offer with same name exists";
             }
@@ -257,7 +259,7 @@ namespace FashionableMe.DataAccessLayer
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
-            bool status = false;
+            bool status = true;
             try
             {
                 conn.Open();
@@ -273,9 +275,10 @@ namespace FashionableMe.DataAccessLayer
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
                 conn.Close();
                 
-                return false;
+                status = false;
             }
-            return true;
+            status = true;
+            return status;
         }
 
         public List<string> getBrandNames()

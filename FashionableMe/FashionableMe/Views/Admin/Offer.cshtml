@@ -80,7 +80,7 @@
                             var rs = JSON.parse(data);
                             console.log(rs["OfferName"]);
                             if (rs["ApparelID"] == "0") {
-                                $("#resultPanel").html("<h2>No Offer with  the given date!!!</h2>");
+                                $("#resultPanel").html("<h1 style='color:red'>No Offer with  the given date!!!</h2>");
                             }
                             else {
                                 $("#resultPanel").html("");
@@ -135,14 +135,14 @@
                     success: function (data) {
                         console.log(data);
                         if (data == "true") {
-                            $("#resultPanel").html("<h2>Offer Updated Successfully!!!</h2>");
+                            $("#resultPanel").html("<h1 style='color:green'>Offer Updated Successfully!!!</h1>");
                             $("#updatePanel :input").attr("disabled", true);
                             $("#updatePanel :input[type=date]").attr("disabled", false);
                             $("#updatePanel :input[id=fetchDetails]").attr("disabled", false);
 
                         }
                         else {
-                            $("#resultPanel").html("<h2>Unable to update Offer!!!</h2>");
+                            $("#resultPanel").html("<h1 style='color:red'>Unable to update Offer!!!</h2>");
 
                         }
                     }
@@ -169,7 +169,7 @@
 
                     }
                     else {
-                        $("#resultPanel").html("<h2 style='color:red'>Unable to delete Offer!!!</h2>");
+                        $("#resultPanel").html("<h1 style='color:red'>Unable to delete Offer!!!</h1>");
 
                     }
                 }
@@ -208,9 +208,18 @@
     <div id="errorPanel" style="color:red"></div>
 
 <div id="addPanel">
-<div><h4>@ViewBag.Message</h4></div>
+    @if(@Session["OfferMessage"]=="true"){
+    <div><h1 style='color:red'>@Session["ErrorMessage"]</h1></div>
+        Session["OfferMessage"] = "false"; Session["ErrorMessage"] = "";
+    }
+    else
+    {
+<div><h1 style='color:green'>@ViewBag.Message</h1></div>
+        
+    }
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -279,7 +288,8 @@
 <div id="updatePanel">
     <div id="resultPanel"></div>
     <h1>Update</h1>
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -332,7 +342,7 @@
                 <td ><input type="button" value="Update Offer" id="updateButton" /><input type="button" value="Save" id="saveButton" /><input type="button" value="Cancel" id="cancelButton" /></td>
                    </tr></table>
     </fieldset>
-}
+    }
 
 </div>
 

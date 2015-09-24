@@ -250,7 +250,11 @@
 
 
 <br /><br /><br />
-
+@if (@ViewBag.OfferTitle == "none")
+{
+    <div><h1 style="color:red">No Offers!</h1></div>
+}
+else{
 <div id="detailsPanel">
     <input type="hidden" id="apparelId"  />
     <input type="hidden" id="quantityS"  />
@@ -319,3 +323,4 @@
     <input type="hidden" name="offerDiscount" id="offerDiscountONO"/>
     <input type="hidden" name="offerID" id="offerIDONO"/>
 </form>
+}

@@ -17,6 +17,10 @@ input:disabled
 {
 background:#dddddd;
 }
+textarea:disabled
+{
+background:#dddddd;
+}
 
 a {
     color: #333;

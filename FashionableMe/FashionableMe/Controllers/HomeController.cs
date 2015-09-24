@@ -17,9 +17,18 @@ namespace FashionableMe.Controllers
             CustomerBLL obj = new CustomerBLL();
             List<Offer> offer = new List<Offer>();
             offer = obj.getTodaysOffer();
-            ViewBag.OfferTitle = offer[0].OfferName;
-            ViewBag.OfferDescription = offer[0].OfferDescription;
-            return View();
+            if (offer.Count == 0)
+            {
+                ViewBag.OfferTitle = "none";
+
+            }
+            else
+            {
+                ViewBag.OfferTitle = offer[0].OfferName;
+                ViewBag.OfferDescription = offer[0].OfferDescription;
+
+            }
+                return View();
         }
 
         

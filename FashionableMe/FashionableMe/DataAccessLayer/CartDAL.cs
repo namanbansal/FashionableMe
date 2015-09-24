@@ -88,7 +88,7 @@ namespace FashionableMe.DataAccessLayer
 
         public List<MyOrder> GetOrderDetails(string UserID)
         {
-            bool status = false;
+            //bool status = false;
             HttpContext.Current.Session["status"] = "DefaultMessage";
             List<MyOrder> orders = new List<MyOrder>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -119,7 +119,7 @@ namespace FashionableMe.DataAccessLayer
                         order.DateOfPurchase = reader.GetDateTime(reader.GetOrdinal("DateOfPurchase"));
 
                         orders.Add(order);
-                        status = true;
+                        //status = true;
                     }
                 }
             }

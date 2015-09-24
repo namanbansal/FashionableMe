@@ -5,6 +5,9 @@ using System.Web;
 using FashionableMe.Models;
 using FashionableMe.DataAccessLayer;
 using FashionableMe.Utils;
+using System.Web.Mvc;
+using System.IO;
+using FashionableMe.Controllers;
 
 namespace FashionableMe.BLL
 {
@@ -50,15 +53,21 @@ namespace FashionableMe.BLL
 
         }
 
-        
-        public bool addApparel(AddApparel model)
+
+        public bool addApparel(AddApparel model, out string AppID)
         {
             AdminDal obj = new AdminDal();
             model.apparel.ApparelCategory = UtilityFunctions.parseInputCategoryToDBFormat(model.apparel.ApparelCategory);
+            model.apparel.ApparelImage = "/"+AdminController.ImagePath;
+            string fullPath = HttpContext.Current.Server.MapPath("~/") + AdminController.ImagePath;
             if (model.apparel.ApparelImage == null)
                 model.apparel.ApparelImage = string.Empty;
-            if (obj.addProduct(model))
+            if (obj.addProduct(model, out AppID))
+            {
+                System.IO.File.Move( fullPath+"TempImage.jpg", fullPath + AppID + ".jpg");
                 return true;
+            }
+            
             return false;
         }
 

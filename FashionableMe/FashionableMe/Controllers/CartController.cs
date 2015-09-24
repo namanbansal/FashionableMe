@@ -8,6 +8,7 @@ using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
+    //[Authorize]
     public class CartController : Controller
     {
         private CartBLL bllObj;

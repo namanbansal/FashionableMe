@@ -12,6 +12,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var address = '@Model.Address';
+        var city ='@Model.City';
+        var state = '@Model.State';
+        var pincode = '@Model.Pincode';
+        var mobno = '@Model.MobileNumber';
+
         var statusCode = parseInt(@ViewBag.statusCode);
         if (statusCode>0) {
             $("#Message").css("color","red");
@@ -27,6 +33,11 @@
                 $("#shipMsg").text("Items will be shipped to new address");
             }
             else{
+                $("#Address").val(address);
+                $("#City").val(city);
+                $("#State").val(state);
+                $("#Pincode").val(pincode);
+                $("#MobileNumber").val(mobno);
                 $(".editor-field").children().prop("readonly", true);
                 $(".editor-field").children().css("background-color","lightgrey");
                 $("#shipMsg").text("");
@@ -55,7 +66,11 @@
         <div class="editor-field">
             @Html.DisplayFor(model => model.Name)
         </div>
-        <input type="checkbox" id="radio" />&nbsp&nbsp <label>Ship to new Address</label><label style="color:red" id="shipMsg"></label>
+        <table>
+            <tr><td><input type="checkbox" id="radio" /></td>&nbsp&nbsp<td> <label>Ship to new Address</label></td>
+            </tr>
+       </table>
+        <label style="color:red" id="shipMsg"></label>
         <div class="editor-label">
             @Html.LabelFor(model => model.Address)
         </div>

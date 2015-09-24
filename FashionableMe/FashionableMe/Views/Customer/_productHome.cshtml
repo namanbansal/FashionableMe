@@ -64,12 +64,14 @@
                     $(".apparelCategoryS").hide();
                     $(".apparelCategoryM").hide();
                     $(".apparelCategoryL").hide();
+                    var outOfStock = "true";
                     for (var i = 0; i < data.length; i++) {
                         if(data[i].ApparelSize == "S"){
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryS").show();
                                 $('#sizeDropDown option[value=S]').prop('selected', true);
                                 $("#addToCart").show();
+                                outOfStock = "false";
                                 break;
 
                             }
@@ -80,6 +82,7 @@
                                 $(".apparelCategoryM").show();
                                 $('#sizeDropDown option[value=M]').prop('selected', true);
                                 $("#addToCart").show();
+                                outOfStock = "false";
                                 break;
 
                             }
@@ -89,10 +92,19 @@
                                 $(".apparelCategoryL").show();
                                 $('#sizeDropDown option[value=L]').prop('selected', true);
                                 $("#addToCart").show();
+                                outOfStock = "false";
                                 break;
 
                             }
                         }
+                    }
+                    if(outOfStock=="true")
+                    {
+                        $("#outOfStock").html("<h1 style='color:red'>Product is out of Stock!</h1>");
+                    }
+                    else {
+                        $("#outOfStock").html("");
+                            
                     }
                 }
             });
@@ -162,6 +174,7 @@
     }
     
     $(document).ready(function () {
+        $("#outOfStock").html("");
         $("#detailsPanel").hide();
         
         $("#sizeDropDown").change(function (e) {
@@ -182,28 +195,35 @@
             
             if(rsltval == "S"){
                 $(".apparelCategoryS").show();
+                $("#outOfStock").html("");
+
                 //console.log($("#quantityS").val());
                 if(parseInt($("#quantityS").val())<1){
                     //$("#addToCart").attr("disabled", true);
+                    $("#outOfStock").html("<h1 style='color:red'>This size is out of Stock!</h1>");
                     $("#addToCart").hide();
                 }
 
             }
             if(rsltval == "M"){
                 //console.log($("#quantityM").val());
+                $("#outOfStock").html("");
 
                 $(".apparelCategoryM").show();
                 if(parseInt($("#quantityM").val())<1){
                     //$("#addToCart").attr("disabled", true);
+                    $("#outOfStock").html("<h1 style='color:red'>This size is out of Stock!</h1>");
                     $("#addToCart").hide();
                 }
             }
             if(rsltval == "L"){
                 //console.log($("#quantityL").val());
+                $("#outOfStock").html("");
 
                 $(".apparelCategoryL").show();
                 if(parseInt($("#quantityL").val())<1){
                     //$("#addToCart").attr("disabled", true);
+                    $("#outOfStock").html("<h1 style='color:red'>This size is out of Stock!</h1>");
                     $("#addToCart").hide();
                 }
             }
@@ -212,6 +232,7 @@
 
         });
         $("#backToCollection").click(function(){
+            $("#outOfStock").html("");
             $("#sizeDropDown").val("0");
             $("#detailsPanel").hide();
             $("#listPanel").show();
@@ -315,7 +336,7 @@
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 
-
+<div id="outOfStock"></div>
 <div id="searchPanel" style="float:right">
     <label id="error"></label>
     <input id="searchBox" placeholder="Search here" /> &nbsp &nbsp &nbsp

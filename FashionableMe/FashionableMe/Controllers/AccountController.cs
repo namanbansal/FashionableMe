@@ -15,7 +15,6 @@ using FashionableMe.BLL;
 namespace FashionableMe.Controllers
 {
     //[Authorize]
-    
     public class AccountController : Controller
     {
         //
@@ -47,6 +46,7 @@ namespace FashionableMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
+
             if (ModelState.IsValid)
             {
                 AccountBLL accBLL = new AccountBLL();
@@ -167,7 +167,6 @@ namespace FashionableMe.Controllers
 
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Details(DetailsViewModel model)
         {
             int statusCode = 0;

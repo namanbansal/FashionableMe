@@ -1,4 +1,6 @@
 ﻿<!DOCTYPE html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
 <script>
     //kill all back button functionality
     function noBack() { window.history.forward() }
@@ -6,7 +8,79 @@
     window.onload = noBack;
     window.onpageshow = function (evt) { if (evt.persisted) noBack() }
     window.onunload = function () { void (0) }
+    /*  jQuery ready function. Specify a function to execute when the DOM is fully loaded.  */
+    $(document).ready(
+      /* This is the function that will get executed after the DOM is fully loaded */
+      function () {
+          /* Next part of code handles hovering effect and submenu appearing */
+          $('.nav li').hover(
+            function () { //appearing on hover
+                $('ul', this).fadeIn();
+            },
+            function () { //disappearing on hover
+                $('ul', this).fadeOut();
+            }
+          );
+      }
+    );
     </script> 
+<style>
+
+
+.nav {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.nav li {
+	float: left;
+	width: 160px;
+	position: relative;
+}
+
+.nav li a {
+	background: #5D49AB;
+	color: #fff;
+	display: block;
+	padding: 7px 8px;
+	text-decoration: none;
+	border-top: 1px solid #069;
+}
+
+.nav li a:hover {
+	color: #069;
+}
+
+/*=== submenu ===*/
+
+.nav ul {
+	display: none;
+	position: absolute;
+	margin-left: 0px;
+	list-style: none;
+	padding: 0px;
+}
+
+.nav ul li {
+	width: 160px;
+	float: left;
+}
+
+.nav ul a {
+	display: block;
+	height: 15px;
+	padding: 7px 8px;
+	color: #fff;
+	text-decoration: none;
+	border-bottom: 1px solid #222;
+}
+
+.nav ul li a:hover {
+	color: #069;
+}
+
+</style>
 <html lang="en">
 
 
@@ -28,13 +102,82 @@
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
+                    <div class="navigation">
+
+                         @if (Session["UserRole"] == "admin")
+                    {
+  		                <ul class="nav">
+  			                <li>
+  				                <a href="/Admin/Index">Home</a>
+  			                </li>
+  			                <li>
+  				                <a href="/Admin/Offer">Add or Update Offer</a>
+  				                <ul>
+  					                <li><a href="/Admin/Offer">Add Offer</a></li>
+  					                <li><a href="/Admin/Offer">Update Offer</a></li>
+  				                </ul>
+  			                </li>
+  			                <li>
+  				                <a href="/Admin/Apparel">Add or Update Apparel</a>
+  				                <ul>
+  					                <li><a href="/Admin/Apparel">Add Apparel</a></li>
+  					                <li><a href="/Admin/Apparel">Update Apparel</a></li>
+  				                </ul>
+  			                </li>
+  		                </ul>
+                         }
+  	                     
+
+                    else if (Session["UserRole"] == "customer")
+                    {
+                        <ul class="nav">
+  			                <li>
+  				                <a href="/Home/Index">Home</a>
+  			                </li>
+  			                <li>
+  				                <a href="#">Apparel</a>
+  				                <ul>
+  					                <li><a href="/Customer/Him">For Him</a></li>
+  					                <li><a href="/Customer/Her">For Her</a></li>
+  					                <li><a href="/Customer/Kids">For Kid</a></li>
+  				                </ul>
+  			                </li>
+  			                <li>
+  				                <a href="#">User Profile</a>
+  				                <ul>
+  					                <li><a href="/Customer/MyOrders">My Orders</a></li>
+  					                <li><a href="/Account/Details">My Details</a></li>
+  				                </ul>
+  			                </li>
+                            <li>
+  				                <a href="/Cart/Index">Cart</a>
+  				                @*<ul>
+  					                <li><a href="/Customer/MyOrders">My Orders</a></li>
+  					                <li><a href="/Account/Details">My Details</a></li>
+  				                </ul>*@
+  			                </li>
+  		                </ul>
+
+                    }
+                    else
+                    {
+                        <ul class="nav">
+  			                <li>
+  				                <a href="/Home/Index">Home</a>
+  			                </li>
+  			                <li>
+  				                <a href="#">Apparel</a>
+  				                <ul>
+  					                <li><a href="/Customer/Him">For Him</a></li>
+  					                <li><a href="/Customer/Her">For Her</a></li>
+  					                <li><a href="/Customer/Kids">For Kid</a></li>
+  				                </ul>
+  			                </li>
+  			                
+  		                </ul>
+                    }
+                      
+                    </div>
                 </div>
             </div>
         </header>

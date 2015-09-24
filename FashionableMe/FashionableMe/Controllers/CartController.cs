@@ -113,8 +113,12 @@ namespace FashionableMe.Controllers
             }
             return isUpdated;
         }
+
         public ActionResult Shipping()
         {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
+
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             bool isUpdated = verifyQuantity();
             if (isUpdated)
@@ -122,8 +126,7 @@ namespace FashionableMe.Controllers
 
 
             DetailsViewModel custDetails = new DetailsViewModel();
-            if (Session["UserID"] == null)
-                return RedirectToAction("Login", "Account");
+            
             else
             {
 

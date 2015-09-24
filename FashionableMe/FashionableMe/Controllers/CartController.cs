@@ -126,8 +126,9 @@ namespace FashionableMe.Controllers
 
 
             DetailsViewModel custDetails = new DetailsViewModel();
-            
-            else
+
+            if (Session["UserID"] != null)
+
             {
 
                 custDetails = bllObj.getShippingDetails(Session["UserID"].ToString());

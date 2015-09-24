@@ -13,7 +13,8 @@
     
     $(document).ready(function () {
         $("#updatePanel").hide();
-        
+        ast = $("<b> * <b>").css("color", "red");
+        $(".editor-label").children().append(ast);
         $("#Category").change(function (e) {
             e.preventDefault();
             var searchUrl = '@Url.Action("searchByCategory", "Admin")';

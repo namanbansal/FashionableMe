@@ -255,8 +255,10 @@ namespace FashionableMe.DataAccessLayer
                             if(!(offerID.Trim().Equals("NOOFF")))
                             {
                                 AdminDal adminDal = new AdminDal();
-                                decimal offerDiscount = adminDal.getOfferDiscountByID(offerID);
-                                cartItem.Apparel.ApparelDiscount += offerDiscount;
+                                Offer offer = new Offer();
+                                offer = adminDal.getOfferDateAndDiscountByID(offerID);
+                                if(System.DateTime.Equals(offer.OfferDate, DateTime.Now.Date))
+                                    cartItem.Apparel.ApparelDiscount += offer.Discount;
                             }
                             cartItems.Add(cartItem);
                         }

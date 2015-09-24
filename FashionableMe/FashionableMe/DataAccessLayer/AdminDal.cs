@@ -179,9 +179,9 @@ namespace FashionableMe.DataAccessLayer
             return obj;
         }
 
-        public Decimal getOfferDiscountByID(string offerID)
+        public Offer getOfferDateAndDiscountByID(string offerID)
         {
-            decimal discount = 0;
+            Offer offer = new Offer();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
             try
@@ -195,7 +195,8 @@ namespace FashionableMe.DataAccessLayer
                     while (reader.Read())
                     {
                         //Offer obj = new Offer();
-                        discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
+                        offer.Discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
+                        offer.OfferDate = reader.GetDateTime(reader.GetOrdinal("OfferDate")).Date;
                     }
                 }
                 conn.Close();
@@ -205,7 +206,7 @@ namespace FashionableMe.DataAccessLayer
                 HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
             }
             conn.Close();
-            return discount;
+            return offer;
         }
 
         public bool hasOfferWithSameDate(DateTime date)

@@ -15,6 +15,8 @@
         $("#apparelName").text(name);
         $("#brandName").text(brand);
         $("#apparelDescription").text(description);
+        $("#addToCart").hide();
+
         //$("#apparelDiscount").text(discount);
         //console.log(image);
         
@@ -67,6 +69,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryS").show();
                                 $('#sizeDropDown option[value=S]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -76,6 +79,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryM").show();
                                 $('#sizeDropDown option[value=M]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -84,6 +88,7 @@
                             if(parseInt(data[i].ApparelQuantity) >0){
                                 $(".apparelCategoryL").show();
                                 $('#sizeDropDown option[value=L]').prop('selected', true);
+                                $("#addToCart").show();
                                 break;
 
                             }
@@ -131,14 +136,10 @@
     function sendData(){
         var id = $("#apparelId").val().trim();
         var size = $("#sizeDropDown").val().trim();
-        //console.log(id, size);
         
-
-        var link = '@Html.Raw(@Url.Action("OrderNow", "Cart", new { id = -1, size= -2 }))';
-        link = link.replace("-1", id);
-        link = link.replace("-2", size);
-        //console.log(link);
-        window.location = link;
+        $("#idON").val(id);
+        $("#sizeON").val(size);
+        document.forms["ordernow"].submit();
     }
     
     function loadItems() {
@@ -171,9 +172,14 @@
             $(".apparelCategoryS").hide();
             $(".apparelCategoryM").hide();
             $(".apparelCategoryL").hide();
+            if(rsltval == "E"){
+                $("#addToCart").hide();
+            }
             //$("#addToCart").attr("disabled", false);
+            else{
             $("#addToCart").show();
 
+            
             if(rsltval == "S"){
                 $(".apparelCategoryS").show();
                 //console.log($("#quantityS").val());
@@ -202,7 +208,7 @@
                 }
             }
                 
-
+            }
 
         });
         $("#backToCollection").click(function(){
@@ -442,6 +448,10 @@
     
 </div>
 }
+<form id='ordernow' action="/Cart/OrderNow" method="post">
+    <input type="hidden" name="id" id="idON"/>
+    <input type="hidden" name="size" id="sizeON"/>
+</form>
 <style>
     img{
         height : 200px;
@@ -453,7 +463,7 @@
 	margin-bottom:15px;
 	width:90%;
 	}
-	
+    
 	caption {
 		text-align:left;
 		font-size:15px;
@@ -467,7 +477,7 @@
 		border:1px solid #fff;
 		border-width:0 1px 1px 0;
 		}
-		
+
 	thead th {
 		background:#91c5d4;
 		}
@@ -503,4 +513,4 @@
 		}
 
 </style>
-    
+

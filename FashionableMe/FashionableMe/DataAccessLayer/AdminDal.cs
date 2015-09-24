@@ -154,7 +154,7 @@ namespace FashionableMe.DataAccessLayer
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferDate=@offdate", conn);
-                cmd.Parameters.AddWithValue("offdate",date);
+                cmd.Parameters.AddWithValue("offdate", date);
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -177,6 +177,35 @@ namespace FashionableMe.DataAccessLayer
             }
             conn.Close();
             return obj;
+        }
+
+        public Decimal getOfferDiscountByID(string offerID)
+        {
+            decimal discount = 0;
+            string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
+            SqlConnection conn = new SqlConnection(conStr);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * from Offer where OfferID=@offerID", conn);
+                cmd.Parameters.AddWithValue("offerID", offerID);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        //Offer obj = new Offer();
+                        discount = reader.GetDecimal(reader.GetOrdinal("OfferDiscount"));
+                    }
+                }
+                conn.Close();
+            }
+            catch (Exception ExcObj)
+            {
+                HttpContext.Current.Session["ErrorMessage"] = ExcObj.Message;
+            }
+            conn.Close();
+            return discount;
         }
 
         public bool hasOfferWithSameDate(DateTime date)

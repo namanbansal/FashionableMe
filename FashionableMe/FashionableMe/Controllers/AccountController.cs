@@ -56,6 +56,18 @@ namespace FashionableMe.Controllers
                     {
                         return RedirectToAction("Offer", "Admin");
                     }
+                    if (Convert.ToString(Session["UserRole"]) == "customer")
+                    {
+                        CartBLL bllObj = new CartBLL();
+                        List<CartItem> cart = new List<CartItem>();
+                        cart = bllObj.getUserCart(Session["UserID"].ToString());
+                        if (cart.Count > 0)
+                        {
+                            Session["cart"] = cart;
+                            return RedirectToAction("Index", "Cart");
+                        }
+
+                    }
 
                     return RedirectToLocal(returnUrl);
                 }
@@ -73,10 +85,21 @@ namespace FashionableMe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            CartBLL bllObj = new CartBLL();
+            List<CartItem> cart = new List<CartItem>();
+            if (Session["cart"] != null)
+            {
+                cart = (List<CartItem>)Session["cart"];
+                if (cart.Count > 0 && (Session["UserID"] != null))
+                {
+                    bool status = bllObj.saveCart(cart, Session["UserID"].ToString());
+                }
+            }
             Session["UserID"] = null;
             Session["UserRole"] = null;
             Session["cart"] = null;
             Session["ItemDetails"] = null;
+            Session["cartUpdated"] = null;
 
             return RedirectToAction("Index", "Home");
         }

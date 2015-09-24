@@ -46,7 +46,6 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Log" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -207,6 +206,7 @@
     <Compile Include="Models\AddApparel.cs" />
     <Compile Include="Models\Apparel.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\DetailsViewModel.cs" />
     <Compile Include="Models\DropDownFormat.cs" />
@@ -347,12 +347,12 @@
     <Content Include="Views\Customer\Kids.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
     <Content Include="Views\Customer\OfferOfDay.cshtml" />
-    <Content Include="Views\Admin\UploadImage.cshtml" />
+    <Content Include="Views\Cart\Shipping.cshtml" />
+    <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\Cart\PayByCredit.cshtml" />
+    <Content Include="Views\Customer\MyOrders.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\Images\" />
-    <Folder Include="Images\Apparels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -372,7 +372,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>58131</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50259/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

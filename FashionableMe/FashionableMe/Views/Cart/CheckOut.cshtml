@@ -31,10 +31,14 @@
                         type: "POST",
                         data: {UserID: '@ViewBag.UserID'},
                         success: function (data) {
-                            //console.log(data);
+                            console.log(data);
                             console.log(data.length);
+                            if(data=="false")
+                                $("#msgPanel").html("<h3 style='color:red'>Unable to confirm order!</h3>");
+                            else
+                            $("#msgPanel").html("<h3 style='color:green'>Order Confirmed! Transaction ID:"+data+"</h3>");
+                            $("#confirmOrder").attr("disabled", true);
 
-                            $('#dynmGrid').html(data);
                         }
                     });
                     console.log("out");
@@ -42,6 +46,19 @@
                 }
                 if ($('#Credit').is(':checked')) {
                     console.log("credit");
+                    var total = $("#totalAmount").text();
+                    var searchUrl = '@Url.Action("PayByCredit", "Cart")';
+                    console.log("in");
+                    console.log(total);
+                    @*var link = '@{ Html.RenderAction("PayByCredit", "Cart", new { totalAmount = -1 }); };*@
+                    //link = link.replace("-1", total);
+                    //console.log(link);
+                    $("#totalAmountInput").val(total);
+                    document.forms["myform"].submit();
+
+                    
+                    
+                    console.log("out");
                 }
             }
         });
@@ -54,7 +71,7 @@
             return true;
         }
         else {
-            $("#addErrorPanel").html("<h3 style='color:red'>At least one payment mode should be selected!</h3>");
+            $("#msgPanel").html("<h3 style='color:red'>At least one payment mode should be selected!</h3>");
         }
         return false;
     }
@@ -97,7 +114,7 @@
             <h3>Total Price</h3>
         </td>
         <td>
-            <h3>@sum</h3>
+            <h3 id="totalAmount">@sum</h3>
         </td>
     </tr>
 </table>
@@ -152,4 +169,8 @@
     <input type="radio" id="Credit" name="same" value="Credit Card">Credit Card
 </div>
 <input type="button" id="confirmOrder" value="Confirm Order" style="align-self:center"/>
-<div id="addErrorPanel"></div>
+<div id="msgPanel"></div>
+
+<form id='myform' action="/Cart/PayByCredit" method="post">
+    <input type="hidden" name="totalAmount" id="totalAmountInput"/>
+</form>

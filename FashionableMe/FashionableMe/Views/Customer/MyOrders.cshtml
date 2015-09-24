@@ -1,0 +1,87 @@
+﻿@model IEnumerable<FashionableMe.Models.MyOrder>
+
+@{
+    ViewBag.Title = "MyOrders";
+}
+
+<h2>MyOrders</h2>
+
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SizeOfApparel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pincode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfPurchase)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SizeOfApparel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pincode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfPurchase)
+        </td>
+        
+    </tr>
+}
+
+</table>

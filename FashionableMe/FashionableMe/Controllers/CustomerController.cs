@@ -14,7 +14,7 @@ namespace FashionableMe.Controllers
     {
         //
         // GET: /Customer/
-
+        
         public ActionResult Index()
         {
             return View();
@@ -131,80 +131,20 @@ namespace FashionableMe.Controllers
         //
         // GET: /Customer/Create
 
-        public ActionResult Create()
+        public ActionResult MyOrders()
         {
-            return View();
+            CustomerBLL bllobj = new CustomerBLL();
+            List<MyOrder> listOrders = new List<MyOrder>();
+            string userID = Session["UserID"].ToString();
+            listOrders = bllobj.GetOrderDetails(userID);
+            return View(listOrders);
         }
 
 
-        //
-        // POST: /Customer/Create
+     
+        
 
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Customer/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Customer/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Customer/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Customer/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

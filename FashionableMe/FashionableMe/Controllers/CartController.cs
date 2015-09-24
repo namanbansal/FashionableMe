@@ -20,11 +20,24 @@ namespace FashionableMe.Controllers
         // GET: /Cart/
         public ActionResult Index()
         {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Index", "Home");
+            
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            if (Session["cart"] == null)
+            {
+                ViewBag.CartCount = "0";
+            }
+            else if (cart.Count<1)
+            {
+                ViewBag.CartCount = "0";
+            }
             return View("Cart");
         }
 
         //
         // GET: /Cart/Details/5
+        [HttpPost]
         public ActionResult OrderNow(string id, string size)
         {
             size = size.Trim();
@@ -47,9 +60,10 @@ namespace FashionableMe.Controllers
                     cart[index].Quantity++;
                 Session["cart"] = cart;
             }
-            return View("Cart");
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public ActionResult OrderNowOffer(string id, string size, string offerDiscount, string offerID)
         {
             size = size.Trim();
@@ -76,16 +90,43 @@ namespace FashionableMe.Controllers
                     cart[index].Quantity++;
                 Session["cart"] = cart;
             }
-            return View("Cart");
+            return RedirectToAction("Index");
         }
 
+        public bool verifyQuantity()
+        {
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            bool isUpdated = false;
+            for (int i = 0; i < cart.Count; i++)
+            {
+                int available = bllObj.checkAvailableQuantity(cart[i].Apparel.ApparelID, cart[i].Apparel.ApparelSize, cart[i].Quantity);
+                if (available != cart[i].Quantity)
+                {
+                    cart[i].Quantity = available;
+                    isUpdated = true;
+                }
+            }
+            if (isUpdated)
+            {
+                Session["cart"] = cart;
+                Session["cartUpdated"] = "true";
+            }
+            return isUpdated;
+        }
         public ActionResult Shipping()
         {
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            bool isUpdated = verifyQuantity();
+            if (isUpdated)
+                return RedirectToAction("Index");
+
+
             DetailsViewModel custDetails = new DetailsViewModel();
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
             else
             {
+
                 custDetails = bllObj.getShippingDetails(Session["UserID"].ToString());
 
             }
@@ -125,13 +166,15 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public bool ConfirmOrder(string UserID)
+        public string ConfirmOrder(string UserID)
         {
             DetailsViewModel custDetails = new DetailsViewModel();
             custDetails = (DetailsViewModel)Session["MyOrder"];
             List<CartItem> cart = (List<CartItem>)Session["cart"];
+            
             List<MyOrder> orders = new List<MyOrder>();
             MyOrder order = new MyOrder();
+            
             order.ShippingAddress = custDetails.Address;
             order.City = custDetails.City;
             order.State = custDetails.State;
@@ -139,13 +182,25 @@ namespace FashionableMe.Controllers
             order.UserID = UserID;
             for (int i = 0; i < cart.Count; i++)
             {
+                order.ApparelID = cart[i].Apparel.ApparelID;
                 order.ProductName = cart[i].Apparel.ApparelName;
                 order.SizeOfApparel = cart[i].Apparel.ApparelSize;
                 order.Quantity = cart[i].Quantity;
                 order.TotalAmount = cart[i].Quantity * (cart[i].Apparel.ApparelCost - (cart[i].Apparel.ApparelCost * cart[i].Apparel.ApparelDiscount)/100);
                 orders.Add(order);
             }
-            return bllObj.InsertOrderDetails(orders);
+            string status = bllObj.InsertOrderDetails(orders);
+            if (!status.Equals("false"))
+                Session["cart"] = null;
+            return status;
+        }
+
+        [HttpPost]
+        public ActionResult PayByCredit(string totalAmount)
+        {
+            
+            ViewBag.TotalAmount = totalAmount;
+            return View();
         }
 
         private int isExisting(int id, string size)
@@ -168,7 +223,7 @@ namespace FashionableMe.Controllers
             int index = isExisting(id, size);
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             cart.RemoveAt(index);
-            return View("Cart");
+            return RedirectToAction("Index");
         }
 
         //

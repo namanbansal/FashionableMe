@@ -9,7 +9,7 @@
     itemDetails = {};
     function showDetails(){
         
-        var rsltval = @Model.ApparelID ;
+        var rsltval = '@Model.ApparelID' ;
         var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
         $.ajax({
             url: searchUrl,
@@ -26,7 +26,7 @@
                     if(data[i].ApparelSize == "S"){
                         $("#apparelDiscountS").text(data[i].ApparelDiscount);
                         $("#originalFareS").text(data[i].ApparelCost);
-                        $("#sellingFareS").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount + @ViewBag.OfferDiscount) /100)).toFixed(2));
+                        $("#sellingFareS").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount + parseFloat(@ViewBag.OfferDiscount)) /100)).toFixed(2));
                         $("#quantityS").val(data[i].ApparelQuantity);
 
                         
@@ -35,14 +35,14 @@
                     else if(data[i].ApparelSize == "M"){
                         $("#apparelDiscountM").text(data[i].ApparelDiscount);
                         $("#originalFareM").text(data[i].ApparelCost);
-                        $("#sellingFareM").text(data[i].ApparelCost - ((data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100)).toFixed(2));
+                        $("#sellingFareM").text(data[i].ApparelCost - ((data[i].ApparelCost*(data[i].ApparelDiscount+ parseFloat(@ViewBag.OfferDiscount)) /100)).toFixed(2));
                         $("#quantityM").val(data[i].ApparelQuantity);
 
                     }
                     if(data[i].ApparelSize == "L"){
                         $("#apparelDiscountL").text(data[i].ApparelDiscount);
                         $("#originalFareL").text(data[i].ApparelCost);
-                        $("#sellingFareL").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ @ViewBag.OfferDiscount) /100)).toFixed(2));
+                        $("#sellingFareL").text((data[i].ApparelCost - (data[i].ApparelCost*(data[i].ApparelDiscount+ parseFloat(@ViewBag.OfferDiscount)) /100)).toFixed(2));
                         $("#quantityL").val(data[i].ApparelQuantity);
 
                     }
@@ -118,7 +118,7 @@
 
 
     function sendData(){
-        var id = @Model.ApparelID.ToString();
+        var id = '@Model.ApparelID';
         var size = $("#sizeDropDown").val().trim();
         $("#idONO").val(id);
         $("#sizeONO").val(size);
@@ -167,33 +167,33 @@
                 $("#addToCart").show();
 
 
-                if(rsltval == "S"){
-                    $(".apparelCategoryS").show();
+            if(rsltval == "S"){
+                $(".apparelCategoryS").show();
                     //console.log($("#quantityS").val());
                     if(parseInt($("#quantityS").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
 
-                }
-                if(rsltval == "M"){
+            }
+            if(rsltval == "M"){
                     //console.log($("#quantityM").val());
 
-                    $(".apparelCategoryM").show();
+                $(".apparelCategoryM").show();
                     if(parseInt($("#quantityM").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-                }
-                if(rsltval == "L"){
+            }
+            if(rsltval == "L"){
                     //console.log($("#quantityL").val());
 
-                    $(".apparelCategoryL").show();
+                $(".apparelCategoryL").show();
                     if(parseInt($("#quantityL").val())<1){
                         //$("#addToCart").attr("disabled", true);
                         $("#addToCart").hide();
                     }
-                }
+            }
                 
             }
         });
@@ -223,8 +223,11 @@
                 return false;
             }
             console.log("User Id = ",UserID);
-            itemDetails.id = @Model.ApparelID.ToString(); itemDetails.name = @Model.ApparelName.ToString(); itemDetails.brand = @Model.BrandName.ToString();
-            itemDetails.description = @Model.Description.ToString(); itemDetails.image = @Model.ApparelImage.ToString();
+            itemDetails.id = '@Model.ApparelID'; 
+            itemDetails.name = '@Model.ApparelName'.ToString();
+            itemDetails.brand = '@Model.BrandName'.ToString();
+            itemDetails.description = '@Model.Description'.ToString();
+            itemDetails.image = '@Model.ApparelImage'.ToString();
             itemDetails.newRating = $("#userRate").val();
             itemDetails.newComment = $("#userComment").val();
             var srchUrl = '@Url.Action("setToSession", "Customer")';
@@ -251,11 +254,12 @@
 
 
 <br /><br /><br />
-@if (@ViewBag.OfferTitle == "none")
+@if (ViewBag.OfferTitle == "none")
 {
-    <div><h1 style="color:red">No Offers!</h1></div>
+    <div><h1 style="color:red">No Offers Today!</h1></div>
 }
-else{
+else
+{
 <div id="detailsPanel">
     <input type="hidden" id="apparelId"  />
     <input type="hidden" id="quantityS"  />
@@ -300,11 +304,11 @@ else{
     <input type="hidden" name="size" id="sizeONO"/>
     <input type="hidden" name="offerDiscount" id="offerDiscountONO"/>
     <input type="hidden" name="offerID" id="offerIDONO"/>
-</form>  
+</form>
     
-}
-
-@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+    
+    
+using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
 {
 <div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
@@ -324,4 +328,7 @@ else{
     <input id="reviewButton" type="submit" value="Submit Review"  />
     
 </div>
-} 
+}
+}
+
+

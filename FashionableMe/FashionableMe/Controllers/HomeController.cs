@@ -28,6 +28,7 @@ namespace FashionableMe.Controllers
                 ViewBag.OfferDescription = offer[0].OfferDescription;
 
             }
+
                 return View();
         }
 

@@ -50,17 +50,17 @@ else{
 <br />
 <div id="new_div">
     
-    <div id="left" class="inbox" >
+    <div id="left" class="inbox" style=" background-image:url('/Images/mens_style.jpg' ) ">
         <h3><a href="/home/HisPage">Men's Apparel</a></h3>
         
     </div>
     
-    <div id="middle" class="inbox" >
+    <div id="middle" class="inbox" style=" background-image:url('/Images/womens_style.jpg' ) ">
         <h3><a href="/home/HerPage">Women's Apparel</a></h3>
         
     </div>
     
-    <div id="right" class="inbox" >
+    <div id="right" class="inbox" style=" background-image:url('/Images/kids_style.jpg' )">
         <h3><a href="/home/KidPage">Kid's Apparel</a></h3>
         
     </div>
@@ -71,8 +71,8 @@ else{
     .inbox {
         float:left;width:31% ; height:300px ; text-align:center;
         border : 5px dotted seagreen ; margin-left:13px;
-        background-image:url("/Images/mens_style.jpg" );
-        background-size:  contain ;                      /* <------ */
+        
+        background-size:  cover ;                      /* <------ */
         background-repeat: no-repeat;
         background-position: center center;
     }

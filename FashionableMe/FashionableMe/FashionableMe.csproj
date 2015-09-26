@@ -351,6 +351,7 @@
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Cart\PayByCredit.cshtml" />
     <Content Include="Views\Customer\MyOrders.cshtml" />
+    <Content Include="Views\Shared\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

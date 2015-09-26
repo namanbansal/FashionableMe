@@ -333,7 +333,7 @@ namespace FashionableMe.DataAccessLayer
                         //objlist.Add(obj);
                     }
                 }
-                conn.Close();
+                
             }
             catch (Exception ExcObj)
             {
@@ -446,6 +446,5 @@ namespace FashionableMe.DataAccessLayer
             conn.Close();
             return status;
         }
-
     }
 }

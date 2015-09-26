@@ -12,6 +12,7 @@ using System.IO;
 
 namespace FashionableMe.Controllers
 {
+    //[Authorize]
     public class AdminController : Controller
     {
         //

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionableMe", "Fashionabl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionableMeTest", "FashionableMeTest\FashionableMeTest.csproj", "{FF23C337-82B0-4CDB-8967-38C88492C3ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserIDValidation", "UserIDValidation\UserIDValidation.csproj", "{765105A5-4171-4744-AA46-394946DEEC9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{FF23C337-82B0-4CDB-8967-38C88492C3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF23C337-82B0-4CDB-8967-38C88492C3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF23C337-82B0-4CDB-8967-38C88492C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{765105A5-4171-4744-AA46-394946DEEC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{765105A5-4171-4744-AA46-394946DEEC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{765105A5-4171-4744-AA46-394946DEEC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{765105A5-4171-4744-AA46-394946DEEC9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,7 @@ using FashionableMe.BLL;
 
 namespace FashionableMe.Controllers
 {
+    //[Authorize]
     public class CartController : Controller
     {
         private CartBLL bllObj;
@@ -121,10 +122,11 @@ namespace FashionableMe.Controllers
 
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             bool isUpdated = verifyQuantity();
-            if (isUpdated)
+
+            bool isZero = RemoveZeroQuantity();
+            if (isUpdated || isZero)
                 return RedirectToAction("Index");
-
-
+            
             DetailsViewModel custDetails = new DetailsViewModel();
 
             if (Session["UserID"] != null)
@@ -166,6 +168,7 @@ namespace FashionableMe.Controllers
 
             }
             Session["cart"] = cart;
+            bool dummy = RemoveZeroQuantity();
             return status;
         }
 
@@ -177,15 +180,15 @@ namespace FashionableMe.Controllers
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             
             List<MyOrder> orders = new List<MyOrder>();
-            MyOrder order = new MyOrder();
             
-            order.ShippingAddress = custDetails.Address;
-            order.City = custDetails.City;
-            order.State = custDetails.State;
-            order.Pincode = custDetails.Pincode;
-            order.UserID = UserID;
             for (int i = 0; i < cart.Count; i++)
             {
+                MyOrder order = new MyOrder();
+                order.ShippingAddress = custDetails.Address;
+                order.City = custDetails.City;
+                order.State = custDetails.State;
+                order.Pincode = custDetails.Pincode;
+                order.UserID = UserID;
                 order.ApparelID = cart[i].Apparel.ApparelID;
                 order.ProductName = cart[i].Apparel.ApparelName;
                 order.SizeOfApparel = cart[i].Apparel.ApparelSize;
@@ -200,10 +203,12 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult PayByCredit(string totalAmount)
+        public ActionResult PayByCredit(string totalAmount, string userID)
         {
-            
+
+            ViewBag.UserID = userID;
             ViewBag.TotalAmount = totalAmount;
+
             return View();
         }
 
@@ -228,6 +233,26 @@ namespace FashionableMe.Controllers
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             cart.RemoveAt(index);
             return RedirectToAction("Index");
+        }
+
+        public bool RemoveZeroQuantity()
+        {
+            bool isUpdated = false;
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            for (int i = 0; i < cart.Count; i++)
+            {
+                if (cart[i].Quantity < 1)
+                {
+                    cart.RemoveAt(i);
+                    isUpdated = true;
+                }
+            }
+            if (isUpdated)
+            {
+                Session["cart"] = cart;
+                Session["cartUpdated"] = "true";
+            }
+            return isUpdated;
         }
 
         //

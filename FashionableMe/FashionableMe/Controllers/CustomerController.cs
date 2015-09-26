@@ -10,6 +10,7 @@ using FashionableMe.DataAccessLayer;
 
 namespace FashionableMe.Controllers
 {
+    //[Authorize]
     public class CustomerController : Controller
     {
         //
@@ -23,7 +24,7 @@ namespace FashionableMe.Controllers
 
         //
         // GET: /Customer/Details/5
-
+        [AllowAnonymous]
         public ActionResult OfferOfDay()
         {
             ViewBag.Title = "Offer of The Day!!!";
@@ -50,7 +51,7 @@ namespace FashionableMe.Controllers
             return View(apparel);
 
         }
-
+        [AllowAnonymous]
         public ActionResult Him()
         {
             ViewBag.Title = "Apparel for Him";
@@ -60,7 +61,7 @@ namespace FashionableMe.Controllers
             return View(model);
 
         }
-
+        [AllowAnonymous]
         public ActionResult Her()
         {
             ViewBag.Title = "Apparel for Her";
@@ -70,7 +71,7 @@ namespace FashionableMe.Controllers
             return View(model);
 
         }
-
+        [AllowAnonymous]
         public ActionResult Kids()
         {
             ViewBag.Title = "Apparel for Kids";

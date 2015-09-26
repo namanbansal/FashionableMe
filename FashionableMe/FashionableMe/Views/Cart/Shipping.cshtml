@@ -46,7 +46,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset >
         <legend>DetailsViewModel</legend>
         @Html.HiddenFor(model => model.Name)
         <div class="editor-label">
@@ -55,7 +55,9 @@
         <div class="editor-field">
             @Html.DisplayFor(model => model.Name)
         </div>
-        <input type="checkbox" id="radio" />&nbsp&nbsp <label>Ship to new Address</label><label style="color:red" id="shipMsg"></label>
+        <div>
+            <input type="checkbox" id="radio"/><label>Ship to new Address</label><label style="color:red" id="shipMsg"></label>
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Address)
         </div>

@@ -19,18 +19,26 @@ namespace FashionableMe.Controllers
 
         public static string ImagePath = "Images/Apparels/"; //"App_Data/Images/";
 
+        public bool checkAdmin()
+        {
+            if (Session["UserRole"] != null &&  Session["UserRole"].ToString() == "admin")
+                return true;
+            else 
+                return false;
+        }
+
         public ActionResult Index()
         {
-
-
             return RedirectToAction("Offer");
         }
 
         //
         // GET: /Admin/Details/5
-
+        
         public ActionResult Offer()
         {
+            if(!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT Authorized to access this Page ..! <h1>")); //
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
@@ -39,6 +47,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult Offer(Offer model)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             AdminBLL obj = new AdminBLL();
            List<SelectListItem> defaultList = new List<SelectListItem>();
            defaultList = UtilityFunctions.getCategoryDropDown();
@@ -75,6 +86,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult searchByCategory(string val)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             AdminBLL obj = new AdminBLL();
             List<Apparel> listApparel = obj.fetchProductByCategory(val);
             //ViewBag.Message = listApparel[0].ApparelName;
@@ -87,6 +101,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string fetchByDate(string date)
         {
+            if (!checkAdmin())
+                return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
+
             AdminBLL obj = new AdminBLL();
             Offer model = obj.fetchOfferByDate(date);
             JavaScriptSerializer jsonobj = new JavaScriptSerializer();
@@ -97,6 +114,9 @@ namespace FashionableMe.Controllers
 
         public ActionResult Apparel()
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
@@ -104,6 +124,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult Apparel(AddApparel model)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             AdminBLL obj = new AdminBLL();
             string AppID;
@@ -125,6 +148,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
+            if (!checkAdmin())
+                return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
+
             AdminBLL obj = new AdminBLL();
             if (obj.UpdateOffer(offerDate, offerName, offerDescription, offerDiscount))
             {
@@ -137,6 +163,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string DeleteOffer(string offerDate)
         {
+            if (!checkAdmin())
+                return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
+
             AdminBLL obj = new AdminBLL();
             if (obj.DeleteOffer(offerDate))
             {
@@ -152,6 +181,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult getBrandNames()
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             AdminBLL obj = new AdminBLL();
             List<DropDownFormat> result = obj.getBrandNames();
             SelectList resList = new SelectList(result, "value", "name");
@@ -163,6 +195,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult getApparelNameByBrand(string brand)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             AdminBLL obj = new AdminBLL();
             List<DropDownFormat> result = obj.getApparelNameByBrand(brand);
             SelectList resList = new SelectList(result, "value", "name");
@@ -174,6 +209,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult getApparelsByBrandAndName(string name, string brand)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             AdminBLL obj = new AdminBLL();
             List<AddApparel> listApparel = obj.getApparelsByBrandAndName(name, brand);
             return PartialView("_updateApparel", listApparel);
@@ -183,6 +221,9 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public bool UpdateApparel(string apparelID, string  cost, string discount, string quantity, string category, string size )
         {
+            if (!checkAdmin())
+                return (false);
+
             AdminBLL obj = new AdminBLL();
             bool result = obj.UpdateApparel(apparelID, cost, discount, quantity, category, size);
             return result;
@@ -192,6 +233,9 @@ namespace FashionableMe.Controllers
         [HttpGet]
         public ActionResult UploadImage(string id)
         {
+            if (!checkAdmin())
+                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             return View();
         }
 
@@ -199,6 +243,9 @@ namespace FashionableMe.Controllers
         [AllowAnonymous]
         public JsonResult UploadImage()
         {
+            if (!checkAdmin())
+                return (Json("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+
             string imgPath = string.Empty;
             for (int i = 0; i < Request.Files.Count; i++)
             {

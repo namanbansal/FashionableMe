@@ -4,6 +4,8 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
@@ -50,18 +52,17 @@ else{
 <br />
 <div id="new_div">
     
-    <div id="left" class="inbox" style=" background-image:url('/Images/mens_style.jpg' ) ">
-        <h3><a href="/home/HisPage">Men's Apparel</a></h3>
+    <div id="left" class="inbox " style=" background-image:url('/Images/mens_style.jpg' ) ">
+        <a href="/home/HisPage">Men's Apparel</a>
         
     </div>
     
-    <div id="middle" class="inbox" style=" background-image:url('/Images/womens_style.jpg' ) ">
-        <h3><a href="/home/HerPage">Women's Apparel</a></h3>
-        
+    <div id="middle" class="inbox " style=" background-image:url('/Images/womens_style.jpg') ">
+        <a href="/home/HerPage" > Women's Apparel</a>
     </div>
     
-    <div id="right" class="inbox" style=" background-image:url('/Images/kids_style.jpg' )">
-        <h3><a href="/home/KidPage">Kid's Apparel</a></h3>
+    <div id="right" class="inbox col-md-4" style=" background-image:url('/Images/kids_style.jpg' )">
+       <a href="/home/KidPage">Kid's Apparel</a>
         
     </div>
     
@@ -69,21 +70,12 @@ else{
 
 <style>
     .inbox {
-        float:left;width:31% ; height:300px ; text-align:center;
         border : 5px dotted seagreen ; margin-left:13px;
-        
-        background-size:  cover ;                      /* <------ */
+        background-size:  cover ;                      
         background-repeat: no-repeat;
         background-position: center center;
     }
 
-    img {
-        max-width:100%;
-        max-height:100%;
-        background-size:   cover;                      /* <------ */
-        background-repeat: no-repeat;
-        background-position: center center;  
-    }
-
-
 </style>
+
+

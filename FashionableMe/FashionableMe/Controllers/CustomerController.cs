@@ -14,6 +14,7 @@ namespace FashionableMe.Controllers
     {
         //
         // GET: /Customer/
+
         
         public ActionResult Index()
         {

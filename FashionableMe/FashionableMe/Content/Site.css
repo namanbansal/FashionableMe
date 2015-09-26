@@ -488,14 +488,14 @@ textarea {
 .message-error {
     clear: both;
     color: #e80c4d;
-    font-size: 1.1em;
+    font-size: 1.5em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
 
 .message-success {
-    color: #7ac0da;
-    font-size: 1.3em;
+    color: #2dad18 ; 
+    font-size: 1.5em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }

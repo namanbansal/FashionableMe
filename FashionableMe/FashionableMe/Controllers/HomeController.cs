@@ -14,6 +14,11 @@ namespace FashionableMe.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["UserRole"] != null && Session["UserRole"].ToString()  == "admin")
+
+            {
+                return (RedirectToAction("Offer", "Admin"));
+            }
             CustomerBLL obj = new CustomerBLL();
             List<Offer> offer = new List<Offer>();
             offer = obj.getTodaysOffer();

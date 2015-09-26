@@ -31,7 +31,9 @@ namespace FashionableMe.Controllers
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
-        {
+        {   
+            if(Session["UserID"] != null)
+                return(RedirectToAction("Index","Home"));
             string str = string.Empty;
             //str = Request.RawUrl.ToString();
             ViewBag.ReturnUrl = returnUrl;
@@ -110,6 +112,8 @@ namespace FashionableMe.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Session["UserID"] != null)
+                return (RedirectToAction("Index", "Home"));
             ViewBag.Message = "";
             return View();
         }
@@ -154,6 +158,11 @@ namespace FashionableMe.Controllers
         
         public ActionResult Details()
         {
+            if (Session["UserID"] == null && Session["UserRole"].ToString() == "admin") 
+            {
+                return (RedirectToAction("Index","Home"));
+            }
+
             AccountBLL accBLL = new AccountBLL();
             if (Session["UserID"] == null)
             {

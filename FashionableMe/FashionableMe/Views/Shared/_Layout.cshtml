@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+@*<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*@
 
 <script>
     //kill all back button functionality
@@ -23,7 +24,10 @@
           );
       }
     );
-    </script> 
+
+</script> 
+
+
 <style>
 
 
@@ -40,7 +44,7 @@
 }
 
 .nav li a {
-	background: #5D49AB;
+	background: #222 ;
 	color: #fff;
 	display: block;
 	padding: 7px 8px;
@@ -49,7 +53,7 @@
 }
 
 .nav li a:hover {
-	color: #069;
+	color: #b6ff00 ;
 }
 
 /*=== submenu ===*/
@@ -77,10 +81,12 @@
 }
 
 .nav ul li a:hover {
-	color: #069;
+	color: #b6ff00;
 }
 
 </style>
+
+
 <html lang="en">
 
 
@@ -102,9 +108,12 @@
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
-                    <div class="navigation">
+                    <br/>
+                </div>
+                <h3>
+                <div class="float-right" style="clear:both ">
 
-                         @if (Session["UserRole"] == "admin")
+                    @if (Session["UserRole"] == "admin")
                     {
   		                <ul class="nav">
   			                <li>
@@ -177,9 +186,9 @@
   		                </ul>
                     }
                       
-                    </div>
+                 </div>
                 </div>
-            </div>
+                </h3>
         </header>
         <div id="body">
             @RenderSection("featured", required: false)

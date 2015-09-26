@@ -39,18 +39,16 @@ namespace FashionableMe.Controllers
         public ActionResult Offer()
         {
             if(!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT Authorized to access this Page ..! <h1>")); //
+                return (View("~/Views/Shared/Unauthorized.cshtml")); //
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult Offer(Offer model)
         {
-            if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
-
             AdminBLL obj = new AdminBLL();
            List<SelectListItem> defaultList = new List<SelectListItem>();
            defaultList = UtilityFunctions.getCategoryDropDown();
@@ -85,11 +83,9 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult searchByCategory(string val)
         {
-            if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
-
             AdminBLL obj = new AdminBLL();
             List<Apparel> listApparel = obj.fetchProductByCategory(val);
             //ViewBag.Message = listApparel[0].ApparelName;
@@ -100,6 +96,7 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public string fetchByDate(string date)
         {
             if (!checkAdmin())
@@ -116,7 +113,7 @@ namespace FashionableMe.Controllers
         public ActionResult Apparel()
         {
             if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+                return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             return View();
@@ -126,7 +123,7 @@ namespace FashionableMe.Controllers
         public ActionResult Apparel(AddApparel model)
         {
             if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+                return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
             AdminBLL obj = new AdminBLL();
@@ -183,7 +180,7 @@ namespace FashionableMe.Controllers
         public ActionResult getBrandNames()
         {
             if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+                return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             AdminBLL obj = new AdminBLL();
             List<DropDownFormat> result = obj.getBrandNames();
@@ -211,7 +208,7 @@ namespace FashionableMe.Controllers
         public ActionResult getApparelsByBrandAndName(string name, string brand)
         {
             if (!checkAdmin())
-                return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
+                return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             AdminBLL obj = new AdminBLL();
             List<AddApparel> listApparel = obj.getApparelsByBrandAndName(name, brand);

@@ -51,6 +51,7 @@ namespace FashionableMe.Controllers
             return View(apparel);
 
         }
+
         [AllowAnonymous]
         public ActionResult Him()
         {
@@ -145,6 +146,10 @@ namespace FashionableMe.Controllers
 
         public ActionResult MyOrders()
         {
+            if (Session["UserID"] == null || Session["UserID"].ToString() == "admin")
+            {
+                return (RedirectToAction("Index","Home"));
+            }
             CustomerBLL bllobj = new CustomerBLL();
             List<MyOrder> listOrders = new List<MyOrder>();
             string userID = Session["UserID"].ToString();

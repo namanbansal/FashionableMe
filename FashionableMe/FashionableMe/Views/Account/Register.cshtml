@@ -7,6 +7,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -64,7 +65,7 @@
             $("#errorPanel").html("");
             return true;
         }else{
-            $("#errorPanel").html("<h3>You should be of atleast 18 years to register</h3>");
+            $("#errorPanel").html("You should be of atleast 18 years to register");
             return false;
         }
 
@@ -75,7 +76,7 @@
         var password = $("#Password").val();
 
         if(userName == password){
-            $("#errorPanelU").html("<h3>UserId and Password cannot be same.</h3>");
+            $("#errorPanelU").html("UserId and Password cannot be same");
             return false;
         }
         $("#errorPanelU").html("");
@@ -118,9 +119,8 @@
 
 
 <h2>Register</h2>
+<br />
 
-<div id="errorPanel" style="color:#f00"></div>
-<div id="errorPanelU" style="color:#f00"></div>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -178,10 +178,8 @@
             @Html.LabelFor(model => model.UserID)
             @Html.EditorFor(model => model.UserID)
             @Html.ValidationMessageFor(model => model.UserID)
-            </li>
-            <li>
-                <input type="button" value="Check UserID Availability" onclick="checkUserIDAvailability()" />
-                <div id="userIDPanel"></div>
+            &nbsp &nbsp <input type="button" value="Check UserID Availability" onclick="checkUserIDAvailability()" />
+            <div id="userIDPanel"></div>
             </li>
             <li>
             @Html.LabelFor(model => model.Password)
@@ -194,22 +192,28 @@
             @Html.ValidationMessageFor(model => model.ConfirmPassword)
             </li>
             <li>
-                @Html.Label("Verification Code")
-                <div id="captcha">
-                <img src="/Home/ShowCaptchaImage" id="captchaImage"/></div> <input type="button" value="Refresh" id="captchaRefresh" />
+                <div id="captcha" style="margin:20px;margin-left:0px">@Html.Label("Verification Code")
+                <img src="/Home/ShowCaptchaImage" id="captchaImage" style="margin-right:20px"/>
+                <input type="button" value="Refresh" id="captchaRefresh" /></div>
                 @Html.Label("Security Code")
                 @Html.TextBox("CaptchaText")
                 
-            </li>
+            </li><br /><br />
         </ol>
-        <p>
+        <div style="margin-left:200px">
             <input type="button" value="Reset" id="reset" />&nbsp&nbsp&nbsp<input type="submit" value="Sign Up" onclick="return check()"/>&nbsp&nbsp&nbsp<input type="button" value="Cancel" onclick="location.href= '@Url.Action("Index", "Home")'" />
-        </p>
+        </div>
+        
     </fieldset>
 }
+<div id="errorPanel" class="message-error"></div>
+<div id="errorPanelU" class="message-error"></div>
 
-
-    
+<style>
+    label {
+        width:200px;
+    }
+</style>
 
 
 @section Scripts {

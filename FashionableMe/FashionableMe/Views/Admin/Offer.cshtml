@@ -8,6 +8,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     
@@ -26,6 +27,8 @@
                 type: "POST",
                 success: function (data) {
                     $("#dynm").html(data);
+                    $("#dynm table").addClass("table table-bordered table-hover").css({"background-color" : "lightblue","font-weight":"bold"});
+                    
                 }
             });
         }
@@ -200,14 +203,16 @@
     }
 </script>
 
+
+
 <h2>Add or Update Offer</h2>
 <div id="radio">
-    What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
+    <label>What would you like to do</label>  <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
-    <div id="errorPanel" style="color:red"></div>
+    <div id="errorPanel" class="message-error"></div>
 
-<div id="addPanel">
+<div id="addPanel" style="background-color:white;padding:30px">
     @if(@Session["OfferMessage"]=="true"){
     <div><h1 style='color:red'>@Session["ErrorMessage"]</h1></div>
         Session["OfferMessage"] = "false"; Session["ErrorMessage"] = "";
@@ -252,7 +257,7 @@
             @Html.ValidationMessageFor(model => model.Category)
         </div>
 
-        <div id="dynm"></div>
+        <br /><div id="dynm"></div><br />
         
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferDate)
@@ -279,13 +284,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" onclick="return checkDate();"/>
+            <input type="submit" value="Create" onclick="return checkDate();" style="margin-left:200px"/>
         </p>
     </fieldset>
 }
 </div>
 
-<div id="updatePanel">
+<div id="updatePanel" style="background-color:white;padding:30px">
     <div id="resultPanel"></div>
     <h1>Update</h1>
     @using (Html.BeginForm())
@@ -303,7 +308,7 @@
             @Html.EditorFor(model => model.OfferDate)
             @Html.ValidationMessageFor(model => model.OfferDate)
         </div>
-        <input type="button" value="Fetch Details" id="fetchDetails" />
+        <input type="button" value="Fetch Details" class="btn btn-success" id="fetchDetails" style="margin: 5px 5px 20px 200px" /><br />
 
         <div class="editor-label">
             @Html.LabelFor(model => model.OfferName)
@@ -336,16 +341,33 @@
         </div>
 
         
-            <table><tr>
-                <td><input type="button" value="Delete Offer" id="deleteButton" /></td>
+            <table style="margin-left:200px"><tr>
+                <td><input type="button" value="Delete Offer" class="btn btn-success" id="deleteButton" /></td>
             
-                <td ><input type="button" value="Update Offer" id="updateButton" /><input type="button" value="Save" id="saveButton" /><input type="button" value="Cancel" id="cancelButton" /></td>
-                   </tr></table>
+                <td ><input type="button" value="Update Offer" class="btn btn-success" id="updateButton" /><input type="button" value="Save" id="saveButton" /><input type="button" value="Cancel" id="cancelButton" /></td>
+                   </tr>
+            </table>
     </fieldset>
     }
 
 </div>
 
+<style>
+    .editor-label {
+        float:left;
+        width:200px;
+    }
+    label {
+        width:250px;
+    }
+    .editor-field {
+        margin-bottom:20px;
+    }
+    [type="radio"] {
+        width:30px;
+    }
+   
+</style>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -7,6 +7,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     
@@ -21,6 +22,8 @@
         $("#LtxtBUttonMF").hide();
         $("#quantityPanelMF").hide();
         $("#quantityPanelKid").hide();
+        ast = $("<b> *</b>").css("color","red");
+        $("label").append(ast);
 
         $("#SchkButton").change(function (e) {
             if (this.checked) {
@@ -123,6 +126,7 @@
                     console.log(data.length);
 
                     $('#dynmGrid').html(data);
+                    $('#dynmGrid table').addClass("table table-striped").css({ "background": "lightblue", "font-weight": "bold" });
                 }
             });
             console.log("out");
@@ -180,7 +184,7 @@
         xhr.send(formdata);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
             }
         }
     }
@@ -189,7 +193,7 @@
 
 <h2>Add or Update Apparel</h2>
 <div id="radio">
-    What would you like to do <input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
+   <label>What would you like to do</label><input type="radio" id="addRadioButton" value="Add" name="same" checked>Add &nbsp &nbsp &nbsp
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
 
@@ -254,7 +258,7 @@
             @* @Html.ValidationMessageFor(model => model.apparel.ApparelImage)*@
             @*<img src="@Url.Content(Model.apparel.ApparelImage)" alt="Image" />*@
             <input id="fileInput" type="file" accept="image/*">
-            <input id="imageButton" type="button" value="Upload Image" />
+            @*<input id="imageButton" type="button" value="Upload Image" style="margin-left:200px" />*@
         </div>
 
         
@@ -268,7 +272,7 @@
 
         <div id="quantityPanelKid">
             <table>
-                <thead><tr><th>Select Age</th><th>Quantity</th></tr></thead>
+                <thead><tr><th>Select Age/ </th><th>Quantity</th></tr></thead>
                 <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)@Html.ValidationMessageFor(model => model.small)</td></tr>
                 <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)@Html.ValidationMessageFor(model => model.medium)</td></tr>
                 <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)@Html.ValidationMessageFor(model => model.large)</td></tr>
@@ -276,7 +280,7 @@
         </div>
         
         <p>
-            <input type="submit" value="Add item" onclick="return atleastOneCheckBoxChecked()"/>
+            <input type="submit" value="Add item" class="btn" onclick="return atleastOneCheckBoxChecked()" style="margin-left:200px ; margin-top:10px"/>
         </p>
     </fieldset>
 }
@@ -285,20 +289,39 @@
     <h2 style="align-content:center">Update Apparel Items</h2>
 
     <div>
-     Brand Name: <select id ="brandList">
+    <label>Brand Name: </label><select id ="brandList">
    
     </select>    
     </div>   
     
     <div>
-     Apparel Name: <select id ="apparelNameList">
+    <label>Apparel Name: </label><select id ="apparelNameList">
          <option value="0" >--Select--</option>
    
     </select>    
     </div>
     <div id="dynmGrid"></div>
+    <br />
 
 </div>
+
+<style>
+    .editor-label {
+        float:left;
+        width:200px;
+    }
+    label {
+        width:250px;
+    }
+    .editor-field {
+        margin-bottom:20px;
+    }
+    [type="radio"] {
+        width:30px;
+    }
+
+   
+</style>
 
 
 @section Scripts {

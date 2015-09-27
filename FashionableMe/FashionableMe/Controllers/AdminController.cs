@@ -96,11 +96,9 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public string fetchByDate(string date)
         {
-            if (!checkAdmin())
-                return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
 
             AdminBLL obj = new AdminBLL();
             Offer model = obj.fetchOfferByDate(date);

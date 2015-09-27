@@ -1,18 +1,18 @@
 ﻿@if(Session["UserID"] != null ) {
     <text>
-    <h2>
+    <h3>
         Welcome, @Html.ActionLink( Session["UserID"].ToString() , "Details", "Account", routeValues: Session["role"], htmlAttributes: new { @class = "username", title = "Customer Details" })
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
         }
-    </h2>
+    </h3>
     </text>
 } else {
-    <h2>
+    <h3>
     <ul>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
-    </h2>
+    </h3>
 }

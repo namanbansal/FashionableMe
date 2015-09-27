@@ -3,11 +3,11 @@
 @{
     ViewBag.Title = "MyOrders";
 }
-
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <h2>MyOrders</h2>
+<br />
 
-
-<table>
+<table class="table table-condensed table-striped table-hover" style="border:2px solid black;background-color:lightblue">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.UserID)

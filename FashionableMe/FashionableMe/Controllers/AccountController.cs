@@ -158,16 +158,17 @@ namespace FashionableMe.Controllers
         
         public ActionResult Details()
         {
-            if (Session["UserID"] == null && Session["UserRole"].ToString() == "admin") 
+            if (Session["UserID"] == null)
+            {
+                return (RedirectToAction("Login", "Account"));
+            }
+            if (Session["UserRole"].ToString() == "admin") 
             {
                 return (RedirectToAction("Index","Home"));
             }
 
             AccountBLL accBLL = new AccountBLL();
-            if (Session["UserID"] == null)
-            {
-                return(RedirectToAction("Login","Account"));
-            }
+            
 
             DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["UserID"].ToString());
             ViewBag.statusCode = 0;

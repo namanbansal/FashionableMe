@@ -7,6 +7,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -68,7 +69,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset style="background-color:floralwhite; padding:20px; border:2px ridge lightblue">
         <legend>DetailsViewModel</legend>
 
         <div class="editor-label">
@@ -145,8 +146,9 @@
                 
             </div>
             <div class="editor-field" id="newPass"> 
-                @Html.EditorFor(model => model.Password)<label id="checkPass" style="color:red"></label>
+                @Html.EditorFor(model => model.Password)
                 @Html.ValidationMessageFor(model => model.Password)
+                <label id="checkPass" style="color:red;margin-left:200px"></label>
             </div>
 
             <div class="editor-label">
@@ -160,14 +162,32 @@
         </div>
      
 
-         <p>
-             <input type="button" value="Edit"  id ="editButton"/>
-             <input class="hiddenButton" type="submit"  value="Update" hidden  />
-             <input class="hiddenButton" type="button" value="Cancel" hidden onclick="location.href='@Url.Action("Details", "Account")' "/>
+         <p style="margin-left:200px">
+             <input type="button" value="Edit" class="btn-default"  id ="editButton"/>
+             <input class="hiddenButton btn-default" type="submit"  value="Update" hidden  />
+             <input class="hiddenButton btn-default" type="button"  value="Cancel" hidden onclick="location.href='@Url.Action("Details", "Account")' "/>
         </p>
     </fieldset>
     <h3 id="Message" style="font-weight:bold ; font-size: x-large ; color: forestgreen ">@ViewBag.Message</h3>
 }
+
+<style>
+    .editor-label {
+        float:left;
+        width:200px;
+    }
+    label {
+        width:250px;
+    }
+    .editor-field {
+        margin-bottom:20px;
+    }
+    [type="radio"] {
+        width:30px;
+    }
+
+   
+</style>
 
 
 @section Scripts {

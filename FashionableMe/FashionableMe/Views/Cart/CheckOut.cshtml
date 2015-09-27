@@ -7,6 +7,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     
@@ -80,8 +81,8 @@
 <h1 float="center">CheckOut</h1>
 <h3>Dear @Model.Name ,</h3>
 <h3>The following items will be shipped to the below mentioned address</h3>
-
-<table>
+<br />
+<table class="table table-striped" style="border:2px solid grey">
     <tr>
         <th>Offer ID</th>
         <th>Product ID</th>
@@ -124,7 +125,7 @@
 <br />
 
 <h2>Shipping Address</h2>
-<table>
+<table class="table table-striped" style="border:2px solid grey" >
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -169,10 +170,28 @@
     <input type="radio" id="COD" value="Cash on Delivery" name="same">Cash on Delivery &nbsp &nbsp &nbsp
     <input type="radio" id="Credit" name="same" value="Credit Card">Credit Card
 </div>
-<input type="button" id="confirmOrder" value="Confirm Order" style="align-self:center"/>
+<br />
+<input type="button" id="confirmOrder" value="Confirm Order" class="btn-default" style="margin-left:200px"/>
 <div id="msgPanel"></div>
 
 <form id='myform' action="/Cart/PayByCredit" method="post">
     <input type="hidden" name="totalAmount" id="totalAmountInput"/>
     <input type="hidden" name="userID" id="userID"/>
 </form>
+
+<style>
+    .editor-label {
+        float:left;
+        width:200px;
+    }
+    label {
+        width:250px;
+    }
+    .editor-field {
+        margin-bottom:20px;
+    }
+    [type="radio"] {
+        width:30px;
+    }
+
+</style>

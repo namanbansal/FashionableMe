@@ -251,10 +251,19 @@
                     present += ($(this).children("td").eq(loop[i]).text().toLowerCase().search(srch)) >= 0 ? 1 : 0 ;
                 }
                 if(present == 0)
-                    $(this).prop("class","hideRow");
+                    $(this).addClass("hideRow");
+                    //$(this).prop("class","hideRow");
             });
+
+            $(".thumbnail").each(function(j){
+                var str ="".concat($(this).children("div").children("p").text().toLowerCase());
+                str =str.concat($(this).children("div").children("h3").text().toLowerCase());
+                if(str.search(srch) ==-1)
+                    $(this).addClass("hideRow");
+            });
+
             $(".hideRow").hide();
-            if($(".hideRow").length == $("#apparelList tr :gt(0)").length )
+            if($("#apparelList .hideRow").length == $("#apparelList tr :gt(0)").length )
             {
                 $("#noSearch").text("NO RECORDS MATCH");
             }
@@ -267,7 +276,7 @@
         $("#clearSearch").click(function(){
             $(".hideRow").show();
             $("#searchBox").val("");
-            $(".hideRow").prop("class","");
+            $(".hideRow").removeClass("hideRow");
             $("#noSearch").text("");
         });
 
@@ -368,9 +377,8 @@
 
 <br /><br /><br />
 
-
 <div id="listPanel">
-    
+
 <div id="thumbView" class="row">
     @foreach (var item in Model)
     {
@@ -378,10 +386,10 @@
         <div class="thumbnail">
             <img src="@Url.Content(item.ApparelImage)" alt="@Html.DisplayFor(modelItem => item.ApparelName)">
             <div class="caption">
-            <h3>@Html.DisplayFor(modelItem => item.ApparelName)</h3>
-            <p><b>Brand: </b>@Html.DisplayFor(modelItem => item.BrandName)</p>
+                <h3>@Html.DisplayFor(modelItem => item.ApparelName)</h3>
+                <p><b>Brand: </b>@Html.DisplayFor(modelItem => item.BrandName)</p>
                 <p><b>Description: </b>@Html.DisplayFor(modelItem => item.Description)</p>
-            <p><input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelImage)    ')" /></p>
+                <input type="button" value="View Details" onclick="showDetails('@(item.ApparelID) ', '@(item.ApparelName)', '@(item.BrandName)', '@(item.Description)', '@(item.ApparelImage)')" />
             </div>
         </div>
     </div>
@@ -440,7 +448,7 @@
     <input type="hidden" id="quantityS"  />
     <input type="hidden" id="quantityM"  />
     <input type="hidden" id="quantityL"  />
-    <table class="table-striped">
+    <table class="table table-striped">
             
         <tr><td>Name of the Apparel</td><td id="apparelName"></td></tr>
         <tr><td>Brand Name</td><td id="brandName"></td></tr>
@@ -449,7 +457,7 @@
         <tr><td>Apparel Image</td><td ><img id="apparelImage" src=""/></td></tr>
     </table>
         <br />
-    <table class="table-striped">
+    <table class="table table-striped">
         <tr>
             <td align="left"><input type="button" class="btn-default" id="backToCollection" value="Back To Collection" /></td> 
             <td align="right"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>

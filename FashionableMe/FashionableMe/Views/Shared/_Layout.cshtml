@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-@*<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*@
-
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*
+<link href="~/Content/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 <script>
     //kill all back button functionality
     function noBack() { window.history.forward() }
@@ -41,6 +41,7 @@
 	float: left;
 	width: 160px;
 	position: relative;
+    font-size:1.2em;
 }
 
 .nav li a {
@@ -53,8 +54,11 @@
 }
 
 .nav li a:hover {
-	color: #b6ff00 ;
+	color: #3d4537 ;
+    background-color: #000;
 }
+
+
 
 /*=== submenu ===*/
 
@@ -68,12 +72,15 @@
 
 .nav ul li {
 	width: 160px;
+    vertical-align:central;
+    glyph-orientation-horizontal:inherit;
+    text-align:center;
 	float: left;
 }
 
 .nav ul a {
 	display: block;
-	height: 15px;
+	height: 50px;
 	padding: 7px 8px;
 	color: #fff;
 	text-decoration: none;
@@ -110,8 +117,8 @@
                     </section>
                     <br/>
                 </div>
-                <h3>
-                <div class="float-right" style="clear:both ">
+
+                <div class="navbar navbar-default navbar-inverse navbar-fixed" style="clear:both ">
 
                     @if (Session["UserRole"] == "admin")
                     {
@@ -188,7 +195,7 @@
                       
                  </div>
                 </div>
-                </h3>
+
         </header>
         <div id="body">
             @RenderSection("featured", required: false)

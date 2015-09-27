@@ -124,11 +124,13 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <span id="IsRegistered" style="color : red">@ViewBag.Message</span>
+    <span id="IsRegistered" class="message-success">@ViewBag.Message</span>
     <fieldset>
         <legend>Customer</legend>
         <ol>
-            <li>
+            <li><b>Tell Us About Urself: (All Fields with * are mandatory)</b></li>
+            <div style="border:2px ridge grey; margin:10px;padding:10px">
+             <li>
              @Html.LabelFor(model => model.Name)
             @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
@@ -174,13 +176,17 @@
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
             </li>
+            </div>
+            <li><b>Choose Your USerID and PassWord (All Fields with * are mandatory)</b></li>
+            <div style="border:2px ridge grey; margin:10px;padding:10px">
             <li>
             @Html.LabelFor(model => model.UserID)
             @Html.EditorFor(model => model.UserID)
             @Html.ValidationMessageFor(model => model.UserID)
             &nbsp &nbsp <input type="button" value="Check UserID Availability" onclick="checkUserIDAvailability()" />
-            <div id="userIDPanel"></div>
             </li>
+            
+            <div id="userIDPanel"></div>
             <li>
             @Html.LabelFor(model => model.Password)
             @Html.EditorFor(model => model.Password)
@@ -191,6 +197,8 @@
             @Html.EditorFor(model => model.ConfirmPassword)
             @Html.ValidationMessageFor(model => model.ConfirmPassword)
             </li>
+            </div>
+            <div style="border:2px ridge grey; margin:10px;padding:10px">
             <li>
                 <div id="captcha" style="margin:20px;margin-left:0px">@Html.Label("Verification Code")
                 <img src="/Home/ShowCaptchaImage" id="captchaImage" style="margin-right:20px"/>
@@ -198,7 +206,7 @@
                 @Html.Label("Security Code")
                 @Html.TextBox("CaptchaText")
                 
-            </li><br /><br />
+            </li></div><br /><br />
         </ol>
         <div style="margin-left:200px">
             <input type="button" value="Reset" id="reset" />&nbsp&nbsp&nbsp<input type="submit" value="Sign Up" onclick="return check()"/>&nbsp&nbsp&nbsp<input type="button" value="Cancel" onclick="location.href= '@Url.Action("Index", "Home")'" />
@@ -212,6 +220,9 @@
 <style>
     label {
         width:200px;
+    }
+    ol div {
+        background-color:ghostwhite;
     }
 </style>
 

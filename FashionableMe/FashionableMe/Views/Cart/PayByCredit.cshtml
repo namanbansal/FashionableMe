@@ -6,7 +6,9 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-<h2>PayByCredit</h2>
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<h2>PayByCredit</h2><br />
 <script type="text/javascript">
     function validateForm() {
         $("#err").html("");
@@ -89,7 +91,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset style="background-color:white; padding:20px">
         <legend>CreditCard</legend>
 
         <div class="editor-label">
@@ -115,9 +117,9 @@
         @Html.DropDownList("ExpiryMonth", Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString() }), "Expiry Month")
         @Html.DropDownList("ExpiryYear", Enumerable.Range(DateTime.Now.Year, 10).Select(x => new SelectListItem { Text = x.ToString() }), "Expiry Year")
         </div>
+        <br />
         <div id="err"></div>
-
-
+        <br />
         <div class="editor-label">
             @Html.LabelFor(model => model.CVV)
         </div>
@@ -126,13 +128,15 @@
             @Html.ValidationMessageFor(model => model.CVV)
         </div>
 
-        <p>
-            <input type="submit" value="Validate Card Details" id="validate" /> <input type="button" value="Reset" id="Reset"/> <input type="button" value="Pay Now" id="pay"/>
+        <p style="margin-left:200px">
+            <input type="submit" class="btn-default" value="Validate Card Details" id="validate" />
+            <input type="button" class="btn-default" value="Reset" id="Reset"/>
+            <input type="button" class="btn-default" value="Pay Now" id="pay"/>
         </p>
     </fieldset>
 }
 
-<div id="success"></div>
+<div id="success" class="message-success"></div>
 <div id="msgPanel"></div>
 
 @section Scripts {
@@ -143,4 +147,18 @@
     width:80px !important;
 }
 
-    </style>
+.editor-label {
+        float:left;
+        width:200px;
+    }
+    label {
+        width:250px;
+    }
+    .editor-field {
+        margin-bottom:20px;
+    }
+    [type="radio"] {
+        width:30px;
+    }
+
+</style>

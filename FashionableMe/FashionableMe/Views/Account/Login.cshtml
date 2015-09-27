@@ -9,9 +9,11 @@
     
 
 </hgroup>
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<br />
+<br />
 
-<section id="loginForm">
-
+<section id="loginForm" style="background-color:white;padding:20px;">
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -31,15 +33,21 @@
             </li>
             
         </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
+        <input type="submit" value="Log in" class="btn" style="margin-left:200px"/>
+    </fieldset><br /><br />
+    <br />
     <p>
-        New User &nbsp&nbsp&nbsp&nbsp<input type="button" value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' " />
+       <label>New User</label><input type="button" value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' "  />
         
     </p>
 }
 </section>
+<style>
+    label {
+        width:200px;
+    }
 
+</style>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

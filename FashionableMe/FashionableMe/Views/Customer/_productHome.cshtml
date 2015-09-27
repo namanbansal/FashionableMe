@@ -3,7 +3,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-@*<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*@
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <script type="text/javascript">
     AppID = ""; UserID=""; currentRating=0;//nr=0;nc="";
@@ -337,7 +337,7 @@
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
 
-<div id="outOfStock"></div>
+<div id="outOfStock" class="message-error"></div>
 <div id="searchPanel" style="float:right">
     <label id="error"></label>
     <input id="searchBox" placeholder="Search here" /> &nbsp &nbsp &nbsp
@@ -348,7 +348,7 @@
 <br /><br /><br />
 
 <div id="listPanel">
-<table id="apparelList">
+<table id="apparelList" class="table table-condensed table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ApparelName)
@@ -428,7 +428,7 @@
     <input type="hidden" id="quantityS"  />
     <input type="hidden" id="quantityM"  />
     <input type="hidden" id="quantityL"  />
-    <table>
+    <table class="table table-striped table-condensed">
             
         <tr><td>Name of the Apparel</td><td id="apparelName"></td></tr>
         <tr><td>Brand Name</td><td id="brandName"></td></tr>
@@ -437,9 +437,9 @@
         <tr><td>Apparel Image</td><td ><img id="apparelImage" src=""/></td></tr>
     </table>
         <br />
-    <table>
+    <table class="table table-condensed">
         <tr>
-            <td align="left"><input type="button" id="backToCollection" value="Back To Collection" /></td> 
+            <td align="left"><input type="button" class="btn-default" id="backToCollection" value="Back To Collection" /></td> 
             <td align="right"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
         </tr>
         <tr>
@@ -456,7 +456,7 @@
             </td>
         </tr>
     </table>
-    <input type="button" id="addToCart" value="Add to Cart" style="align-self:flex-end;background-color:green" onclick="sendData()"/>
+    <input type="button" id="addToCart" value="Add to Cart" style="float:right;background-color:green" onclick="sendData()"/>
 
 </div>
 <br />
@@ -465,8 +465,8 @@
 @using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
 {
 <div id="ratingPanel" hidden >
-    <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/>
-    <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea>
+    <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/><br />
+    <label>Latest Comments : </label><br /><textarea id="comment" style="height:200px;width:100%"></textarea>
     <label>Please Rate This Product : </label>
     <select id="userRate">
         <option value="0">Not Rated</option>
@@ -475,11 +475,11 @@
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-    </select>
-    <label>Write a Review : </label><textarea id="userComment" style="height:200px;width:800px"></textarea><br />
-    <label id="erroMessage"></label>
+    </select><br />
+    <label>Write a Review : </label><br/><textarea id="userComment" style="height:200px;width:100%"></textarea><br />
+    <label id="erroMessage" class="message-error"></label><br />
     <input id="returnUrl" hidden value="/Customer/Her" />
-    <input id="reviewButton" type="submit" value="Submit Review"  />
+    <input id="reviewButton" type="submit"  value="Submit Review" style="float:right" />
     
 </div>
 }
@@ -491,64 +491,39 @@
 
 
 <style>
-    img{
+    td img{
         height : 200px;
         width : 200px;
     }
     
     table {
 	border-collapse:collapse;
+    background-color:lightblue;
 	margin-bottom:15px;
-	width:90%;
+    border: 2px double green;
+    font-family:cursive;
+    font-size:1.2em;
 	}
-    
-	caption {
-		text-align:left;
-		font-size:15px;
-		padding-bottom:10px;
-		}
-	
-	table td,
-	table th {
-		padding:10px;
-        margin : 10px;
-		border:1px solid #fff;
-		border-width:0 1px 1px 0;
-		}
 
-	thead th {
-		background:#91c5d4;
-		}
-			
-		thead th[colspan],
-		thead th[rowspan] {
-			background:#66a9bd;
-			}
-		
-	tbody th,
-	tfoot th {
-		text-align:left;
-		background:#91c5d4;
-		}
-		
-	tbody td,
-	tfoot td {
-		text-align:center;
-		background:#d5eaf0;
-		}
-		
-	tfoot th {
-		background:#b0cc7f;
-		}
-		
-	tfoot td {
-		background:#d7e1c5;
-		font-weight:bold;
-		}
-			
-	tbody tr.odd td { 
-		background:#bcd9e1;
-		}
+    table tr th {
+        background-color:lightgrey;
+    }
+
+    #detailsPanel table tr td:first-child {
+        font-weight:bolder;
+    }
+
+    table tr {
+        border:3px outset white;
+    }
+
+    #detailsPanel table tr td img:hover {
+        transform: scale(3);
+    }
+      
+    td img {
+        border:2px ridge black;
+    }
 
 </style>
 

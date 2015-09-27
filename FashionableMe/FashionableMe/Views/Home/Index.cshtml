@@ -4,6 +4,8 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
@@ -17,7 +19,7 @@
 
 @if (@ViewBag.OfferTitle == "none")
 {
-    <div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit">
+    <div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit; background-color:antiquewhite">
     <h1 style="color:red">Offer of the Day!!!</h1>
     <table style="align-self:center">
         <tr>
@@ -28,15 +30,15 @@
 </div>
 }
 else{
-<div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit">
+<div style="width:auto;height:400px;text-align:center ; border: 10px dashed red; padding :inherit; background-color:antiquewhite">
     <h1 style="color:red">Offer of the Day!!!</h1>
-    <table style="align-self:center">
+    <table style="align-self:center" class="table">
         <tr>
-            <td><h1 style="color:turquoise">2Day's Offer</h1></td>
+            <td><h1 style="color:dodgerblue">2Day's Offer</h1></td>
             <td ><h1>@ViewBag.OfferTitle</h1></td>
         </tr>
         <tr>
-            <td><h1 style="color:turquoise">Offer Description</h1></td>
+            <td><h1 style="color:dodgerblue">Offer Description</h1></td>
             <td ><h1>@ViewBag.OfferDescription</h1></td>
         </tr>
         <tr>
@@ -48,42 +50,54 @@ else{
 }
 <br />
 <br />
+
 <div id="new_div">
-    
-    <div id="left" class="inbox" style=" background-image:url('/Images/mens_style.jpg' ) ">
-        <h3><a href="/home/HisPage">Men's Apparel</a></h3>
-        
+
+    <div id="left" class="col-md-4" ) ">
+        <a href="/home/HisPage"><img src="~/Images/mens_style.jpg" /><h4>Men's Apparel</h4></a>
     </div>
     
-    <div id="middle" class="inbox" style=" background-image:url('/Images/womens_style.jpg' ) ">
-        <h3><a href="/home/HerPage">Women's Apparel</a></h3>
-        
+    <div id="middle" class="col-md-4">
+        <a href="/home/HerPage"><img src="~/Images/womens_style.jpg" /><h4>Women's Apparel</h4></a>
     </div>
     
-    <div id="right" class="inbox" style=" background-image:url('/Images/kids_style.jpg' )">
-        <h3><a href="/home/KidPage">Kid's Apparel</a></h3>
-        
+    <div id="right" class="col-md-4" >
+        <a href="/home/KidPage"><img src="~/Images/kids_style.jpg" /><h4>Kid's Apparel</h4></a>
     </div>
     
 </div>
 
 <style>
-    .inbox {
-        float:left;width:30% ; height:300px ; text-align:center;
-        border : 5px dotted seagreen ; margin-left:13px;
-        
-        background-size:  cover ;                      /* <------ */
-        background-repeat: no-repeat;
-        background-position: center center;
+    a {
+        text-align:center;
+    }
+    a img {
+        width:300px;
+        height:300px;
+        border:2px ridge greenyellow; 
+        margin-right:5px;
+    }
+
+    body {
+        background-color:azure;
     }
 
     img {
-        max-width:100%;
-        max-height:100%;
-        background-size:   cover;                      /* <------ */
-        background-repeat: no-repeat;
-        background-position: center center;  
+    animation: blink 3s;
+    animation-iteration-count: infinite;
     }
 
+@@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
 
 </style>

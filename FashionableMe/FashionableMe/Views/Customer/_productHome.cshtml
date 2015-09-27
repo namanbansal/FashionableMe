@@ -274,7 +274,7 @@
         //$("tr:odd").css("background-color","lightblue")
         $("#searchBox").on("input", function(){
             var inputVal = $(this).val();
-            var characterReg = /^([a-zA-Z0-9]{3,15})$/;
+            var characterReg = /^([a-zA-Z 0-9]{3,15})$/;
             if(!characterReg.test(inputVal))
             {
                 $("#error").text("Only 3 to 15 number of AlphaNumeric characters").css("color","red");
@@ -330,12 +330,33 @@
 
     });
 
+
+    function showDetail(){
+        $("#thumbView").hide();
+        $("#apparelList").show();
+    }
+
+    function showThumb(){
+        $("#thumbView").show();
+        $("#apparelList").hide();
+    }
+
+   
+
     $(window).bind("load", function() {
         loadItems();
+        $("#thumbView").hide();
     });
 
     </script>
 <h2 style="color:cadetblue">@ViewBag.Title</h2>
+
+<input id="hid" value="1" hidden />
+<div>
+    <input type="button" value="Thumbnails" class="btn-warning" style="float:right" onclick="showThumb()" />
+    <input type="button" value="Detailed" class="btn-success" style="float:right" onclick="showDetail()" />
+</div>
+<br /><br />
 
 <div id="outOfStock" class="message-error"></div>
 <div id="searchPanel" style="float:right">
@@ -347,7 +368,27 @@
 
 <br /><br /><br />
 
+
 <div id="listPanel">
+    
+<div id="thumbView" class="row">
+    @foreach (var item in Model)
+    {
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <img src="@Url.Content(item.ApparelImage)" alt="@Html.DisplayFor(modelItem => item.ApparelName)">
+            <div class="caption">
+            <h3>@Html.DisplayFor(modelItem => item.ApparelName)</h3>
+            <p><b>Brand: </b>@Html.DisplayFor(modelItem => item.BrandName)</p>
+                <p><b>Description: </b>@Html.DisplayFor(modelItem => item.Description)</p>
+            <p><input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelImage)    ')" /></p>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+        
+  
 <table id="apparelList" class="table table-condensed table-hover">
     <tr>
         <th>
@@ -362,19 +403,6 @@
         <th>
             @Html.DisplayNameFor(model => model.ApparelImage)
         </th>
-        
-        @*<th>
-            @Html.DisplayNameFor(model => model.ApparelRating)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApparelSize)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApparelQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApparelDiscount)
-        </th>*@
         <th></th>
     </tr>
 
@@ -393,33 +421,17 @@
             
             <img src="@Url.Content(item.ApparelImage)" alt="Image" />
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.ApparelCategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApparelAddTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApparelRating)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApparelSize)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApparelQuantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApparelDiscount)
-        </td>*@
+       
         <td>
             <input type="button" value="View Details" onclick="showDetails('@(item.ApparelID)    ', '@(item.ApparelName)    ', '@(item.BrandName)    ', '@(item.Description)    ', '@(item.ApparelImage) ')" />
             
-            @*@Html.ActionLink("View Details", "Details", new { id=item.ApparelID }) |*@
+            @* @Html.ActionLink("View Details", "Details", new { id=item.ApparelID }) |*@
         </td>
     </tr>
 }
 </table>
-    <label id ="noSearch" style="color:red; font-weight:bolder ; font-size:x-large " ></label>
+
+<label id ="noSearch" style="color:red; font-weight:bolder ; font-size:x-large " ></label>
 </div>
 
 
@@ -462,7 +474,7 @@
 <br />
 <br />
 
-@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" }))
 {
 <div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/><br />
@@ -523,6 +535,11 @@
       
     td img {
         border:2px ridge black;
+    }
+
+    .thumbnail img {
+         height : 300px;
+        width : 300px;
     }
 
 </style>

@@ -314,7 +314,7 @@ using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUr
     <br />
 <div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/><br />
-    <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:800px"></textarea><br />
+    <label>Latest Comments : </label><textarea id="comment" style="height:200px;width:100%"></textarea><br />
     <label>Please Rate This Product : </label>
     <select id="userRate">
         <option value="0">Not Rated</option>
@@ -325,7 +325,7 @@ using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUr
         <option value="5">5</option>
     </select><br />
     <label>Write a Review : </label><br />
-    <textarea id="userComment" style="height:200px;width:800px"></textarea><br /><br />
+    <textarea id="userComment" style="height:200px;width:100%"></textarea><br /><br />
     <label id="erroMessage"></label>
     <input id="returnUrl" hidden value="/Customer/Her" />
     <input id="reviewButton" type="submit" value="Submit Review" class="btn-default" style="margin-left :400px"  />

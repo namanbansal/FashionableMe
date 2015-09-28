@@ -111,14 +111,14 @@ else
             
         }
         <tr>
-            <td align="right" colspan="5">Sum</td>
-            <td>@sum</td>
+            <td align="right" colspan="4"><b>Total Amount</b></td>
+            <td><b>@sum</b></td>
         </tr>
 </table>
 <table><tr>
-<td>@Html.ActionLink("Continue Shopping", "Index", "Home")</td>
+<td align="left">@Html.ActionLink("Continue Shopping", "Index", "Home", new { @class = "shopping-class"})</td>
     @*<td float="right"><input type="button" value="Proceed" id="proceed"/></td>*@
-<td float="right" >@Html.ActionLink("Proceed", "Shipping", "Cart", new { @class = "my-class" })</td>
+<td align="right" >@Html.ActionLink("Proceed", "Shipping", "Cart", new { @class = "my-class" })</td>
 
        </tr>
     </table>
@@ -130,6 +130,9 @@ else
 color: red;
 font-size:larger
 }
+
+a.shopping-class { color: #ff6a00 }
+a.shopping-class { font-size: large }
 a.my-class { color: #1ECDE0 }
 a.my-class { font-size: x-large }
 

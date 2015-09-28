@@ -101,6 +101,7 @@
             success: function (data) {
                 console.log(data);
                 var retval = JSON.parse(data);
+                alert("here");
 
                 if (retval["available"] == false)
                     $("#userIDPanel").html("<h4 style='color:red'>UserID not available!!<h4>");
@@ -109,6 +110,7 @@
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                alert("here");
                 debugger;
                 alert("Service Error");
             }

@@ -18,7 +18,7 @@ namespace UserIDValidation
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class Service1
     {
-        public static string ConnectionString = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\nbansal\Documents\Project\FashionableMe\FashionableMe\App_Data\FashionableMeDB.mdf;Initial Catalog=FashionableMeDB;Integrated Security=True; Database=FashionableMeDB ";
+        public static string ConnectionString = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\sapbasu\Documents\Project\FashionableMe\FashionableMe\App_Data\FashionableMeDB.mdf;Initial Catalog=FashionableMeDB;Integrated Security=True; Database=FashionableMeDB ";
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "checkavailability?username={userName}")]

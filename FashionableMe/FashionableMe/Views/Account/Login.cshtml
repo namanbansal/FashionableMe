@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Registered User Sign In To Your Account";
 }
-<h3 align="right"> @Html.ActionLink("Visit Site", "Index", "Home")</h3>
+@*<h3 align="right"> @Html.ActionLink("Visit Site", "Index", "Home")</h3>*@
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     
@@ -13,7 +13,7 @@
 <br />
 <br />
 
-<section id="loginForm" style="background-color:white;padding:20px;">
+<section id="loginForm" style="background-color:ghostwhite;padding:20px;border:2px outset grey;box-shadow: 12px 12px 5px #888888 ">
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -33,13 +33,13 @@
             </li>
             
         </ol>
-        <input type="submit" value="Log in" class="btn" style="margin-left:200px"/>
+        <input type="submit" value="  Log in  " class="btn-primary" style="margin-left:200px"/>
     </fieldset><br /><br />
     <br />
     <p>
-       <label>New User</label><input type="button" value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' "  />
-        
+       <label>New User</label><input type="button" class="btn-info"  value="Create Your Account" onclick="location.href= '@Url.Action("Register", "Account")' "  />
     </p>
+
 }
 </section>
 <style>

@@ -126,7 +126,7 @@
                     console.log(data.length);
 
                     $('#dynmGrid').html(data);
-                    $('#dynmGrid table').addClass("table table-striped").css({ "background": "lightblue", "font-weight": "bold" });
+                    $('#dynmGrid table').addClass("table table-striped").css({ "background": "lightblue", "font-weight": "bold", "border":"2px solid black" });
                 }
             });
             console.log("out");
@@ -197,7 +197,7 @@
   <input type="radio" id="updateRadioButton" name="same" value="Update">Update
 </div>
 
-<div id="addPanel">
+<div id="addPanel" style="border:3px outset grey;padding:10px;background-color:ghostwhite">
     <div><h1 style="color:green">@ViewBag.Message</h1></div>
     <h2>Add Apparel Items</h2>
     <div id="addErrorPanel" style="color:red"></div>
@@ -270,22 +270,22 @@
             @Html.ValidationMessageFor(model => model.apparel.ApparelDiscount)
         </div>
 
-        <div id="quantityPanelKid">
-            <table>
-                <thead><tr><th>Select Age/ </th><th>Quantity</th></tr></thead>
-                <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)@Html.ValidationMessageFor(model => model.small)</td></tr>
-                <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)@Html.ValidationMessageFor(model => model.medium)</td></tr>
-                <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)@Html.ValidationMessageFor(model => model.large)</td></tr>
+        <div id="quantityPanelKid" >
+            <table class="table-striprd">
+                <thead><tr><th>Select Group/Type</th><th>Quantity</th></tr></thead>
+                <tr><td><input type="checkbox" id="SchkButton" value="1" ><div style="display:inline-block;font-weight:bolder" id="first">0-1 Years</div></td><td>@Html.EditorFor(model => model.small)@Html.ValidationMessageFor(model => model.small)</td></tr>
+                <tr><td><input type="checkbox" id="MchkButton" value="2" ><div style="display:inline-block;font-weight:bolder" id="second">2-3 Years</div></td><td>@Html.EditorFor(model => model.medium)@Html.ValidationMessageFor(model => model.medium)</td></tr>
+                <tr><td><input type="checkbox" id="LchkButton" value="3" ><div style="display:inline-block;font-weight:bolder" id="third">4-5 Years</div></td><td>@Html.EditorFor(model => model.large)@Html.ValidationMessageFor(model => model.large)</td></tr>
             </table>
         </div>
         
         <p>
-            <input type="submit" value="Add item" class="btn" onclick="return atleastOneCheckBoxChecked()" style="margin-left:200px ; margin-top:10px"/>
+            <input type="submit" value="Add item" class="btn-default" onclick="return atleastOneCheckBoxChecked()" style="margin-left:200px ; margin-top:10px"/>
         </p>
     </fieldset>
 }
     </div>
-<div id="updatePanel">
+<div id="updatePanel" style="border:3px outset grey;padding:10px;background-color:ghostwhite ">
     <h2 style="align-content:center">Update Apparel Items</h2>
 
     <div>
@@ -320,7 +320,13 @@
         width:30px;
     }
 
-   
+    #quantityPanelKid table tr td div{
+        margin-right:135px;
+    }
+   #quantityPanelKid table tr td input{
+        margin-bottom:10px;
+        margin-top:10px;
+    }
 </style>
 
 

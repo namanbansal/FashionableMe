@@ -69,7 +69,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset style="background-color:ghostwhite; padding:20px; border:2px ridge lightblue">
+    <fieldset style="background-color:ghostwhite; padding:20px; border:2px ridge black">
         <legend>DetailsViewModel</legend>
 
         <div class="editor-label">
@@ -182,6 +182,11 @@
     .editor-field {
         margin-bottom:20px;
     }
+
+    .editor-field input,textarea {
+        border:1px solid grey;
+    }
+
     [type="radio"] {
         width:30px;
     }

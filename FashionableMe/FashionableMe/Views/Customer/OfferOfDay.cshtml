@@ -266,7 +266,7 @@ else
     <input type="hidden" id="quantityS"  />
     <input type="hidden" id="quantityM"  />
     <input type="hidden" id="quantityL"  />
-    <table class="table table-striped table-condensed" style="border:2px solid grey;background-color:lightblue">
+    <table class="table table-striped" style="border:2px solid grey;background-color:lightblue;text-align:left">
             
         <tr><td>Offer Name</td><td id="OfferName">@ViewBag.OfferName</td></tr>
         <tr><td>Brand Name</td><td id="brandName">@Model.BrandName</td></tr>
@@ -278,11 +278,11 @@ else
         <br />
     <table class="table table-striped table-condensed" style="border:2px solid grey">
         <tr>
-            <td align="left"><input type="button" id="backToCollection" value="Back To Offers" onclick="location.href= '@Url.Action("Index", "Home")'"/></td> 
-            <td align="right" style="color:red"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
+            <td align="center"><input type="button" id="backToCollection" class="btn-primary" value="Back To Offers" onclick="location.href= '@Url.Action("Index", "Home")'"/></td> 
+            <td align="center" style="color:red"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
         </tr>
         <tr>
-            <td><label>Select from the Available Size</label>
+            <td align="center"><label>Select from the Available Size</label>
                  <select id="sizeDropDown"> 
                      <option value="E">--Select--</option>
                      <option value="S">S</option>
@@ -290,12 +290,12 @@ else
                      <option value="L">L</option>
                  </select>
                 </td>
-            <td align="right" style="color:green">
+            <td align="center" style="color:green">
                 <label >Selling Fare:</label><label class="apparelCategoryS" id="sellingFareS"></label><label class="apparelCategoryM" id="sellingFareM"></label><label class="apparelCategoryL" id="sellingFareL"></label>
             </td>
         </tr>
     </table>
-    <input type="button" id="addToCart" value="Add to Cart" class="btn btn-success" style="margin-left :400px;background-color:green" onclick="sendData()"/>
+    <input type="button" id="addToCart" value="Add to Cart" class="btn-success" style="float:right" onclick="sendData()"/>
 
 </div>
 
@@ -328,8 +328,8 @@ using (Html.BeginForm("GetReturnUrl", "Account", new { returnUrl = Request.RawUr
     <textarea id="userComment" style="height:200px;width:100%"></textarea><br /><br />
     <label id="erroMessage"></label>
     <input id="returnUrl" hidden value="/Customer/Her" />
-    <input id="reviewButton" type="submit" value="Submit Review" class="btn-default" style="margin-left :400px"  />
-    
+    <input id="reviewButton" type="submit" value="Submit Review" class="btn-default" style="float:right"  />
+    <br />
 </div>
 }
 }
@@ -355,6 +355,10 @@ using (Html.BeginForm("GetReturnUrl", "Account", new { returnUrl = Request.RawUr
 
     td img {
         border:2px ridge black;
+    }
+
+    #ratingPanel textarea, input {
+        border: 2px solid black;
     }
 
 </style>

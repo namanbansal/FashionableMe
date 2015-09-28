@@ -58,7 +58,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset style="border:3px outset grey;padding:10px;background-color:ghostwhite">
         <legend>DetailsViewModel</legend>
         @Html.HiddenFor(model => model.Name)
         <div class="editor-label">
@@ -116,7 +116,7 @@
 
     </fieldset>
     
-    <input type="submit" value="Proceed To Checkout" class="btn-default" style="margin-left:200px" />
+    <input type="submit" value="Proceed To Checkout" class="btn-default" style="margin-left:200px;margin-top:20px" />
     
 }
 

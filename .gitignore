@@ -154,3 +154,14 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/FashionableMe/FashionableMe/App_Data/DefaultConnection.mdf
+/FashionableMe/FashionableMe/App_Data/DefaultConnection_log.ldf
+/FashionableMe/FashionableMe/App_Data/aspnet-FashionableMe-20150914123242.mdf
+/FashionableMe/FashionableMe/App_Data/aspnet-FashionableMe-20150914123242_log.ldf
+/FashionableMe/SQLQuery1.sql
+/FashionableMe/packages/NUnit.2.6.4/NUnit.2.6.4.nupkg
+/FashionableMe/packages/NUnit.2.6.4/lib/nunit.framework.dll
+/FashionableMe/packages/NUnit.2.6.4/lib/nunit.framework.xml
+/FashionableMe/packages/NUnit.2.6.4/license.txt
+/FashionableMe/packages/Newtonsoft.Json.4.5.11/lib/portable-net40+sl4+wp7+win8/Newtonsoft.Json.dll
+/FashionableMe/packages/Newtonsoft.Json.4.5.11/lib/portable-net40+sl4+wp7+win8/Newtonsoft.Json.xml

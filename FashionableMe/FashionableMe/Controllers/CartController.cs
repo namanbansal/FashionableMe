@@ -75,7 +75,7 @@ namespace FashionableMe.Controllers
             size = size.Trim();
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-            if (Session["UserRole"] == "admin")
+            if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
             
@@ -127,11 +127,12 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-            if (Session["UserRole"] == "admin")
+
+            if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
             List<CartItem> cart = (List<CartItem>)Session["cart"];
-            if (cart.Count<1)
+            if (Session["cart"]==null || cart.Count<1)
             {
                 return RedirectToAction("Index");
             }
@@ -160,7 +161,7 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-            if (Session["UserRole"] == "admin")
+            if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
             ViewBag.UserID = Session["UserID"];
@@ -225,7 +226,7 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-            if (Session["UserRole"] == "admin")
+            if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
             ViewBag.UserID = userID;
@@ -253,7 +254,7 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-            if (Session["UserRole"] == "admin")
+            if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
             int index = isExisting(id, size);

@@ -279,7 +279,7 @@ else
     <table class="table table-striped table-condensed" style="border:2px solid grey">
         <tr>
             <td align="left"><input type="button" id="backToCollection" value="Back To Offers" onclick="location.href= '@Url.Action("Index", "Home")'"/></td> 
-            <td align="right"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
+            <td align="right" style="color:red"><label >Original Fare:</label><label class="apparelCategoryS" id="originalFareS"></label><label class="apparelCategoryM" id="originalFareM"></label><label class="apparelCategoryL" id="originalFareL"></label>
         </tr>
         <tr>
             <td><label>Select from the Available Size</label>
@@ -290,8 +290,8 @@ else
                      <option value="L">L</option>
                  </select>
                 </td>
-            <td>
-                <label style="align-self:center">Selling Fare:</label><label class="apparelCategoryS" id="sellingFareS"></label><label class="apparelCategoryM" id="sellingFareM"></label><label class="apparelCategoryL" id="sellingFareL"></label>
+            <td align="right" style="color:green">
+                <label >Selling Fare:</label><label class="apparelCategoryS" id="sellingFareS"></label><label class="apparelCategoryM" id="sellingFareM"></label><label class="apparelCategoryL" id="sellingFareL"></label>
             </td>
         </tr>
     </table>

@@ -23,6 +23,9 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Index", "Home");
+
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
             
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             if (Session["cart"] == null)
@@ -44,7 +47,9 @@ namespace FashionableMe.Controllers
             size = size.Trim();
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
@@ -70,7 +75,10 @@ namespace FashionableMe.Controllers
             size = size.Trim();
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
+            
             Apparel apparel = new Apparel();
             apparel = bllObj.getApparelForCart(id, size);
             apparel.ApparelDiscount += Convert.ToDecimal(offerDiscount);
@@ -119,8 +127,15 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
-
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
             List<CartItem> cart = (List<CartItem>)Session["cart"];
+            if (cart.Count<1)
+            {
+                return RedirectToAction("Index");
+            }
+            
             bool isUpdated = verifyQuantity();
 
             bool isZero = RemoveZeroQuantity();
@@ -145,6 +160,9 @@ namespace FashionableMe.Controllers
         {
             if (Session["UserID"] == null)
                 return RedirectToAction("Login", "Account");
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
             ViewBag.UserID = Session["UserID"];
             Session["MyOrder"] = custDetails;
             return View("CheckOut", custDetails);
@@ -205,7 +223,11 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult PayByCredit(string totalAmount, string userID)
         {
-
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
             ViewBag.UserID = userID;
             ViewBag.TotalAmount = totalAmount;
 
@@ -229,6 +251,11 @@ namespace FashionableMe.Controllers
 
         public ActionResult Delete(int id, string size)
         {
+            if (Session["UserID"] == null)
+                return RedirectToAction("Login", "Account");
+            if (Session["UserRole"] == "admin")
+                return RedirectToAction("Index", "Admin");
+            
             int index = isExisting(id, size);
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             cart.RemoveAt(index);

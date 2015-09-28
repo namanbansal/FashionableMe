@@ -116,7 +116,7 @@ else
         </tr>
 </table>
 <table><tr>
-<td align="left">@Html.ActionLink("Continue Shopping", "Index", "Home", new { @class = "shopping-class"})</td>
+<td align="left" style="color:#ff6a00 !important;font-size: large">@Html.ActionLink("Continue Shopping", "Index", "Home", null, new {@style="color:#ff6a00;font-size: large" })</td>
     @*<td float="right"><input type="button" value="Proceed" id="proceed"/></td>*@
 <td align="right" >@Html.ActionLink("Proceed", "Shipping", "Cart", new { @class = "my-class" })</td>
 
@@ -135,5 +135,6 @@ a.shopping-class { color: #ff6a00 }
 a.shopping-class { font-size: large }
 a.my-class { color: #1ECDE0 }
 a.my-class { font-size: x-large }
+
 
 </style>

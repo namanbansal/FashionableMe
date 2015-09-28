@@ -59,7 +59,7 @@ namespace FashionableMe.Controllers
             else
             {
                 List<CartItem> cart = (List<CartItem>)Session["cart"];
-                int index = isExisting(Convert.ToInt32(id), size);
+                int index = IsExisting(Convert.ToInt32(id), size);
                 if (index == -1)
                     cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1, "NOOFF"));
                 else
@@ -92,7 +92,7 @@ namespace FashionableMe.Controllers
             else
             {
                 List<CartItem> cart = (List<CartItem>)Session["cart"];
-                int index = isExisting(Convert.ToInt32(id), size);
+                int index = IsExisting(Convert.ToInt32(id), size);
                 if (index == -1)
                     cart.Add(new CartItem(apparel, 1, offerID));
                 else
@@ -102,7 +102,7 @@ namespace FashionableMe.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool verifyQuantity()
+        public bool VerifyQuantity()
         {
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             bool isUpdated = false;
@@ -137,7 +137,7 @@ namespace FashionableMe.Controllers
                 return RedirectToAction("Index");
             }
             
-            bool isUpdated = verifyQuantity();
+            bool isUpdated = VerifyQuantity();
 
             bool isZero = RemoveZeroQuantity();
             if (isUpdated || isZero)
@@ -170,12 +170,12 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public bool updateCart(string id, string size, int quantity)
+        public bool UpdateCart(string id, string size, int quantity)
         {
             size = size.Trim();
             bool status=false;
             List<CartItem> cart = (List<CartItem>)Session["cart"];
-            int index = isExisting(Convert.ToInt32(id), size);
+            int index = IsExisting(Convert.ToInt32(id), size);
             if (index == -1)
                 //cart.Add(new CartItem(bllObj.getApparelForCart(id, size), 1));
                 ViewBag.Message = "Unable to Update Cart!";
@@ -235,7 +235,7 @@ namespace FashionableMe.Controllers
             return View();
         }
 
-        private int isExisting(int id, string size)
+        private int IsExisting(int id, string size)
         {
             List<CartItem> cart = (List<CartItem>)Session["cart"];
 
@@ -257,7 +257,7 @@ namespace FashionableMe.Controllers
             if (Session["UserRole"].ToString() == "admin")
                 return RedirectToAction("Index", "Admin");
             
-            int index = isExisting(id, size);
+            int index = IsExisting(id, size);
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             cart.RemoveAt(index);
             return RedirectToAction("Index");

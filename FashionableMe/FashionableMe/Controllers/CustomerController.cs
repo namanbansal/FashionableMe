@@ -30,12 +30,12 @@ namespace FashionableMe.Controllers
             ViewBag.Title = "Offer of The Day!!!";
             CustomerBLL obj = new CustomerBLL();
             List<Offer> model = new List<Offer>();
-            model = obj.getTodaysOffer();
+            model = obj.GetTodaysOffer();
             Apparel apparel = new Apparel();
 
             if (model.Count > 0)
             {
-                apparel = obj.getApparelByID(model[0].ApparelID)[0];
+                apparel = obj.GetApparelByID(model[0].ApparelID)[0];
                 ViewBag.OfferID = model[0].OfferID;
                 ViewBag.OfferName = model[0].OfferName;
                 ViewBag.OfferDescription = model[0].OfferDescription;
@@ -58,7 +58,7 @@ namespace FashionableMe.Controllers
             ViewBag.Title = "Apparel for Him";
             CustomerBLL obj = new CustomerBLL();
             List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Male");
+            model = obj.GetProductByCategory("Male");
             return View(model);
 
         }
@@ -68,7 +68,7 @@ namespace FashionableMe.Controllers
             ViewBag.Title = "Apparel for Her";
             CustomerBLL obj = new CustomerBLL();
             List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Female");
+            model = obj.GetProductByCategory("Female");
             return View(model);
 
         }
@@ -78,16 +78,16 @@ namespace FashionableMe.Controllers
             ViewBag.Title = "Apparel for Kids";
             CustomerBLL obj = new CustomerBLL();
             List<Apparel> model = new List<Apparel>();
-            model = obj.getProductByCategory("Kids");
+            model = obj.GetProductByCategory("Kids");
             return View(model);
 
         }
 
         [HttpPost]
-        public ActionResult searchByCategory(string val)
+        public ActionResult SearchByCategory(string val)
         {
             CustomerBLL obj = new CustomerBLL();
-            List<Apparel> listApparel = obj.getProductByCategory(val);
+            List<Apparel> listApparel = obj.GetProductByCategory(val);
             //ViewBag.Message = listApparel[0].ApparelName;
             string msg = "0";
             if (listApparel.Count > 0)
@@ -96,20 +96,20 @@ namespace FashionableMe.Controllers
         }
 
         [HttpPost]
-        public string getQuantityDetails(string apparelID)
+        public string GetQuantityDetails(string apparelID)
         {
             CustomerBLL obj = new CustomerBLL();
-            List<Quantity> quantityDetails = obj.getQuantityDetails(apparelID);
+            List<Quantity> quantityDetails = obj.GetQuantityDetails(apparelID);
             JavaScriptSerializer jsonobj = new JavaScriptSerializer();
 
             return (jsonobj.Serialize(quantityDetails));
         }
 
         [HttpPost]
-        public ActionResult getRatingDetails(string apparelID)
+        public ActionResult GetRatingDetails(string apparelID)
         {
             CustomerDal obj = new CustomerDal(); 
-            return(Json(obj.getRatingDetails(apparelID),JsonRequestBehavior.AllowGet));
+            return(Json(obj.GetRatingDetails(apparelID),JsonRequestBehavior.AllowGet));
         }
 
         [HttpPost]
@@ -127,14 +127,14 @@ namespace FashionableMe.Controllers
 
 
         [HttpPost]
-        public bool setToSession(ItemDetails item)
+        public bool SetToSession(ItemDetails item)
         {
             Session["ItemDetails"] = item;
             return true;
         }
 
         [HttpPost]
-        public ActionResult getFromSession(string sender)
+        public ActionResult GetFromSession(string sender)
         {
             ItemDetails item = (ItemDetails)Session["ItemDetails"];
             Session["ItemDetails"] = null;

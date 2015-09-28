@@ -66,7 +66,7 @@
                 $("#addPanel").hide();
                 $("#updatePanel").show();
                 $("#apparelNameList").attr("disabled", true);
-                var searchUrl = '@Url.Action("getBrandNames", "Admin")';
+                var searchUrl = '@Url.Action("GetBrandNames", "Admin")';
                 console.log("in");
                 $.ajax({
                     url: searchUrl,
@@ -90,7 +90,7 @@
         $('#brandList').change(function () {
             var selectedBrand = $(this).find('option:selected').text();
             console.log(selectedBrand);
-            var searchUrl = '@Url.Action("getApparelNameByBrand", "Admin")';
+            var searchUrl = '@Url.Action("GetApparelNameByBrand", "Admin")';
             console.log("in");
             $.ajax({
                 url: searchUrl,
@@ -115,7 +115,7 @@
             var selectedApparel = $(this).find('option:selected').text();
             console.log(selectedBrand);
             console.log(selectedApparel);
-            var searchUrl = '@Url.Action("getApparelsByBrandAndName", "Admin")';
+            var searchUrl = '@Url.Action("GetApparelsByBrandAndName", "Admin")';
             console.log("in");
             $.ajax({
                 url: searchUrl,

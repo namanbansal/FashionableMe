@@ -80,7 +80,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public DetailsViewModel getCustomerDetails(string userID)
+        public DetailsViewModel GetCustomerDetails(string userID)
         {
             DetailsViewModel custObj = null;
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -173,7 +173,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public List<Apparel> getProductByCategory(string category)
+        public List<Apparel> GetProductByCategory(string category)
         {
             List<Apparel> dataRows = new List<Apparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -208,7 +208,7 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
-        public List<Apparel> getApparelByID(int id)
+        public List<Apparel> GetApparelByID(int id)
         {
             List<Apparel> dataRows = new List<Apparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -243,7 +243,7 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
-        public List<Quantity> getQuantityDetails(int apparelID)
+        public List<Quantity> GetQuantityDetails(int apparelID)
         {
             List<Quantity> dataRows = new List<Quantity>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -276,7 +276,7 @@ namespace FashionableMe.DataAccessLayer
             return dataRows;
         }
 
-        public Quantity getQuantityDetailForApparel(int apparelID, string size)
+        public Quantity GetQuantityDetailForApparel(int apparelID, string size)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -309,7 +309,7 @@ namespace FashionableMe.DataAccessLayer
             return prodObj;
         }
 
-        public Offer getTodaysOffer(string date)
+        public Offer GetTodaysOffer(string date)
         {
             Offer obj = new Offer();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -346,7 +346,7 @@ namespace FashionableMe.DataAccessLayer
         
 
 
-        public Rating getRatingDetails(string ApparelID)
+        public Rating GetRatingDetails(string ApparelID)
         {
             Rating rateObj = new Rating();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;

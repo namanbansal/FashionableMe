@@ -19,7 +19,7 @@ namespace FashionableMe.BLL
             AdminDal obj = new AdminDal();
             
             List<Apparel> result = new List<Apparel>();
-            result = obj.getProductByCategory(cat);
+            result = obj.GetProductByCategory(cat);
             return result;
         }
 
@@ -36,20 +36,20 @@ namespace FashionableMe.BLL
         {
             AdminDal obj = new AdminDal();
             string dateFormatted = UtilityFunctions.parseInputDateToDBFormat(dateToProcess);
-            return obj.getOfferDetails(dateFormatted); 
+            return obj.GetOfferDetails(dateFormatted); 
         }
 
         public bool UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
             AdminDal obj = new AdminDal();
-            return obj.updateOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate), offerName, offerDescription, offerDiscount);
+            return obj.UpdateOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate), offerName, offerDescription, offerDiscount);
 
         }
 
         public bool DeleteOffer(string offerDate)
         {
             AdminDal obj = new AdminDal();
-            return obj.deleteOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate));
+            return obj.DeleteOfferByDate(UtilityFunctions.parseInputDateToDBFormat(offerDate));
 
         }
 
@@ -62,7 +62,7 @@ namespace FashionableMe.BLL
             string fullPath = HttpContext.Current.Server.MapPath("~/") + AdminController.ImagePath;
             if (model.apparel.ApparelImage == null)
                 model.apparel.ApparelImage = string.Empty;
-            if (obj.addProduct(model, out AppID))
+            if (obj.AddProduct(model, out AppID))
             {
                 System.IO.File.Move( fullPath+"TempImage.jpg", fullPath + AppID + ".jpg");
                 return true;
@@ -71,12 +71,12 @@ namespace FashionableMe.BLL
             return false;
         }
 
-        public List<DropDownFormat> getBrandNames()
+        public List<DropDownFormat> GetBrandNames()
         {
             AdminDal obj = new AdminDal();
             List<string> result = new List<string>();
             List<DropDownFormat> res = new List<DropDownFormat>();
-            result = obj.getBrandNames();
+            result = obj.GetBrandNames();
             foreach (var item in result)
 	        {
                 res.Add(new DropDownFormat(){ name=item, value=item });
@@ -84,12 +84,12 @@ namespace FashionableMe.BLL
             return res;
         }
         
-        public List<DropDownFormat> getApparelNameByBrand(string brand)
+        public List<DropDownFormat> GetApparelNameByBrand(string brand)
         {
             AdminDal obj = new AdminDal();
             List<string> result = new List<string>();
             List<DropDownFormat> res = new List<DropDownFormat>();
-            result = obj.getApparelNameByBrand(brand.Trim());
+            result = obj.GetApparelNameByBrand(brand.Trim());
             foreach (var item in result)
 	        {
                 res.Add(new DropDownFormat(){ name=item, value=item });
@@ -97,11 +97,11 @@ namespace FashionableMe.BLL
             return res;
         }
 
-        public List<AddApparel> getApparelsByBrandAndName(string name, string brand)
+        public List<AddApparel> GetApparelsByBrandAndName(string name, string brand)
         {
             AdminDal obj = new AdminDal();
             List<AddApparel> result = new List<AddApparel>();
-            result = obj.getApparelsByBrandAndName(name, brand);
+            result = obj.GetApparelsByBrandAndName(name, brand);
             return result;
         }
 

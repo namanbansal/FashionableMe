@@ -46,7 +46,7 @@ namespace FashionableMe.DataAccessLayer
         public int checkAvailableQuantity(int apparelID, string apparelSize, int quantity)
         {
             CustomerDal custDal = new CustomerDal();
-            Quantity quantityDetails = custDal.getQuantityDetailForApparel(Convert.ToInt32(apparelID), apparelSize);
+            Quantity quantityDetails = custDal.GetQuantityDetailForApparel(Convert.ToInt32(apparelID), apparelSize);
 
             int availableQuantity = (quantityDetails.ApparelQuantity >= quantity) ? quantity : quantityDetails.ApparelQuantity;
             
@@ -237,7 +237,7 @@ namespace FashionableMe.DataAccessLayer
                         cartItem.Apparel.ApparelID = Convert.ToInt32(apparelID);
 
                         CustomerDal custDal = new CustomerDal();
-                        Quantity quantityDetails = custDal.getQuantityDetailForApparel(Convert.ToInt32(apparelID), apparelSize);
+                        Quantity quantityDetails = custDal.GetQuantityDetailForApparel(Convert.ToInt32(apparelID), apparelSize);
 
                         int availableQuantity = (quantityDetails.ApparelQuantity >= quantity) ? quantity : quantityDetails.ApparelQuantity;
                         if(availableQuantity!=quantity)
@@ -247,7 +247,7 @@ namespace FashionableMe.DataAccessLayer
                         {
                             cartItem.Quantity = availableQuantity;
                             Apparel apparel = new Apparel();
-                            apparel = custDal.getApparelByID(Convert.ToInt32(apparelID))[0];
+                            apparel = custDal.GetApparelByID(Convert.ToInt32(apparelID))[0];
 
                             cartItem.Apparel.ApparelName = apparel.ApparelName;
                             cartItem.Apparel.ApparelCost = quantityDetails.ApparelCost;
@@ -256,7 +256,7 @@ namespace FashionableMe.DataAccessLayer
                             {
                                 AdminDal adminDal = new AdminDal();
                                 Offer offer = new Offer();
-                                offer = adminDal.getOfferDateAndDiscountByID(offerID);
+                                offer = adminDal.GetOfferDateAndDiscountByID(offerID);
                                 if(System.DateTime.Equals(offer.OfferDate, DateTime.Now.Date))
                                     cartItem.Apparel.ApparelDiscount += offer.Discount;
                             }

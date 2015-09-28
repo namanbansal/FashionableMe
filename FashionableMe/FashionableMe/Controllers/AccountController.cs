@@ -22,7 +22,7 @@ namespace FashionableMe.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult getReturnUrl(string returnUrl)
+        public ActionResult GetReturnUrl(string returnUrl)
         {
             return (RedirectToAction("Login", new { returnUrl = returnUrl }));
         }
@@ -170,7 +170,7 @@ namespace FashionableMe.Controllers
             AccountBLL accBLL = new AccountBLL();
             
 
-            DetailsViewModel model = accBLL.getCustomerDetails(HttpContext.Session["UserID"].ToString());
+            DetailsViewModel model = accBLL.GetCustomerDetails(HttpContext.Session["UserID"].ToString());
             ViewBag.statusCode = 0;
             return View(model);
         }

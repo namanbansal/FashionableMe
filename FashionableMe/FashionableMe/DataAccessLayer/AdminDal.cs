@@ -11,7 +11,7 @@ namespace FashionableMe.DataAccessLayer
 {
     public class AdminDal
     {
-        public bool addProduct(AddApparel product, out string AppID)
+        public bool AddProduct(AddApparel product, out string AppID)
         {
             bool status = false;
             AppID = "";
@@ -74,7 +74,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public List<Apparel> getProductByCategory(string category)
+        public List<Apparel> GetProductByCategory(string category)
         {
             List<Apparel> dataRows = new List<Apparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -117,7 +117,7 @@ namespace FashionableMe.DataAccessLayer
         {
             bool status = false;
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
-            if (hasOfferWithSameDate( OfferObj.OfferDate ))
+            if (HasOfferWithSameDate( OfferObj.OfferDate ))
             {
                 HttpContext.Current.Session["ErrorMessage"] = "Offer with Same Date exists";
                 return status;
@@ -145,7 +145,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public Offer getOfferDetails(string date)
+        public Offer GetOfferDetails(string date)
         {
             Offer obj = new Offer();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -179,7 +179,7 @@ namespace FashionableMe.DataAccessLayer
             return obj;
         }
 
-        public Offer getOfferDateAndDiscountByID(string offerID)
+        public Offer GetOfferDateAndDiscountByID(string offerID)
         {
             Offer offer = new Offer();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -209,7 +209,7 @@ namespace FashionableMe.DataAccessLayer
             return offer;
         }
 
-        public bool hasOfferWithSameDate(DateTime date)
+        public bool HasOfferWithSameDate(DateTime date)
         {
             bool status = false;
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -231,7 +231,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
         
-        public bool updateOfferByDate(string offerDate, string offerName, string offerDescription, string offerDiscount)
+        public bool UpdateOfferByDate(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -256,7 +256,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public bool deleteOfferByDate(string offerDate)
+        public bool DeleteOfferByDate(string offerDate)
         {
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
             SqlConnection conn = new SqlConnection(conStr);
@@ -282,7 +282,7 @@ namespace FashionableMe.DataAccessLayer
             return status;
         }
 
-        public List<string> getBrandNames()
+        public List<string> GetBrandNames()
         {
             List<string> dataRows = new List<string>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -312,7 +312,7 @@ namespace FashionableMe.DataAccessLayer
 
         }
 
-        public List<string> getApparelNameByBrand(string brand)
+        public List<string> GetApparelNameByBrand(string brand)
         {
             List<string> dataRows = new List<string>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;
@@ -342,7 +342,7 @@ namespace FashionableMe.DataAccessLayer
 
         }
 
-        public List<AddApparel> getApparelsByBrandAndName(string name, string brand)
+        public List<AddApparel> GetApparelsByBrandAndName(string name, string brand)
         {
             List<AddApparel> dataRows = new List<AddApparel>();
             string conStr = ConfigurationManager.ConnectionStrings["FashionableMeDB"].ConnectionString;

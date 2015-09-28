@@ -48,14 +48,14 @@ namespace FashionableMe.BLL
             return false;
         }
 
-        public DetailsViewModel getCustomerDetails(string userID)
+        public DetailsViewModel GetCustomerDetails(string userID)
         {   
             if (userID == string.Empty)
             {
                 return null;
             }
             CustomerDal CustObj = new CustomerDal();
-            return CustObj.getCustomerDetails(userID.ToString());
+            return CustObj.GetCustomerDetails(userID.ToString());
 
         }
 

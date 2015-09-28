@@ -23,7 +23,7 @@ namespace FashionableMe.BLL
         public DetailsViewModel getShippingDetails(string customerID)
         {
             CustomerDal custDalObj = new CustomerDal();
-            return custDalObj.getCustomerDetails(customerID);
+            return custDalObj.GetCustomerDetails(customerID);
         }
 
         public string InsertOrderDetails(List<MyOrder> orders)

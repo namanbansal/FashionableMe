@@ -27,7 +27,7 @@
         //$("#sellingFare").text(sellingFare);
         //console.log(id);
         rsltval = id;
-        var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
+        var searchUrl = '@Url.Action("GetQuantityDetails", "Customer")';
             $.ajax({
                 url: searchUrl,
                 data: { apparelID: rsltval },
@@ -121,7 +121,7 @@
 
     function getRating(id)
     {
-        var searchUrl = '@Url.Action("getRatingDetails", "Customer")'; 
+        var searchUrl = '@Url.Action("GetRatingDetails", "Customer")'; 
         $.ajax({
             url: searchUrl,
             data: { apparelID: id.trim() },
@@ -156,7 +156,7 @@
     }
     
     function loadItems() {
-        var srchUrl = '@Url.Action("getFromSession", "Customer")';
+        var srchUrl = '@Url.Action("GetFromSession", "Customer")';
         $.ajax({
             url : srchUrl,
             type : "POST",
@@ -325,7 +325,7 @@
             console.log("User Id = ",UserID);
             itemDetails.newRating = $("#userRate").val();
             itemDetails.newComment = $("#userComment").val();
-            var srchUrl = '@Url.Action("setToSession", "Customer")';
+            var srchUrl = '@Url.Action("SetToSession", "Customer")';
             
             $.ajax({
             type : "POST",
@@ -482,7 +482,7 @@
 <br />
 <br />
 
-@using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" }))
+@using (Html.BeginForm("GetReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" }))
 {
 <div id="ratingPanel" hidden >
     <label>Rating Given To This Product : </label><input id="prodRate" style="font-weight:bold;width:50px ; text-align:center"/><br />

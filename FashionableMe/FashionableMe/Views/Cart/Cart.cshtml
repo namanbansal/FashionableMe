@@ -41,7 +41,7 @@
             console.log(size);
             var quantity = (tr.find("#EditQuantity").val());
 
-            var searchUrl = '@Url.Action("updateCart", "Cart")';
+            var searchUrl = '@Url.Action("UpdateCart", "Cart")';
                 $.ajax({
                     url: searchUrl,
                     data: { id: apparelID, size:size, quantity:quantity },
@@ -82,7 +82,7 @@
 }
 else
 {
-<table class="table table-striped table-bordered" >
+<table class="table table-striped" style="border:2px solid grey; " >
     <tr>
         <th>Apparel Name</th><th>Size</th><th>Quantity</th><th>Total Amount</th><th>Action</th>
     </tr>
@@ -111,8 +111,8 @@ else
             
         }
         <tr>
-            <td align="right" colspan="4"><b>Total Amount</b></td>
-            <td><b>@sum</b></td>
+            <td align="right" colspan="4"><h3>Total Amount</h3></td>
+            <td><h3>@sum</h3></td>
         </tr>
 </table>
 <table><tr>

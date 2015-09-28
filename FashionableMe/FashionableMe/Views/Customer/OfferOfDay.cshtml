@@ -11,7 +11,7 @@
     function showDetails(){
         
         var rsltval = '@Model.ApparelID' ;
-        var searchUrl = '@Url.Action("getQuantityDetails", "Customer")';
+        var searchUrl = '@Url.Action("GetQuantityDetails", "Customer")';
         $.ajax({
             url: searchUrl,
             data: { apparelID: rsltval },
@@ -91,7 +91,7 @@
     function getRating(id)
     {
 
-        var searchUrl = '@Url.Action("getRatingDetails", "Customer")'; 
+        var searchUrl = '@Url.Action("GetRatingDetails", "Customer")'; 
         $.ajax({
             url: searchUrl,
             data: { apparelID: id.toString() },
@@ -129,7 +129,7 @@
     }
 
     function loadItems(){
-        var srchUrl = '@Url.Action("getFromSession", "Customer")';
+        var srchUrl = '@Url.Action("GetFromSession", "Customer")';
         $.ajax({
             url : srchUrl,
             type : "POST",
@@ -231,7 +231,7 @@
             itemDetails.image = '@Model.ApparelImage'.ToString();
             itemDetails.newRating = $("#userRate").val();
             itemDetails.newComment = $("#userComment").val();
-            var srchUrl = '@Url.Action("setToSession", "Customer")';
+            var srchUrl = '@Url.Action("SetToSession", "Customer")';
                 
             $.ajax({
                 type : "POST",
@@ -309,7 +309,7 @@ else
     
     
     
-using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
+using (Html.BeginForm("GetReturnUrl", "Account", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "reviewForm" } ))
 {
     <br />
 <div id="ratingPanel" hidden >
@@ -335,6 +335,15 @@ using (Html.BeginForm("getReturnUrl", "Account", new { returnUrl = Request.RawUr
 }
 
 <style>
+
+    table {
+	border-collapse:collapse;
+    background-color:lightblue;
+	margin-bottom:15px;
+    border: 2px double green;
+    font-family:cursive;
+    font-size:1.2em;
+	}
 
      #detailsPanel table tr td:first-child {
         font-weight:bolder;

@@ -20,7 +20,7 @@ namespace FashionableMe.Controllers
 
         public static string ImagePath = "Images/Apparels/"; //"App_Data/Images/";
 
-        public bool checkAdmin()
+        public bool CheckAdmin()
         {
             if (Session["UserRole"] != null &&  Session["UserRole"].ToString() == "admin")
                 return true;
@@ -38,7 +38,7 @@ namespace FashionableMe.Controllers
         
         public ActionResult Offer()
         {
-            if(!checkAdmin())
+            if(!CheckAdmin())
                 return (View("~/Views/Shared/Unauthorized.cshtml")); //
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
@@ -84,7 +84,7 @@ namespace FashionableMe.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult searchByCategory(string val)
+        public ActionResult SearchByCategory(string val)
         {
             AdminBLL obj = new AdminBLL();
             List<Apparel> listApparel = obj.fetchProductByCategory(val);
@@ -97,7 +97,7 @@ namespace FashionableMe.Controllers
 
         [HttpPost]
         
-        public string fetchByDate(string date)
+        public string FetchByDate(string date)
         {
 
             AdminBLL obj = new AdminBLL();
@@ -110,7 +110,7 @@ namespace FashionableMe.Controllers
 
         public ActionResult Apparel()
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
@@ -120,7 +120,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public ActionResult Apparel(AddApparel model)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             ViewBag.categoryData = UtilityFunctions.getCategoryDropDown();
@@ -144,7 +144,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string UpdateOffer(string offerDate, string offerName, string offerDescription, string offerDiscount)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
 
             AdminBLL obj = new AdminBLL();
@@ -159,7 +159,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public string DeleteOffer(string offerDate)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return ("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>");
 
             AdminBLL obj = new AdminBLL();
@@ -175,13 +175,13 @@ namespace FashionableMe.Controllers
         // GET: /Admin/Delete/5
 
         [HttpPost]
-        public ActionResult getBrandNames()
+        public ActionResult GetBrandNames()
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             AdminBLL obj = new AdminBLL();
-            List<DropDownFormat> result = obj.getBrandNames();
+            List<DropDownFormat> result = obj.GetBrandNames();
             SelectList resList = new SelectList(result, "value", "name");
             return Json(resList);
             
@@ -189,13 +189,13 @@ namespace FashionableMe.Controllers
         
 
         [HttpPost]
-        public ActionResult getApparelNameByBrand(string brand)
+        public ActionResult GetApparelNameByBrand(string brand)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
 
             AdminBLL obj = new AdminBLL();
-            List<DropDownFormat> result = obj.getApparelNameByBrand(brand);
+            List<DropDownFormat> result = obj.GetApparelNameByBrand(brand);
             SelectList resList = new SelectList(result, "value", "name");
             return Json(resList);
             
@@ -203,13 +203,13 @@ namespace FashionableMe.Controllers
 
 
         [HttpPost]
-        public ActionResult getApparelsByBrandAndName(string name, string brand)
+        public ActionResult GetApparelsByBrandAndName(string name, string brand)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (View("~/Views/Shared/Unauthorized.cshtml"));
 
             AdminBLL obj = new AdminBLL();
-            List<AddApparel> listApparel = obj.getApparelsByBrandAndName(name, brand);
+            List<AddApparel> listApparel = obj.GetApparelsByBrandAndName(name, brand);
             return PartialView("_updateApparel", listApparel);
 
         }
@@ -217,7 +217,7 @@ namespace FashionableMe.Controllers
         [HttpPost]
         public bool UpdateApparel(string apparelID, string  cost, string discount, string quantity, string category, string size )
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (false);
 
             AdminBLL obj = new AdminBLL();
@@ -229,7 +229,7 @@ namespace FashionableMe.Controllers
         [HttpGet]
         public ActionResult UploadImage(string id)
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (Content("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
 
             return View();
@@ -239,7 +239,7 @@ namespace FashionableMe.Controllers
         [AllowAnonymous]
         public JsonResult UploadImage()
         {
-            if (!checkAdmin())
+            if (!CheckAdmin())
                 return (Json("<h1 style='Color:red'>You Are NOT AUTHORIZED to access this Page ..! <h1>"));
 
             string imgPath = string.Empty;

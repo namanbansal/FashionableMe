@@ -21,7 +21,7 @@ namespace FashionableMe.Controllers
             }
             CustomerBLL obj = new CustomerBLL();
             List<Offer> offer = new List<Offer>();
-            offer = obj.getTodaysOffer();
+            offer = obj.GetTodaysOffer();
             if (offer.Count == 0 || offer[0].OfferID == null)
             {
                 ViewBag.OfferTitle = "none";

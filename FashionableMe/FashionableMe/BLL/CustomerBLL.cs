@@ -16,26 +16,26 @@ namespace FashionableMe.BLL
         {
             dalObj = new CustomerDal();
         }
-        public List<Apparel> getProductByCategory(string category)
+        public List<Apparel> GetProductByCategory(string category)
         {
-            return dalObj.getProductByCategory(category);
+            return dalObj.GetProductByCategory(category);
         }
-        public List<Quantity> getQuantityDetails(string apparelID)
+        public List<Quantity> GetQuantityDetails(string apparelID)
         {
-            return dalObj.getQuantityDetails(Convert.ToInt32(apparelID.Trim()));
+            return dalObj.GetQuantityDetails(Convert.ToInt32(apparelID.Trim()));
         }
 
-        public List<Offer> getTodaysOffer()
+        public List<Offer> GetTodaysOffer()
         {
             List<Offer> offer = new List<Offer>();
-            offer.Add(dalObj.getTodaysOffer(Convert.ToString(DateTime.Now.Date.ToString("yyyy/MM/dd"))));
+            offer.Add(dalObj.GetTodaysOffer(Convert.ToString(DateTime.Now.Date.ToString("yyyy/MM/dd"))));
 
             return offer;
         }
 
-        public List<Apparel> getApparelByID(int id)
+        public List<Apparel> GetApparelByID(int id)
         {
-            return dalObj.getApparelByID(id);
+            return dalObj.GetApparelByID(id);
         }
 
         public List<MyOrder> GetOrderDetails(string UserID)
